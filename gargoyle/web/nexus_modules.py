@@ -7,11 +7,15 @@ gargoyle.nexus_modules
 """
 
 import nexus
+import os
+from gargoyle.client.singleton import gargoyle
+from django.http import HttpResponse, HttpResponseNotFound
 
 
 class GargoyleModule(nexus.NexusModule):
     home_url = 'index'
     name = 'gargoyle'
+    media_root = os.path.normpath(os.path.join(os.path.dirname(__file__), 'media'))
 
     def get_title(self):
         return 'Gargoyle'
