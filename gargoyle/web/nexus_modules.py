@@ -39,7 +39,10 @@ class GargoyleModule(nexus.NexusModule):
         return 'switches'
 
     def index(self, request):
-        pass
+        return self.render_to_response("gargoyle/index.html", {
+            "switches": gargoyle.switches,
+            "sorted_by": 'date_created'
+        }, request)
 
     def add(self, request):
         pass

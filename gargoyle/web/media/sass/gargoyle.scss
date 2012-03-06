@@ -1,3 +1,7 @@
+@import "compass/typography/lists/";
+@import "compass/utilities/general/float";
+@import "compass/utilities/general/clearfix";
+
 #container {
   div {
     &.wrapper > h1 {
@@ -42,4 +46,63 @@
         width: 200px;
         padding: 6px;
         font-size: 13px; } } }
+}
+
+#container {
+
+  ul.switches {
+    @include no-bullet;
+
+    > li {
+      @include clearfix;
+
+      padding: 10px 0;
+
+      & + li {
+        border-top: 1px solid #EFEFEF;
+      }
+
+      .info {
+        @include float-left;
+        @include clearfix;
+
+        width: 60%;
+
+        h1 {
+          font-size: 120%;
+          font-weight: bold;
+          margin-bottom: 5px;
+
+          span.name {
+            color: #999;
+            font-family: monospace;
+          }
+        }
+
+        p.description {
+          color: #444;
+          font-size: 90%;
+        }
+
+      }
+
+      .state {
+        @include float-right;
+        width: 30%;
+        text-align: right;
+
+        h2 {
+          margin-bottom: 5px;
+        }
+
+        ul.conditions {
+          @include inline-list;
+          margin-bottom: 0;
+        }
+      }
+
+    }
+
+  }
+
 }
