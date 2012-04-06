@@ -1,0 +1,13 @@
+{% regroup operators by group as by_group %}
+
+<select>
+    {% for group in by_group %}
+    <optgroup label="{{ group.grouper|title }}">
+        {% for operator in group.list %}
+        <option value="{{operator.label}}" data-arguments="{{ operator.arguments }}">
+          {{ operator.preposition|title }}
+        </option>
+        {% endfor %}
+    </optgroup>
+    {% endfor %}
+</select>

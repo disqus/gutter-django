@@ -1,0 +1,9 @@
+<select>
+{% for input in inputs %}
+  <optgroup label="{{ input.string }}">
+  {% for argument in input.arguments %}
+     <option>{{ argument }}</option>
+  {% endfor %}
+  </optgroup>
+{% endfor %}
+</select>

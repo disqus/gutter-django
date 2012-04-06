@@ -1,4 +1,7 @@
-class User(object):
+from gargoyle.client.inputs import Base
+
+
+class User(Base):
 
     def name(self):
         return 'Jeff'
@@ -7,7 +10,7 @@ class User(object):
         return 28
 
 
-class Request(object):
+class Request(Base):
 
     def ip(self):
         return '192.168.0.1'

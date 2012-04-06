@@ -22,28 +22,65 @@
         </span>
     </div>
 
-    {% if switches %}
+    {% if manager.switches %}
         <ul class="switches">
-        {% for switch in switches %}
+        {% for switch in manager.switches %}
             <li data-switch-state="{{ switch.state }}">
-                <div class="info">
-                    <h1>
-                        {{ switch.label }}
-                        <span class="name">{{ switch.name }}</span>
-                    </h1>
-                    <p class="description">{{ switch.description }}</p>
+                <div class="currently">
+                    <div class="info">
+                        <h1>
+                            {{ switch.label }}
+                            <span class="name">{{ switch.name }}</span>
+                        </h1>
+                        <p class="description">{{ switch.description }}</p>
+                    </div>
+
+                    <div class="state">
+                        <h2>{{ switch.state_string|title }}</h2>
+                        {% if switch.conditions %}
+                            <ul class="conditions">
+                            {% for condition in switch.conditions %}
+                                <li>{{ condition }}</li>
+                            {% endfor %}
+                            </ul>
+                        {% endif %}
+                    </div>
                 </div>
 
-                <div class="state">
-                    <h2>{{ switch.state_string|title }}</h2>
-                    {% if switch.conditions %}
-                        <ul class="conditions">
+                <form action="{% url gargoyle:update %}">
+                    <p>
+                        <label for="name">Name</label>
+                        <input name="switch[name]" type="text" value="{{switch.name}}" disabled>
+                    </p>
+                    <p>
+                        <label for="label">Label</label>
+                        <input name="switch[label]" type="text" value="{{switch.label}}">
+                    </p>
+                    <p>
+                        <label for="description">Description</label>
+                        <textarea name="switch[description]">{{ switch.description }}</textarea>
+                    </p>
+                    <p>
+                        <label for="state">State</label>
+                        <select name="switch[state]" value="{{ switch.state }}">
+                            <option value="1">Disabled</option>
+                            <option value="2">Selective</option>
+                            <option value="3">Global</option>
+                        </select>
+                    </p>
+
+                    <p>
+                        <label for="state">Conditions</label>
                         {% for condition in switch.conditions %}
-                            <li>{{ condition }}</li>
+                            <div class="condition">{% include "gargoyle/condition.html" %}</div>
                         {% endfor %}
-                        </ul>
-                    {% endif %}
-                </div>
+                    </p>
+
+                    <p>
+                        <input type="submit" value="Update">
+                    </p>
+
+                </form>
 
             </li>
         {% endfor %}

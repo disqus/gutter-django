@@ -2,6 +2,9 @@
 @import "compass/utilities/general/float";
 @import "compass/utilities/general/clearfix";
 
+$form-label-width: 100px;
+$form-label-margin: 5px;
+
 #container {
   div {
     &.wrapper > h1 {
@@ -54,50 +57,88 @@
     @include no-bullet;
 
     > li {
-      @include clearfix;
-
-      padding: 10px 0;
+      padding: 15px 10px;
 
       & + li {
-        border-top: 1px solid #EFEFEF;
+        border-top: 1px solid #DFDFDF;
       }
 
-      .info {
-        @include float-left;
+      .currently {
         @include clearfix;
 
-        width: 60%;
+        .info {
+          @include float-left;
+          @include clearfix;
 
-        h1 {
-          font-size: 120%;
-          font-weight: bold;
-          margin-bottom: 5px;
+          width: 60%;
 
-          span.name {
-            color: #999;
-            font-family: monospace;
+          h1 {
+            font-size: 120%;
+            font-weight: bold;
+            margin-bottom: 5px;
+
+            span.name {
+              color: #999;
+              font-family: monospace;
+            }
+          }
+
+          p.description {
+            color: #444;
+            font-size: 90%;
+            margin-bottom: 0;
+          }
+
+        }
+
+        .state {
+          @include float-right;
+          width: 30%;
+          text-align: right;
+
+          h2 {
+            margin-bottom: 5px;
+          }
+
+          ul.conditions {
+            @include no-bullet;
+            margin-bottom: 0;
           }
         }
 
-        p.description {
-          color: #444;
-          font-size: 90%;
-        }
-
       }
 
-      .state {
-        @include float-right;
-        width: 30%;
-        text-align: right;
+      > form {
+        @include clearfix;
 
-        h2 {
-          margin-bottom: 5px;
+        clear: both;
+        margin-top: 20px;
+
+        label {
+          @include float-left;
+          display: block;
+          font-weight: bold;
+          margin-right: 5px;
+          text-align: right;
+          width: $form-label-width;
         }
 
-        ul.conditions {
-          @include inline-list;
-          margin-bottom: 0;
+        div.condition {
+          margin-left: $form-label-width + $form-label-margin;
+
+          & + div.condition { margin-top: 0.5em; }
+        }
+
+        input[type=text], select {
+          width: 200px
+        }
+
+        input[type=submit] {
+          margin-left: $form-label-width;
+        }
+
+        textarea {
+          width: 350px;
         }
       }
 

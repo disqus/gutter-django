@@ -8,8 +8,25 @@ gargoyle.nexus_modules
 
 import nexus
 import os
-from gargoyle.client.singleton import gargoyle
-from django.http import HttpResponse, HttpResponseNotFound
+from gargoyle.client.singleton import gargoyle as manager
+# from django.http import HttpResponse, HttpResponseNotFound
+
+
+def operator_info(operator):
+    return dict(
+        path=operator,
+        label=operator.label,
+        preposition=operator.preposition,
+        arguments=','.join(operator.arguments),
+        group=operator.group
+    )
+
+
+def input_info(inpt):
+    return dict(
+        string=inpt.__name__,
+        arguments=[func.__name__ for func in inpt.arguments()]
+    )
 
 
 class GargoyleModule(nexus.NexusModule):
@@ -40,8 +57,10 @@ class GargoyleModule(nexus.NexusModule):
 
     def index(self, request):
         return self.render_to_response("gargoyle/index.html", {
-            "switches": gargoyle.switches,
-            "sorted_by": 'date_created'
+            "manager": manager,
+            "sorted_by": 'date_created',
+            "operators": map(operator_info, manager.operators),
+            "inputs": map(input_info, manager.inputs)
         }, request)
 
     def add(self, request):

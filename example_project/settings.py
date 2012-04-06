@@ -111,8 +111,13 @@ except ImportError, e:
     print e
 
 
+# Configure Gargoyle
+
+from example_project.arguments import User, Request
 from redis import Redis
 import gargoyle.client.settings
 from modeldict.dict import RedisDict
 
 gargoyle.client.settings.manager.storage_engine = RedisDict('gargoyle', Redis())
+gargoyle.client.settings.manager.inputs.append(User)
+gargoyle.client.settings.manager.inputs.append(Request)
