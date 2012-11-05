@@ -1,37 +1,42 @@
 #!/usr/bin/env python
 
+import sys
+from setuptools import find_packages
+
+
 try:
-    from setuptools import setup, find_packages
+    from notsetuptools import setup
 except ImportError:
-    from ez_setup import use_setuptools
-    use_setuptools()
-    from setuptools import setup, find_packages
+    from setuptools import setup
+
 
 tests_require = [
-    'Django>=1.1',
-    'South',
-    'nose',
-    'django-nose',
+    'Django>=1.1', 'nose', 'exam', 'mock', 'South', 'redis'
 ]
 
+install_requires = [
+    'nexus>=0.2.3', 'gargoyle-client'
+]
+
+setup_requires = []
+if 'nosetests' in sys.argv[1:]:
+    setup_requires.append('nose')
+
+
 setup(
-    name='gargoyle',
-    version='0.7.2',
+    name='gargoyle-web',
+    version='0.1',
     author='DISQUS',
     author_email='opensource@disqus.com',
-    url='http://github.com/disqus/gargoyle',
-    description = 'Gargoyle is a platform built on top of Django which allows you to switch functionality of your application on and off based on conditions.',
+    url='http://github.com/disqus/gargoyle-web',
+    description = 'Web UI to administer Gargoyle switches.',
     packages=find_packages(exclude=["example_project", "tests"]),
     zip_safe=False,
-    install_requires=[
-        'django-modeldict>=1.1.6',
-        'nexus>=0.2.3',
-        'django-jsonfield==0.6',
-    ],
+    install_requires=install_requires,
     license='Apache License 2.0',
     tests_require=tests_require,
     extras_require={'test': tests_require},
-    test_suite='runtests.runtests',
+    test_suite='nose.collector',
     include_package_data=True,
     classifiers=[
         'Framework :: Django',
