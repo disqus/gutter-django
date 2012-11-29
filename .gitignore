@@ -6,3 +6,4 @@ build/
 *.egg/
 .arcconfig
 .sass-cache
+*.sublime-workspace
