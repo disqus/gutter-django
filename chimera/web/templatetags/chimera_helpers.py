@@ -1,5 +1,5 @@
 """
-gargoyle.templatetags.gargoyle_helpers
+chimera.templatetags.chimera_helpers
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 :copyright: (c) 2010 DISQUS.

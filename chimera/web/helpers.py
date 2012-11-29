@@ -1,5 +1,5 @@
 """
-gargoyle.helpers
+chimera.helpers
 ~~~~~~~~~~~~~~~~
 
 :copyright: (c) 2010 DISQUS.

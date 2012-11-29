@@ -1,7 +1,7 @@
 # Require any additional compass plugins here.
 
 # Set this to the root of your project when deployed:
-http_path = "/gargoyle"
+http_path = "/chimera"
 css_dir = "css"
 sass_dir = "sass"
 images_dir = "img"

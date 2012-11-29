@@ -1,4 +1,4 @@
-from gargoyle.client.inputs import Base
+from chimera.client.inputs import Base
 
 
 class User(Base):

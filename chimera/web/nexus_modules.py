@@ -1,5 +1,5 @@
 """
-gargoyle.nexus_modules
+chimera.nexus_modules
 ~~~~~~~~~~~~~~~~~~~~~~
 
 :copyright: (c) 2010 DISQUS.
@@ -8,7 +8,7 @@ gargoyle.nexus_modules
 
 import nexus
 import os
-from gargoyle.client.singleton import gargoyle as manager
+from chimera.client.singleton import chimera as manager
 # from django.http import HttpResponse, HttpResponseNotFound
 
 
@@ -29,13 +29,13 @@ def input_info(inpt):
     )
 
 
-class GargoyleModule(nexus.NexusModule):
+class ChimeraModule(nexus.NexusModule):
     home_url = 'index'
-    name = 'gargoyle'
+    name = 'chimera'
     media_root = os.path.normpath(os.path.join(os.path.dirname(__file__), 'media'))
 
     def get_title(self):
-        return 'Gargoyle'
+        return 'Chimera'
 
     def get_urls(self):
         from django.conf.urls.defaults import patterns, url
@@ -56,7 +56,7 @@ class GargoyleModule(nexus.NexusModule):
         return 'switches'
 
     def index(self, request):
-        return self.render_to_response("gargoyle/index.html", {
+        return self.render_to_response("chimera/index.html", {
             "manager": manager,
             "sorted_by": 'date_created',
             "operators": map(operator_info, manager.operators),
@@ -81,4 +81,4 @@ class GargoyleModule(nexus.NexusModule):
     def remove_condition(self, request):
         pass
 
-nexus.site.register(GargoyleModule, 'gargoyle')
+nexus.site.register(ChimeraModule, 'chimera')

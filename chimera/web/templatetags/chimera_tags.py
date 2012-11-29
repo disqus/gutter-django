@@ -1,5 +1,5 @@
 """
-gargoyle.templatetags.gargoyle_tags
+chimera.templatetags.chimera_tags
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 :copyright: (c) 2010 DISQUS.
@@ -8,7 +8,7 @@ gargoyle.templatetags.gargoyle_tags
 
 from django import template
 
-from gargoyle import gargoyle
+from chimera import chimera
 
 register = template.Library()
 
@@ -46,7 +46,7 @@ class SwitchNode(template.Node):
         if 'request' in context:
             instances.append(context['request'])
 
-        if not gargoyle.is_active(self.name, *instances):
+        if not chimera.is_active(self.name, *instances):
             return self.nodelist_false.render(context)
 
         return self.nodelist_true.render(context)

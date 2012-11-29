@@ -20,7 +20,7 @@ sys.path.insert(0, os.path.abspath(os.path.join(PROJECT_ROOT, '..')))
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': 'gargoyle.db',                      # Or path to database file if using sqlite3.
+        'NAME': 'chimera.db',                      # Or path to database file if using sqlite3.
         'USER': '',                      # Not used with sqlite3.
         'PASSWORD': '',                  # Not used with sqlite3.
         'HOST': '',                      # Set to empty string for localhost. Not used with sqlite3.
@@ -99,7 +99,7 @@ INSTALLED_APPS = (
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'nexus',
-    'gargoyle.web',
+    'chimera.web',
     'south',
     # Uncomment the next line to enable the admin:
     # 'django.contrib.admin',
@@ -111,12 +111,12 @@ except ImportError, e:
     print e
 
 
-# Configure Gargoyle
+# Configure Chimera
 from example_project.arguments import User, Request
 from redis import Redis
-import gargoyle.client.settings
+import chimera.client.settings
 from modeldict.redis import RedisDict
 
-gargoyle.client.settings.manager.storage_engine = RedisDict('gargoyle', Redis())
-gargoyle.client.settings.manager.inputs.append(User)
-gargoyle.client.settings.manager.inputs.append(Request)
+chimera.client.settings.manager.storage_engine = RedisDict('chimera', Redis())
+chimera.client.settings.manager.inputs.append(User)
+chimera.client.settings.manager.inputs.append(Request)

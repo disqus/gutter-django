@@ -15,7 +15,7 @@ tests_require = [
 ]
 
 install_requires = [
-    'nexus>=0.2.3', 'gargoyle-client'
+    'nexus>=0.2.3', 'chimera-client'
 ]
 
 setup_requires = []
@@ -24,12 +24,12 @@ if 'nosetests' in sys.argv[1:]:
 
 
 setup(
-    name='gargoyle-web',
+    name='chimera-web',
     version='0.1',
     author='DISQUS',
     author_email='opensource@disqus.com',
-    url='http://github.com/disqus/gargoyle-web',
-    description = 'Web UI to administer Gargoyle switches.',
+    url='http://github.com/disqus/chimera-web',
+    description = 'Web UI to administer Chimera switches.',
     packages=find_packages(exclude=["example_project", "tests"]),
     zip_safe=False,
     install_requires=install_requires,
