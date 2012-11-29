@@ -5,6 +5,7 @@
 {% block head %}
     {{ block.super }}
     <link rel="stylesheet" href="{% url nexus:media 'gargoyle' 'css/gargoyle.css' %}">
+    <script type="text/javascript" src="{% url nexus:media 'gargoyle' 'js/gargoyle.js' %}"></script>
 {% endblock %}
 
 {% block content %}
@@ -37,7 +38,7 @@
 
                     <div class="state">
                         <h2>{{ switch.state_string|title }}</h2>
-                        {% if switch.conditions %}
+                        {% if switch.selective and switch.conditions %}
                             <ul class="conditions">
                             {% for condition in switch.conditions %}
                                 <li>{{ condition }}</li>
@@ -69,12 +70,13 @@
                         </select>
                     </p>
 
-                    <p>
-                        <label for="state">Conditions</label>
+                    <div class="conditions">
+                        <p><label for="state">Conditions</label></p>
+
                         {% for condition in switch.conditions %}
                             <div class="condition">{% include "gargoyle/condition.html" %}</div>
                         {% endfor %}
-                    </p>
+                    </div>
 
                     <p>
                         <input type="submit" value="Update">

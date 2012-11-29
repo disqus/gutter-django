@@ -1,1 +1,6 @@
-{% include "gargoyle/inputs.html" %} {% include "gargoyle/operators.html" %}
+{% include "gargoyle/inputs.html" %}
+
+{% include "gargoyle/operators.html" %}
+
+<label for="value">Value</label>
+<input name="switch[{{ switch.name}}]" type="text" value="{{condition.operator.value}}">

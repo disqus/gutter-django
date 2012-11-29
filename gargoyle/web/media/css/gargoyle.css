@@ -127,7 +127,7 @@
 #container ul.switches > li > form div.condition + div.condition {
   margin-top: 0.5em;
 }
-#container ul.switches > li > form input[type=text], #container ul.switches > li > form select {
+#container ul.switches > li > form input[type=text] {
   width: 200px;
 }
 #container ul.switches > li > form input[type=submit] {

@@ -1,6 +1,6 @@
 {% regroup operators by group as by_group %}
 
-<select>
+<select class="operator">
     {% for group in by_group %}
     <optgroup label="{{ group.grouper|title }}">
         {% for operator in group.list %}
