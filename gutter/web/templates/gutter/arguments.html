@@ -1,8 +1,8 @@
 <select class="input">
-{% for input in inputs %}
-  <optgroup label="{{ input.string }}">
-  {% for argument in input.arguments %}
-     <option>{{ argument }}</option>
+{% for argument in arguments %}
+  <optgroup label="{{ argument.string }}">
+  {% for variable in argument.variables %}
+     <option>{{ variable }}</option>
   {% endfor %}
   </optgroup>
 {% endfor %}

@@ -12,6 +12,18 @@ from gutter.client.singleton import gutter as manager
 # from django.http import HttpResponse, HttpResponseNotFound
 
 
+from arguments import User, Request
+
+
+def get_all_operators():
+    from gutter.client.operators.comparable import *
+    from gutter.client.operators.identity import *
+    from gutter.client.operators.misc import *
+
+    return (Equals, Between, LessThan, LessThanOrEqualTo, MoreThan,
+            MoreThanOrEqualTo, Truthy, Percent, PercentRange)
+
+
 def operator_info(operator):
     return dict(
         path=operator,
@@ -22,10 +34,10 @@ def operator_info(operator):
     )
 
 
-def input_info(inpt):
+def argument_info(argument):
     return dict(
-        string=inpt.__name__,
-        arguments=[func.__name__ for func in inpt.arguments()]
+        string=argument.__name__,
+        variables=[func.__name__ for func in argument.variables]
     )
 
 
@@ -59,8 +71,8 @@ class GutterModule(nexus.NexusModule):
         return self.render_to_response("gutter/index.html", {
             "manager": manager,
             "sorted_by": 'date_created',
-            "operators": map(operator_info, manager.operators),
-            "arguments": map(input_info, manager.inputs)
+            "operators": map(operator_info, get_all_operators()),
+            "arguments": map(argument_info, (User, Request))
         }, request)
 
     def add(self, request):
