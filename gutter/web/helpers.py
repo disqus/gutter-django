@@ -1,5 +1,5 @@
 """
-chimera.helpers
+gutter.helpers
 ~~~~~~~~~~~~~~~~
 
 :copyright: (c) 2010 DISQUS.

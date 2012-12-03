@@ -20,7 +20,7 @@ sys.path.insert(0, os.path.abspath(os.path.join(PROJECT_ROOT, '..')))
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': 'chimera.db',                      # Or path to database file if using sqlite3.
+        'NAME': 'gutter.db',                      # Or path to database file if using sqlite3.
         'USER': '',                      # Not used with sqlite3.
         'PASSWORD': '',                  # Not used with sqlite3.
         'HOST': '',                      # Set to empty string for localhost. Not used with sqlite3.
@@ -99,7 +99,7 @@ INSTALLED_APPS = (
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'nexus',
-    'chimera.web',
+    'gutter.web',
     'south',
     # Uncomment the next line to enable the admin:
     # 'django.contrib.admin',
@@ -111,12 +111,9 @@ except ImportError, e:
     print e
 
 
-# Configure Chimera
-from example_project.arguments import User, Request
+# Configure Gutter
 from redis import Redis
-import chimera.client.settings
+import gutter.client.settings
 from modeldict.redis import RedisDict
 
-chimera.client.settings.manager.storage_engine = RedisDict('chimera', Redis())
-chimera.client.settings.manager.inputs.append(User)
-chimera.client.settings.manager.inputs.append(Request)
+gutter.client.settings.manager.storage_engine = RedisDict('gutter', Redis())

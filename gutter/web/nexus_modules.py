@@ -1,5 +1,5 @@
 """
-chimera.nexus_modules
+gutter.nexus_modules
 ~~~~~~~~~~~~~~~~~~~~~~
 
 :copyright: (c) 2010 DISQUS.
@@ -8,7 +8,7 @@ chimera.nexus_modules
 
 import nexus
 import os
-from chimera.client.singleton import chimera as manager
+from gutter.client.singleton import gutter as manager
 # from django.http import HttpResponse, HttpResponseNotFound
 
 
@@ -29,13 +29,13 @@ def input_info(inpt):
     )
 
 
-class ChimeraModule(nexus.NexusModule):
+class GutterModule(nexus.NexusModule):
     home_url = 'index'
-    name = 'chimera'
+    name = 'gutter'
     media_root = os.path.normpath(os.path.join(os.path.dirname(__file__), 'media'))
 
     def get_title(self):
-        return 'Chimera'
+        return 'Gutter'
 
     def get_urls(self):
         from django.conf.urls.defaults import patterns, url
@@ -56,11 +56,11 @@ class ChimeraModule(nexus.NexusModule):
         return 'switches'
 
     def index(self, request):
-        return self.render_to_response("chimera/index.html", {
+        return self.render_to_response("gutter/index.html", {
             "manager": manager,
             "sorted_by": 'date_created',
             "operators": map(operator_info, manager.operators),
-            "inputs": map(input_info, manager.inputs)
+            "arguments": map(input_info, manager.inputs)
         }, request)
 
     def add(self, request):
@@ -81,4 +81,4 @@ class ChimeraModule(nexus.NexusModule):
     def remove_condition(self, request):
         pass
 
-nexus.site.register(ChimeraModule, 'chimera')
+nexus.site.register(GutterModule, 'gutter')

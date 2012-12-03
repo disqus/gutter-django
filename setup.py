@@ -15,7 +15,7 @@ tests_require = [
 ]
 
 install_requires = [
-    'nexus>=0.2.3', 'chimera-client'
+    'nexus>=0.2.3', 'gutter', 'django'
 ]
 
 setup_requires = []
@@ -24,12 +24,12 @@ if 'nosetests' in sys.argv[1:]:
 
 
 setup(
-    name='chimera-web',
+    name='gutter-web',
     version='0.1',
     author='DISQUS',
     author_email='opensource@disqus.com',
-    url='http://github.com/disqus/chimera-web',
-    description = 'Web UI to administer Chimera switches.',
+    url='http://github.com/disqus/gutter-web',
+    description = 'Web UI to administer Gutter switches.',
     packages=find_packages(exclude=["example_project", "tests"]),
     zip_safe=False,
     install_requires=install_requires,

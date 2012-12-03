@@ -1,5 +1,5 @@
 """
-chimera.templatetags.chimera_helpers
+gutter.templatetags.gutter_helpers
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 :copyright: (c) 2010 DISQUS.

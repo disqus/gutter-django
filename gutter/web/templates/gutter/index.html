@@ -1,11 +1,11 @@
 {% extends "nexus/module.html" %}
 
-{% load chimera_helpers %}
+{% load gutter_helpers %}
 
 {% block head %}
     {{ block.super }}
-    <link rel="stylesheet" href="{% url nexus:media 'chimera' 'css/chimera.css' %}">
-    <script type="text/javascript" src="{% url nexus:media 'chimera' 'js/chimera.js' %}"></script>
+    <link rel="stylesheet" href="{% url nexus:media 'gutter' 'css/gutter.css' %}">
+    <script type="text/javascript" src="{% url nexus:media 'gutter' 'js/gutter.js' %}"></script>
 {% endblock %}
 
 {% block content %}
@@ -48,7 +48,7 @@
                     </div>
                 </div>
 
-                <form action="{% url chimera:update %}">
+                <form action="{% url gutter:update %}">
                     <p>
                         <label for="name">Name</label>
                         <input name="switch[name]" type="text" value="{{switch.name}}" disabled>
@@ -74,7 +74,7 @@
                         <p><label for="state">Conditions</label></p>
 
                         {% for condition in switch.conditions %}
-                            <div class="condition">{% include "chimera/condition.html" %}</div>
+                            <div class="condition">{% include "gutter/condition.html" %}</div>
                         {% endfor %}
                     </div>
 

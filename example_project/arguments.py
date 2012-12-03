@@ -1,4 +1,4 @@
-from chimera.client.inputs import Base
+from gutter.client.arguments import Base
 
 
 class User(Base):

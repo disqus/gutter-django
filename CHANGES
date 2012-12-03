@@ -4,7 +4,7 @@
 
 0.7.1
 
-- Changed the behavior of chimera.testutils.switches to monkey patch
+- Changed the behavior of gutter.testutils.switches to monkey patch
   the is_active method which should solve scenarios where switches
   are reloaded during the context.
 
@@ -25,7 +25,7 @@
 
 0.5.2
 
-- Improved display of Chimera dashboard widget.
+- Improved display of Gutter dashboard widget.
 
 0.5.1
 
@@ -42,8 +42,8 @@
 
 0.3.0
 
-- Added chimera.testutils.with_switches decorator
-- Added chimera.testutils.SwitchContextManager
+- Added gutter.testutils.with_switches decorator
+- Added gutter.testutils.SwitchContextManager
 
 0.2.4
 
@@ -58,7 +58,7 @@
 
 0.2.2
 
-- Moved tests outside of chimera namespace
+- Moved tests outside of gutter namespace
 
 0.2.1
 
