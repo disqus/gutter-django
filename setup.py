@@ -9,13 +9,23 @@ try:
 except ImportError:
     from setuptools import setup
 
+try:
+    import multiprocessing
+except ImportError:
+    pass
 
-tests_require = [
-    'Django>=1.1', 'nose', 'exam', 'mock', 'South', 'redis'
+tests_require = ['nose', 'unittest2', 'describe==1.0.0beta1', 'exam']
+
+dependency_links = [
+    'https://github.com/jeffh/describe/tarball/dev#egg=describe'
 ]
 
 install_requires = [
     'nexus>=0.2.3', 'gutter', 'django'
+]
+
+dependency_links = [
+    'https://github.com/jeffh/describe/tarball/dev#egg=describe'
 ]
 
 setup_requires = []
@@ -33,6 +43,7 @@ setup(
     packages=find_packages(exclude=["example_project", "tests"]),
     zip_safe=False,
     install_requires=install_requires,
+    setup_requires=setup_requires,
     license='Apache License 2.0',
     tests_require=tests_require,
     extras_require={'test': tests_require},
