@@ -11,8 +11,8 @@ ensure_correct_visibility_for = (selects) ->
     when swtch.selective then conditions.show()
 
 handle_operator_for = (operator) ->
-  arguments = $(operator).find('option:selected').data('arguments').split(',')
-  $.each(arguments) (index, argument) ->
+  args = $(operator).find('option:selected').data('arguments').split(',')
+  $.each(args) (index, argument) ->
     input = $('input').attr('name', '')
 
 $ ->

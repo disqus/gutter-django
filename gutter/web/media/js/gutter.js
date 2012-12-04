@@ -20,8 +20,9 @@
   };
 
   handle_operator_for = function(operator) {
-    arguments = $(operator).find('option:selected').data('arguments').split(',');
-    return $.each(arguments)(function(index, argument) {
+    var args;
+    args = $(operator).find('option:selected').data('arguments').split(',');
+    return $.each(args)(function(index, argument) {
       var input;
       return input = $('input').attr('name', '');
     });
