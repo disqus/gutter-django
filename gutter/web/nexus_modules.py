@@ -6,22 +6,14 @@ gutter.nexus_modules
 :license: Apache License 2.0, see LICENSE for more details.
 """
 
+from __future__ import absolute_import
+
 import nexus
 import os
-from gutter.client.singleton import gutter as manager
+
+from gutter.client.default import gutter as manager
+from gutter.web.registry import operators, arguments
 # from django.http import HttpResponse, HttpResponseNotFound
-
-
-from arguments import User, Request
-
-
-def get_all_operators():
-    from gutter.client.operators.comparable import *
-    from gutter.client.operators.identity import *
-    from gutter.client.operators.misc import *
-
-    return (Equals, Between, LessThan, LessThanOrEqualTo, MoreThan,
-            MoreThanOrEqualTo, Truthy, Percent, PercentRange)
 
 
 def operator_info(operator):
@@ -71,8 +63,8 @@ class GutterModule(nexus.NexusModule):
         return self.render_to_response("gutter/index.html", {
             "manager": manager,
             "sorted_by": 'date_created',
-            "operators": map(operator_info, get_all_operators()),
-            "arguments": map(argument_info, (User, Request))
+            "operators": map(operator_info, operators),
+            "arguments": map(argument_info, arguments)
         }, request)
 
     def add(self, request):

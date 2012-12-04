@@ -101,6 +101,7 @@ INSTALLED_APPS = (
     'nexus',
     'gutter.web',
     'south',
+    'app'
     # Uncomment the next line to enable the admin:
     # 'django.contrib.admin',
 )
@@ -109,11 +110,3 @@ try:
     from local_settings import *
 except ImportError, e:
     print e
-
-
-# Configure Gutter
-from redis import Redis
-import gutter.client.settings
-from modeldict.redis import RedisDict
-
-gutter.client.settings.manager.storage_engine = RedisDict('gutter', Redis())
