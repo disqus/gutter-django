@@ -3,3 +3,9 @@ guard :shell do
         puts `python setup.py nosetests`
     end
 end
+
+guard 'compass', project_path: 'gutter/web/media', configuration_file: 'gutter/web/media/config.rb' do
+    watch(%r{.*scss})
+end
+
+guard 'coffeescript', input: 'gutter/web/media/coffee', output: 'gutter/web/media/js'
