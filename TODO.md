@@ -1,5 +1,3 @@
-* Create interface to register Arguments
-* Create interface to register Operators
 * UI/Javascript:
     * Switch the number of value inputs based on the operator.
     * Add a "not" checkbox for conditions
