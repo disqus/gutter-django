@@ -1,25 +1,7 @@
 from django import forms
 from django.forms.formsets import formset_factory
 
-# from itertools import groupby
-
 from gutter.web.registry import operators, arguments
-
-
-ARGUMENT_CHOICES = [
-    (container.__name__, [(k, k) for (k, v) in container.arguments.items()])
-    for container in arguments
-]
-
-grouped_operators = {}
-for operator in operators:
-    grouped_operators.setdefault(operator.group, [])
-    grouped_operators[operator.group].append(
-        (operator.label, operator.preposition)
-    )
-
-
-GROUPED_OPERATORS = grouped_operators.items()
 
 
 class SwitchForm(forms.Form):
@@ -40,6 +22,7 @@ class SwitchForm(forms.Form):
         self.conditions = ConditionFormSet(
             initial=map(ConditionForm.to_dict, conditions)
         )
+        print map(ConditionForm.to_dict, conditions)
 
     @classmethod
     def from_object(cls, switch):
@@ -59,14 +42,15 @@ class ConditionForm(forms.Form):
 
     NEGATIVE_CHOICES = ((0, 'Is'), (1, 'Is Not'))
 
-    arguments = forms.ChoiceField(choices=ARGUMENT_CHOICES)
+    arguments = forms.ChoiceField(choices=arguments.as_choices)
     negative = forms.ChoiceField(choices=NEGATIVE_CHOICES)
-    operators = forms.ChoiceField(choices=grouped_operators.items())
-    # description = forms.CharField()
+    operators = forms.ChoiceField(choices=operators.as_choices)
 
     @staticmethod
     def to_dict(condition):
-        return {}
+        return dict(
+            argument='.'.join((condition.argument.__name__, condition.attribute))
+        )
 
 
 ConditionFormSet = formset_factory(ConditionForm)
