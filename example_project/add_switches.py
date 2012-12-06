@@ -1,11 +1,23 @@
-import settings
-
-from gutter.client.default import gutter
 from gutter.client.models import Switch, Condition
 from gutter.client.operators.misc import Percent
 from gutter.client.operators.comparable import Equals, MoreThan
+import gutter.client.settings
+
+from redis import Redis
+from modeldict.redis import RedisDict
+
+import gutter.web
+
 
 from example_project.arguments import User, Request
+
+
+# Configure Gutter
+gutter.client.settings.manager.storage_engine = RedisDict('gutter', Redis())
+
+# Import the manager
+from gutter.client.default import gutter as manager
+
 
 switch = Switch('cool_feature', label='A cool feature', description='Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.')
 
@@ -15,16 +27,16 @@ switch.conditions.append(condition)
 condition = Condition(User, 'age', MoreThan(21))
 switch.conditions.append(condition)
 
-gutter.register(switch)
+manager.register(switch)
 
 switch = Switch('other_neat_feature', label='A neat additional feature', description='Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.')
 
 condition = Condition(Request, 'ip', Percent(10))
 switch.conditions.append(condition)
 
-gutter.register(switch)
+manager.register(switch)
 
-for switch in gutter.switches:
+for switch in manager.switches:
     print '+', switch
 
-print type(gutter.storage)
+print type(manager.storage)
