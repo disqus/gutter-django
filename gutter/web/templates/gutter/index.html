@@ -23,73 +23,17 @@
         </span>
     </div>
 
-    {% if manager.switches %}
-        <ul class="switches">
-        {% for switch in manager.switches %}
-            <li data-switch-state="{{ switch.state }}">
-                <div class="currently">
-                    <div class="info">
-                        <h1>
-                            {{ switch.label }}
-                            <span class="name">{{ switch.name }}</span>
-                        </h1>
-                        <p class="description">{{ switch.description }}</p>
-                    </div>
 
-                    <div class="state">
-                        <h2>{{ switch.state_string|title }}</h2>
-                        {% if switch.selective and switch.conditions %}
-                            <ul class="conditions">
-                            {% for condition in switch.conditions %}
-                                <li>{{ condition }}</li>
-                            {% endfor %}
-                            </ul>
-                        {% endif %}
-                    </div>
-                </div>
 
-                <form action="{% url gutter:update %}">
-                    <p>
-                        <label for="name">Name</label>
-                        <input name="switch[name]" type="text" value="{{switch.name}}" disabled>
-                    </p>
-                    <p>
-                        <label for="label">Label</label>
-                        <input name="switch[label]" type="text" value="{{switch.label}}">
-                    </p>
-                    <p>
-                        <label for="description">Description</label>
-                        <textarea name="switch[description]">{{ switch.description }}</textarea>
-                    </p>
-                    <p>
-                        <label for="state">State</label>
-                        <select name="switch[state]" value="{{ switch.state }}">
-                            <option value="1">Disabled</option>
-                            <option value="2">Selective</option>
-                            <option value="3">Global</option>
-                        </select>
-                    </p>
+    <ul class="switches">
+    {% for switch in switches %}
+        <li>{% include "gutter/switch.html" %}</li>
+    {% empty %}
+        <li>No switches configured</li>
+    {% endfor %}
+    </ul>
 
-                    <div class="conditions">
-                        <p><label for="state">Conditions</label></p>
 
-                        {% for condition in switch.conditions %}
-                            <div class="condition">{% include "gutter/condition.html" %}</div>
-                        {% endfor %}
-                    </div>
-
-                    <p>
-                        <input type="submit" value="Update">
-                    </p>
-
-                </form>
-
-            </li>
-        {% endfor %}
-        </ul>
-    {% else %}
-        No switches configured
-    {% endif %}
 
 
 {% endblock %}

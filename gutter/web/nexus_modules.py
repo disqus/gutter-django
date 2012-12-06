@@ -13,6 +13,8 @@ import os
 
 from gutter.client.default import gutter as manager
 from gutter.web.registry import operators, arguments
+from gutter.web.forms import SwitchForm
+from django.template import RequestContext
 # from django.http import HttpResponse, HttpResponseNotFound
 
 
@@ -21,15 +23,15 @@ def operator_info(operator):
         path=operator,
         label=operator.label,
         preposition=operator.preposition,
-        arguments=','.join(operator.arguments),
+        arguments=operator.arguments,
         group=operator.group
     )
 
 
-def argument_info(argument):
+def argument_info(argument_container):
     return dict(
-        string=argument.__name__,
-        variables=[func.__name__ for func in argument.variables]
+        string=argument_container.__name__,
+        arguments=argument_container.arguments
     )
 
 
@@ -60,18 +62,24 @@ class GutterModule(nexus.NexusModule):
         return 'switches'
 
     def index(self, request):
-        return self.render_to_response("gutter/index.html", {
+        return self.render_to_response("gutter/index.html", RequestContext(request, {
             "manager": manager,
             "sorted_by": 'date_created',
             "operators": map(operator_info, operators),
-            "arguments": map(argument_info, arguments)
-        }, request)
+            "argument_containers": map(argument_info, arguments),
+            "switches": map(SwitchForm.from_object, manager.switches)
+        }), request)
 
     def add(self, request):
         pass
 
     def update(self, request):
-        pass
+        import pdb; pdb.set_trace()
+        return self.render_to_response(
+            "gutter/index.html",
+            RequestContext(request, {}),
+            request
+        )
 
     def status(self, request):
         pass

@@ -63,51 +63,6 @@ $form-label-margin: 5px;
         border-top: 1px solid #DFDFDF;
       }
 
-      .currently {
-        @include clearfix;
-
-        .info {
-          @include float-left;
-          @include clearfix;
-
-          width: 60%;
-
-          h1 {
-            font-size: 120%;
-            font-weight: bold;
-            margin-bottom: 5px;
-
-            span.name {
-              color: #999;
-              font-family: monospace;
-            }
-          }
-
-          p.description {
-            color: #444;
-            font-size: 90%;
-            margin-bottom: 0;
-          }
-
-        }
-
-        .state {
-          @include float-right;
-          width: 30%;
-          text-align: right;
-
-          h2 {
-            margin-bottom: 5px;
-          }
-
-          ul.conditions {
-            @include no-bullet;
-            margin-bottom: 0;
-          }
-        }
-
-      }
-
       > form {
         @include clearfix;
 
@@ -123,12 +78,6 @@ $form-label-margin: 5px;
           width: $form-label-width;
         }
 
-        div.condition {
-          margin-left: $form-label-width + $form-label-margin;
-
-          & + div.condition { margin-top: 0.5em; }
-        }
-
         input[type=text] {
           width: 200px
         }
@@ -139,6 +88,10 @@ $form-label-margin: 5px;
 
         textarea {
           width: 350px;
+        }
+
+        ul.conditions label {
+          display: none;
         }
       }
 

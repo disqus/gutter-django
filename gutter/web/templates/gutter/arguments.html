@@ -1,9 +1,0 @@
-<select class="input">
-{% for argument in arguments %}
-  <optgroup label="{{ argument.string }}">
-  {% for variable in argument.variables %}
-     <option>{{ variable }}</option>
-  {% endfor %}
-  </optgroup>
-{% endfor %}
-</select>

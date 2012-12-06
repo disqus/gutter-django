@@ -1,6 +1,13 @@
 {% include "gutter/arguments.html" %}
 
+<select class="negative" name="condition[negative]">
+    <option>--</option>
+    <option value="0">is</option>
+    <option value="1">is not</option>
+</select>
+
 {% include "gutter/operators.html" %}
 
-<label for="value">Value</label>
-<input name="switch[{{ switch.name}}]" type="text" value="{{condition.operator.value}}">
+{% for name, value in condition.operator.arguments.items %}
+<input name="conditions[{{ forloop.counter0 }}][arguments][{{ forloop.counter0 }}]" type="text" value="{{value}}">
+{% endfor %}

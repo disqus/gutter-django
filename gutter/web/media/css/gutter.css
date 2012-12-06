@@ -66,46 +66,6 @@
 #container ul.switches > li + li {
   border-top: 1px solid #DFDFDF;
 }
-#container ul.switches > li .currently {
-  overflow: hidden;
-  *zoom: 1;
-}
-#container ul.switches > li .currently .info {
-  display: inline;
-  float: left;
-  overflow: hidden;
-  *zoom: 1;
-  width: 60%;
-}
-#container ul.switches > li .currently .info h1 {
-  font-size: 120%;
-  font-weight: bold;
-  margin-bottom: 5px;
-}
-#container ul.switches > li .currently .info h1 span.name {
-  color: #999;
-  font-family: monospace;
-}
-#container ul.switches > li .currently .info p.description {
-  color: #444;
-  font-size: 90%;
-  margin-bottom: 0;
-}
-#container ul.switches > li .currently .state {
-  display: inline;
-  float: right;
-  width: 30%;
-  text-align: right;
-}
-#container ul.switches > li .currently .state h2 {
-  margin-bottom: 5px;
-}
-#container ul.switches > li .currently .state ul.conditions {
-  list-style-image: none;
-  list-style-type: none;
-  margin-left: 0;
-  margin-bottom: 0;
-}
 #container ul.switches > li > form {
   overflow: hidden;
   *zoom: 1;
@@ -121,12 +81,6 @@
   text-align: right;
   width: 100px;
 }
-#container ul.switches > li > form div.condition {
-  margin-left: 105px;
-}
-#container ul.switches > li > form div.condition + div.condition {
-  margin-top: 0.5em;
-}
 #container ul.switches > li > form input[type=text] {
   width: 200px;
 }
@@ -135,4 +89,7 @@
 }
 #container ul.switches > li > form textarea {
   width: 350px;
+}
+#container ul.switches > li > form ul.conditions label {
+  display: none;
 }
