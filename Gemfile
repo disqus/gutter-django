@@ -11,4 +11,5 @@ group :development do
   gem 'guard-shell'
   gem 'guard-compass'
   gem 'guard-coffeescript'
+  gem 'guard-livereload'
 end

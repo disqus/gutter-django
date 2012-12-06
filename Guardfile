@@ -9,3 +9,8 @@ guard 'compass', project_path: 'gutter/web/media', configuration_file: 'gutter/w
 end
 
 guard 'coffeescript', input: 'gutter/web/media/coffee', output: 'gutter/web/media/js'
+
+guard 'livereload' do
+  watch(%r{media/.+\.(css|js)})
+  watch(%r{templates/.+\.(html)})
+end
