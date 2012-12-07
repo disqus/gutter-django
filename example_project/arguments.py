@@ -1,7 +1,7 @@
-from gutter.client.arguments import Base
+from gutter.client.arguments import Container
 
 
-class User(Base):
+class User(Container):
 
     def name(self):
         return 'Jeff'
@@ -10,7 +10,7 @@ class User(Base):
         return 28
 
 
-class Request(Base):
+class Request(Container):
 
     def ip(self):
         return '192.168.0.1'
