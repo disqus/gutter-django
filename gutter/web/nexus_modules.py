@@ -12,7 +12,6 @@ import nexus
 import os
 
 from gutter.client.default import gutter as manager
-from gutter.web.registry import operators, arguments
 from gutter.web.forms import SwitchForm
 from django.template import RequestContext
 # from django.http import HttpResponse, HttpResponseNotFound
@@ -65,8 +64,6 @@ class GutterModule(nexus.NexusModule):
         return self.render_to_response("gutter/index.html", RequestContext(request, {
             "manager": manager,
             "sorted_by": 'date_created',
-            "operators": map(operator_info, operators),
-            "argument_containers": map(argument_info, arguments),
             "switches": map(SwitchForm.from_object, manager.switches)
         }), request)
 
