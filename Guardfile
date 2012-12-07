@@ -13,4 +13,5 @@ guard 'coffeescript', input: 'gutter/web/media/coffee', output: 'gutter/web/medi
 guard 'livereload' do
   watch(%r{media/.+\.(css|js)})
   watch(%r{templates/.+\.(html)})
+  watch(%r{gutter/.+\.(py)})
 end
