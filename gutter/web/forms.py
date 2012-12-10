@@ -66,7 +66,7 @@ class BaseConditionFormSet(BaseFormSet):
         except IndexError:
             return  # Assume it's the extra input
         else:
-            for name, value in condition_obj.operator.arguments.items():
+            for name, value in condition_obj.operator.variables.items():
                 form.fields[name] = forms.CharField(initial=value)
 
         super(BaseConditionFormSet, self).add_fields(form, index)

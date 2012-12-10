@@ -21,17 +21,17 @@ from gutter.client.default import gutter as manager
 
 switch = Switch('cool_feature', label='A cool feature', description='Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.')
 
-condition = Condition(User, 'name', Equals('Jeff'))
+condition = Condition(User, 'name', Equals(value='Jeff'))
 switch.conditions.append(condition)
 
-condition = Condition(User, 'age', MoreThan(21))
+condition = Condition(User, 'age', MoreThan(lower_limit=21))
 switch.conditions.append(condition)
 
 manager.register(switch)
 
 switch = Switch('other_neat_feature', label='A neat additional feature', description='Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.')
 
-condition = Condition(Request, 'ip', Percent(10))
+condition = Condition(Request, 'ip', Percent(percentage=10))
 switch.conditions.append(condition)
 
 manager.register(switch)
