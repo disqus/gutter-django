@@ -20,6 +20,10 @@ class OperatorsList(list):
 
         return groups.items()
 
+    @property
+    def arguments(self):
+        return dict((o.name, o.arguments) for o in self)
+
 
 class ArgumentsList(list):
 

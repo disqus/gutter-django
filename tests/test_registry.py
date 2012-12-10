@@ -99,3 +99,19 @@ class TestRegistry(Exam, unittest.TestCase):
                 )
             ]
         )
+
+    def test_operators_with_arguments_returns_dict_of_name_to_args(self):
+        eq_(
+            registry.operators.arguments,
+            {
+                'more_than_or_equal_to': ('lower_limit',),
+                'more_than': ('lower_limit',),
+                'less_than_or_equal_to': ('upper_limit',),
+                'percent': ('percentage',),
+                'equals': ('value',),
+                'percent_range': ('lower_limit', 'upper_limit'),
+                'between': ('lower_limit', 'upper_limit'),
+                'true': (),
+                'before': ('upper_limit',)
+            }
+        )
