@@ -1,5 +1,5 @@
 (function() {
-  var add_condition_to, ensure_correct_arguments_for, ensure_correct_visibility_for, swtch;
+  var add_condition_to, ensure_correct_arguments_for, ensure_correct_visibility_for, increment_attr, swtch;
 
   swtch = {
     disabled: '1',
@@ -36,8 +36,26 @@
     });
   };
 
+  increment_attr = function(index, attr) {
+    var name_parts;
+    name_parts = attr.split('-');
+    name_parts[1]++;
+    return name_parts.join('-');
+  };
+
   add_condition_to = function(row) {
-    return event.preventDefault();
+    var clone, list, prototype;
+    prototype = $(row).find('ul.conditions li:last-child').first();
+    clone = prototype.clone();
+    list = prototype.parent('ul.conditions');
+    clone.find('input,select').each(function(index, element) {
+      $(element).attr('name', increment_attr);
+      return $(element).attr('id', increment_attr);
+    });
+    clone.find('label').each(function(index, element) {
+      return $(element).attr('for', increment_attr);
+    });
+    return clone.appendTo(list);
   };
 
   $(function() {
@@ -56,7 +74,7 @@
     $('ul.switches li section.conditions button[data-action=add]').click(function(event) {
       var row;
       event.preventDefault();
-      row = $(event.currentTarget).parent('li')[0];
+      row = $(event.currentTarget).parents('li')[0];
       return add_condition_to(row);
     });
     return $.map($('ul.switches li'), ensure_correct_visibility_for);
