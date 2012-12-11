@@ -1,5 +1,5 @@
 (function() {
-  var add_condition_to, attr_setter, ensure_correct_arguments_for, ensure_correct_visibility_for, recalculate_condition_attrs_for, remove_condition, swtch;
+  var add_condition, add_operator_arguments, recalculate_condition_attrs, remove_condition, remove_operator_arguments, swtch, update_conditions_visibility;
 
   swtch = {
     disabled: '1',
@@ -7,11 +7,11 @@
     global: '3'
   };
 
-  ensure_correct_visibility_for = function(row) {
-    var $conditions, $select;
-    $conditions = $(row).find('section.conditions');
-    $select = $(row).find('select[name=state]');
-    switch ($select.val()) {
+  update_conditions_visibility = function(event) {
+    var $conditions;
+    $conditions = $(this).parents('ul.switches li').find('section.conditions');
+    console.log($conditions.length);
+    switch ($(this).val()) {
       case swtch.disabled:
       case swtch.global:
         return $conditions.hide();
@@ -20,10 +20,13 @@
     }
   };
 
-  ensure_correct_arguments_for = function(row) {
+  remove_operator_arguments = function(event) {
+    return $(event.target).siblings('input[type=text]').remove();
+  };
+
+  add_operator_arguments = function(event) {
     var $operator, name_prefix, new_arguments;
-    row.find('input[type=text]').remove();
-    $operator = row.find('select[name$="operator"]');
+    $operator = $(event.target);
     name_prefix = $operator.attr('name').split('-').slice(0, 3).join('-');
     new_arguments = $operator.find('option:selected').data('arguments').split(',');
     return $.each(new_arguments, function(index, argument) {
@@ -32,38 +35,40 @@
         name: name_prefix + '-' + argument,
         type: 'text'
       });
-      return row.append(input);
+      return $operator.parent('section.condition').append(input);
     });
   };
 
-  attr_setter = function(attr_name, number) {
-    return function(index, element) {
-      var name_parts;
-      name_parts = $(element).attr(attr_name).split('-');
-      name_parts[1] = number + 1;
-      return $(element).attr(attr_name, name_parts.join('-'));
-    };
-  };
-
-  add_condition_to = function(row) {
-    var clone, prototype;
-    prototype = $(row).find('ul.conditions li:last-child').first();
+  add_condition = function(event) {
+    var $conditions, clone, prototype;
+    $conditions = $(this).parents('ul.switches').find('ul.conditions');
+    prototype = $conditions.find('li').first();
     clone = prototype.clone(true, true);
-    prototype.parent('ul.conditions').append(clone);
+    clone.appendTo($conditions);
     clone.find('input,select').removeAttr('selected').attr('value', '');
-    return recalculate_condition_attrs_for(row);
+    $(this).trigger('gutter.switch.conditions.changed');
+    return false;
   };
 
-  remove_condition = function(condition) {
-    var row;
-    row = $(condition).parents('ul.switches li');
-    $(condition).remove();
-    return recalculate_condition_attrs_for(row);
+  remove_condition = function(event) {
+    var $conditions;
+    $conditions = $(this).parents('ul.conditions');
+    $(this).parents('ul.conditions li').remove();
+    $conditions.trigger('gutter.switch.conditions.changed');
+    return false;
   };
 
-  recalculate_condition_attrs_for = function(row) {
-    var condition_rows;
-    return condition_rows = $(row).find('ul.conditions li').each(function(index, element) {
+  recalculate_condition_attrs = function(event) {
+    var attr_setter, condition_rows;
+    attr_setter = function(attr_name, number) {
+      return function(index, element) {
+        var name_parts;
+        name_parts = $(element).attr(attr_name).split('-');
+        name_parts[1] = number + 1;
+        return $(element).attr(attr_name, name_parts.join('-'));
+      };
+    };
+    return condition_rows = $(this).find('ul.conditions li').each(function(index, element) {
       $(element).find('input,select').map(attr_setter('name', index));
       $(element).find('input,select').map(attr_setter('id', index));
       return $(element).find('label').map(attr_setter('for', index));
@@ -71,31 +76,13 @@
   };
 
   $(function() {
-    var $state_selects;
-    $state_selects = $('ul.switches li select[name=state]');
-    $state_selects.change(function(event) {
-      var row;
-      row = $(this).parents('li');
-      return ensure_correct_visibility_for(row);
-    });
-    $('select[name$="operator"]').change(function(event) {
-      var row;
-      row = $(this).parent('li');
-      return ensure_correct_arguments_for(row);
-    });
-    $('ul.switches li section.conditions button[data-action=add]').click(function(event) {
-      var row;
-      event.preventDefault();
-      row = $(event.currentTarget).parents('li')[0];
-      return add_condition_to(row);
-    });
-    $('ul.switches li section.conditions button[data-action=remove]').click(function(event) {
-      var condition;
-      event.preventDefault();
-      condition = $(event.currentTarget).parents('li')[0];
-      return remove_condition(condition);
-    });
-    return $.map($('ul.switches li'), ensure_correct_visibility_for);
+    $('ul.switches li').delegate('select[name=state]', 'change', update_conditions_visibility);
+    $('ul.switches li').delegate('select[name$=operator]', 'change', remove_operator_arguments);
+    $('ul.switches li').delegate('select[name$=operator]', 'change', add_operator_arguments);
+    $('ul.switches li').delegate('button[data-action=add]', 'click', add_condition);
+    $('ul.switches li').delegate('button[data-action=remove]', 'click', remove_condition);
+    $('ul.switches li').live('gutter.switch.conditions.changed', recalculate_condition_attrs);
+    return $('ul.switches li select[name=state]').trigger('change');
   });
 
 }).call(this);

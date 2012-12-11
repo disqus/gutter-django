@@ -7,7 +7,7 @@
         <ul class="conditions">
         {% for condition in switch.conditions %}
         <li>
-            {{ condition }}
+            <section class="condition">{{ condition }}</section>
             <button data-action="remove">Remove</button>
         </li>
         {% endfor %}
