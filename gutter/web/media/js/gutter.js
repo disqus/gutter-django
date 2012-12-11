@@ -1,5 +1,5 @@
 (function() {
-  var add_condition_to, ensure_correct_arguments_for, ensure_correct_visibility_for, increment_attr, swtch;
+  var add_condition_to, attr_setter, ensure_correct_arguments_for, ensure_correct_visibility_for, recalculate_condition_attrs_for, swtch;
 
   swtch = {
     disabled: '1',
@@ -36,26 +36,31 @@
     });
   };
 
-  increment_attr = function(index, attr) {
-    var name_parts;
-    name_parts = attr.split('-');
-    name_parts[1]++;
-    return name_parts.join('-');
+  attr_setter = function(attr_name, number) {
+    return function(index, element) {
+      var name_parts;
+      name_parts = $(element).attr(attr_name).split('-');
+      name_parts[1] = number + 1;
+      return $(element).attr(attr_name, name_parts.join('-'));
+    };
   };
 
   add_condition_to = function(row) {
-    var clone, list, prototype;
+    var clone, prototype;
     prototype = $(row).find('ul.conditions li:last-child').first();
     clone = prototype.clone();
-    list = prototype.parent('ul.conditions');
-    clone.find('input,select').each(function(index, element) {
-      $(element).attr('name', increment_attr);
-      return $(element).attr('id', increment_attr);
+    prototype.parent('ul.conditions').append(clone);
+    clone.find('input,select').removeAttr('selected').attr('value', '');
+    return recalculate_condition_attrs_for(row);
+  };
+
+  recalculate_condition_attrs_for = function(row) {
+    var condition_rows;
+    return condition_rows = $(row).find('ul.conditions li').each(function(index, element) {
+      $(element).find('input,select').map(attr_setter('name', index));
+      $(element).find('input,select').map(attr_setter('id', index));
+      return $(element).find('label').map(attr_setter('for', index));
     });
-    clone.find('label').each(function(index, element) {
-      return $(element).attr('for', increment_attr);
-    });
-    return clone.appendTo(list);
   };
 
   $(function() {
@@ -71,13 +76,12 @@
       row = $(this).parent('li');
       return ensure_correct_arguments_for(row);
     });
-    $('ul.switches li section.conditions button[data-action=add]').click(function(event) {
+    return $('ul.switches li section.conditions button[data-action=add]').click(function(event) {
       var row;
       event.preventDefault();
       row = $(event.currentTarget).parents('li')[0];
       return add_condition_to(row);
     });
-    return $.map($('ul.switches li'), ensure_correct_visibility_for);
   });
 
 }).call(this);

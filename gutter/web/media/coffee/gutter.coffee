@@ -25,24 +25,26 @@ ensure_correct_arguments_for = (row) ->
     row.append(input)
 
 
-increment_attr = (index, attr) ->
-  name_parts = attr.split('-')
-  name_parts[1]++
-  name_parts.join('-')
+attr_setter = (attr_name, number) ->
+  (index, element) ->
+    name_parts = $(element).attr(attr_name).split('-')
+    name_parts[1] = number + 1
+    $(element).attr(attr_name, name_parts.join('-'))
 
 add_condition_to = (row) ->
   prototype = $(row).find('ul.conditions li:last-child').first()
   clone = prototype.clone()
-  list = prototype.parent('ul.conditions')
 
-  clone.find('input,select').each (index, element) ->
-    $(element).attr('name', increment_attr)
-    $(element).attr('id', increment_attr)
+  prototype.parent('ul.conditions').append(clone)
+  clone.find('input,select').removeAttr('selected').attr('value', '')
 
-  clone.find('label').each (index, element) ->
-    $(element).attr('for', increment_attr)
+  recalculate_condition_attrs_for(row)
 
-  clone.appendTo(list)
+recalculate_condition_attrs_for = (row) ->
+  condition_rows = $(row).find('ul.conditions li').each (index, element) ->
+    $(element).find('input,select').map(attr_setter('name', index))
+    $(element).find('input,select').map(attr_setter('id', index))
+    $(element).find('label').map(attr_setter('for', index))
 
 $ ->
 
@@ -62,4 +64,4 @@ $ ->
     add_condition_to(row)
 
   # Setup things for the first time
-  $.map($('ul.switches li'), ensure_correct_visibility_for)
+  # $.map($('ul.switches li'), ensure_correct_visibility_for)
