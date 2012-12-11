@@ -1,5 +1,5 @@
 (function() {
-  var add_condition_to, attr_setter, ensure_correct_arguments_for, ensure_correct_visibility_for, recalculate_condition_attrs_for, swtch;
+  var add_condition_to, attr_setter, ensure_correct_arguments_for, ensure_correct_visibility_for, recalculate_condition_attrs_for, remove_condition, swtch;
 
   swtch = {
     disabled: '1',
@@ -48,9 +48,16 @@
   add_condition_to = function(row) {
     var clone, prototype;
     prototype = $(row).find('ul.conditions li:last-child').first();
-    clone = prototype.clone();
+    clone = prototype.clone(true, true);
     prototype.parent('ul.conditions').append(clone);
     clone.find('input,select').removeAttr('selected').attr('value', '');
+    return recalculate_condition_attrs_for(row);
+  };
+
+  remove_condition = function(condition) {
+    var row;
+    row = $(condition).parents('ul.switches li');
+    $(condition).remove();
     return recalculate_condition_attrs_for(row);
   };
 
@@ -76,12 +83,19 @@
       row = $(this).parent('li');
       return ensure_correct_arguments_for(row);
     });
-    return $('ul.switches li section.conditions button[data-action=add]').click(function(event) {
+    $('ul.switches li section.conditions button[data-action=add]').click(function(event) {
       var row;
       event.preventDefault();
       row = $(event.currentTarget).parents('li')[0];
       return add_condition_to(row);
     });
+    $('ul.switches li section.conditions button[data-action=remove]').click(function(event) {
+      var condition;
+      event.preventDefault();
+      condition = $(event.currentTarget).parents('li')[0];
+      return remove_condition(condition);
+    });
+    return $.map($('ul.switches li'), ensure_correct_visibility_for);
   });
 
 }).call(this);

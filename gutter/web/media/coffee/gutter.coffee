@@ -33,11 +33,16 @@ attr_setter = (attr_name, number) ->
 
 add_condition_to = (row) ->
   prototype = $(row).find('ul.conditions li:last-child').first()
-  clone = prototype.clone()
+  clone = prototype.clone(true, true)
 
   prototype.parent('ul.conditions').append(clone)
   clone.find('input,select').removeAttr('selected').attr('value', '')
 
+  recalculate_condition_attrs_for(row)
+
+remove_condition = (condition) ->
+  row = $(condition).parents('ul.switches li')
+  $(condition).remove()
   recalculate_condition_attrs_for(row)
 
 recalculate_condition_attrs_for = (row) ->
@@ -63,5 +68,10 @@ $ ->
     row = $(event.currentTarget).parents('li')[0]
     add_condition_to(row)
 
+  $('ul.switches li section.conditions button[data-action=remove]').click (event) ->
+    event.preventDefault()
+    condition = $(event.currentTarget).parents('li')[0]
+    remove_condition(condition)
+
   # Setup things for the first time
-  # $.map($('ul.switches li'), ensure_correct_visibility_for)
+  $.map($('ul.switches li'), ensure_correct_visibility_for)

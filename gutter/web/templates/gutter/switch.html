@@ -2,10 +2,14 @@
     {{ switch.as_p }}
 
     <section class="conditions">
+        {{ switch.conditions.management_form }}
         <label for="conditions">Conditions:</label>
         <ul class="conditions">
         {% for condition in switch.conditions %}
-        <li>{{ condition }}</li>
+        <li>
+            {{ condition }}
+            <button data-action="remove">Remove</button>
+        </li>
         {% endfor %}
         </ul>
         <button data-action="add">Add a Condition</button>
