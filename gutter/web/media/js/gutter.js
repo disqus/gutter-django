@@ -9,7 +9,7 @@
 
   ensure_correct_visibility_for = function(selects) {
     var conditions;
-    conditions = $(selects).parents('li').find('ul.conditions');
+    conditions = $(selects).parents('li').find('section.conditions');
     switch ($(selects).val()) {
       case swtch.disabled:
       case swtch.global:

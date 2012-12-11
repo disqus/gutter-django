@@ -110,4 +110,8 @@ class BaseConditionFormSet(BaseFormSet):
         super(BaseConditionFormSet, self).add_fields(form, index)
 
 
-ConditionFormSet = formset_factory(ConditionForm, formset=BaseConditionFormSet)
+ConditionFormSet = formset_factory(
+    ConditionForm,
+    formset=BaseConditionFormSet,
+    extra=0
+)

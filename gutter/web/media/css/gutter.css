@@ -90,6 +90,15 @@
 #container ul.switches > li > form textarea {
   width: 350px;
 }
+#container ul.switches > li > form ul.conditions {
+  list-style-image: none;
+  list-style-type: none;
+  margin-left: 0;
+  margin-left: 105px;
+}
+#container ul.switches > li > form ul.conditions li + li {
+  margin-top: 5px;
+}
 #container ul.switches > li > form ul.conditions label {
   display: none;
 }

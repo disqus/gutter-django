@@ -73,7 +73,7 @@ $form-label-margin: 5px;
           @include float-left;
           display: block;
           font-weight: bold;
-          margin-right: 5px;
+          margin-right: $form-label-margin;
           text-align: right;
           width: $form-label-width;
         }
@@ -90,8 +90,18 @@ $form-label-margin: 5px;
           width: 350px;
         }
 
-        ul.conditions label {
-          display: none;
+        ul.conditions {
+          @include no-bullet;
+          margin-left: $form-label-width + $form-label-margin;
+
+          li + li {
+            margin-top: 5px;
+          }
+
+          label {
+            display: none;
+          }
+
         }
       }
 

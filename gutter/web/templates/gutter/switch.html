@@ -1,9 +1,12 @@
 <form action="{% url gutter:update %}" method="post">
     {{ switch.as_p }}
 
-    <ul class="conditions">
-    {% for condition in switch.conditions %}
-    <li>{{ condition }}</li>
-    {% endfor %}
-    </ul>
+    <section class="conditions">
+        <label for="conditions">Conditions:</label>
+        <ul class="conditions">
+        {% for condition in switch.conditions %}
+        <li>{{ condition }}</li>
+        {% endfor %}
+        </ul>
+    </section>
 </form>

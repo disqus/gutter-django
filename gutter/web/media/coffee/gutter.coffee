@@ -4,7 +4,7 @@ swtch =
   global: '3'
 
 ensure_correct_visibility_for = (selects) ->
-  conditions = $(selects).parents('li').find('ul.conditions')
+  conditions = $(selects).parents('li').find('section.conditions')
 
   switch $(selects).val()
     when swtch.disabled, swtch.global then conditions.hide()
