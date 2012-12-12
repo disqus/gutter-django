@@ -1,4 +1,5 @@
-<form action="{% url gutter:update %}" method="post">
+<form action="{% url gutter:update 'foo' %}" method="post">
+    {% csrf_token %}
     {{ switch.as_p }}
 
     <section class="conditions">
@@ -14,4 +15,6 @@
         </ul>
         <button data-action="add">Add a Condition</button>
     </section>
+
+    <input type="submit">
 </form>

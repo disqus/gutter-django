@@ -92,10 +92,14 @@ class ConditionForm(forms.Form):
 
 class BaseConditionFormSet(BaseFormSet):
 
-    def add_fields(self, form, index):
-        operator = self.initial[index]['operator']
+    def operator_at(self, index):
+        if self.initial:
+            return self.initial[index]['operator']
+        else:
+            return self.data['form-%s-operator' % index]
 
-        for argument in operators.arguments[operator]:
+    def add_fields(self, form, index):
+        for argument in operators.arguments[self.operator_at(index)]:
             form.fields[argument] = forms.CharField()  # TODO: initial value
 
         super(BaseConditionFormSet, self).add_fields(form, index)

@@ -12,7 +12,7 @@ import nexus
 import os
 
 from gutter.client.default import gutter as manager
-from gutter.web.forms import SwitchForm
+from gutter.web.forms import SwitchForm, ConditionFormSet
 from django.template import RequestContext
 # from django.http import HttpResponse, HttpResponseNotFound
 
@@ -47,11 +47,8 @@ class GutterModule(nexus.NexusModule):
 
         urlpatterns = patterns('',
             url(r'^add/$', self.as_view(self.add), name='add'),
-            url(r'^update/$', self.as_view(self.update), name='update'),
+            url(r'^update/(\w+)$', self.as_view(self.update), name='update'),
             url(r'^delete/$', self.as_view(self.delete), name='delete'),
-            url(r'^status/$', self.as_view(self.status), name='status'),
-            url(r'^conditions/add/$', self.as_view(self.add_condition), name='add-condition'),
-            url(r'^conditions/remove/$', self.as_view(self.remove_condition), name='remove-condition'),
             url(r'^$', self.as_view(self.index), name='index'),
         )
 
@@ -60,21 +57,33 @@ class GutterModule(nexus.NexusModule):
     def render_on_dashboard(self, request):
         return 'switches'
 
-    def index(self, request):
-        return self.render_to_response("gutter/index.html", RequestContext(request, {
+    @property
+    def __index_context(self):
+        return {
             "manager": manager,
             "sorted_by": 'date_created',
             "switches": map(SwitchForm.from_object, manager.switches)
-        }), request)
+        }
+
+    def index(self, request):
+        return self.render_to_response(
+            "gutter/index.html",
+            RequestContext(request, self.__index_context),
+            request
+        )
 
     def add(self, request):
         pass
 
-    def update(self, request):
-        import pdb; pdb.set_trace()
+    def update(self, request, switch_name):
+        switch = SwitchForm(request.POST)
+        switch.conditions = ConditionFormSet(request.POST)
+
+        context = RequestContext(request, self.__index_context)
+
         return self.render_to_response(
             "gutter/index.html",
-            RequestContext(request, {}),
+            context,
             request
         )
 
