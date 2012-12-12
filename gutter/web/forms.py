@@ -51,13 +51,6 @@ class SwitchForm(forms.Form):
     compounded = forms.BooleanField(required=False)
     concenting = forms.BooleanField(required=False)
 
-    def __init__(self, conditions, *args, **kwargs):
-        super(SwitchForm, self).__init__(*args, **kwargs)
-        self.conditions = ConditionFormSet(
-            conditions,
-            initial=map(ConditionForm.to_dict, conditions)
-        )
-
     @classmethod
     def from_object(cls, switch):
         data = dict(
@@ -69,7 +62,12 @@ class SwitchForm(forms.Form):
             concent=switch.concent
         )
 
-        return cls(switch.conditions, data)
+        condition_dicts = map(ConditionForm.to_dict, switch.conditions)
+
+        instance = cls(initial=data)
+        instance.conditions = ConditionFormSet(initial=condition_dicts)
+
+        return instance
 
 
 class ConditionForm(forms.Form):
@@ -94,18 +92,11 @@ class ConditionForm(forms.Form):
 
 class BaseConditionFormSet(BaseFormSet):
 
-    def __init__(self, conditions=None, *args, **kwargs):
-        self.conditions = conditions
-        super(BaseConditionFormSet, self).__init__(*args, **kwargs)
-
     def add_fields(self, form, index):
-        try:
-            condition_obj = self.conditions[index]
-        except IndexError:
-            return  # Assume it's the extra input
-        else:
-            for name, value in condition_obj.operator.variables.items():
-                form.fields[name] = forms.CharField(initial=value)
+        operator = self.initial[index]['operator']
+
+        for argument in operators.arguments[operator]:
+            form.fields[argument] = forms.CharField()  # TODO: initial value
 
         super(BaseConditionFormSet, self).add_fields(form, index)
 
