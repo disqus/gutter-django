@@ -68,12 +68,18 @@ class ConditionFormTest(Exam, unittest.TestCase):
         )
 
 
+def build_initial_row(argument, operator, **kwargs):
+    results = dict(argument=argument, negative=False, operator=operator)
+    results.update(kwargs)
+    return results
+
+
 class ConditionSetFormTest(Exam, unittest.TestCase):
 
     initial = [
-        dict(argument='arg1', negative=False, operator='oper1'),
-        dict(argument='arg2', negative=False, operator='oper2'),
-        dict(argument='arg3', negative=False, operator='oper3')
+        build_initial_row('arg1', 'oper1', **{'1a': '1aval', '1b': '1bval'}),
+        build_initial_row('arg2', 'oper2', **{'2a': '2aval'}),
+        build_initial_row('arg3', 'oper3', **{'3a': '3aval', '3b': '3bval'})
     ]
 
     @patcher('gutter.web.forms.operators')
@@ -82,7 +88,7 @@ class ConditionSetFormTest(Exam, unittest.TestCase):
         operators.arguments = dict(
             oper1=('1a', '1b'),
             oper2=('2a',),
-            oper3=('3a', '3b', '3c'),
+            oper3=('3a', '3b'),
         )
         return operators
 
@@ -90,10 +96,19 @@ class ConditionSetFormTest(Exam, unittest.TestCase):
     def formset(self):
         return ConditionFormSet(initial=self.initial)
 
+    def field_at(self, forms_index, argument_name):
+        return self.formset.forms[forms_index].fields[argument_name]
+
     def assertIsCharField(self, forms_index, argument_name):
         self.assertIsInstance(
-            self.formset.forms[forms_index].fields[argument_name],
+            self.field_at(forms_index, argument_name),
             CharField
+        )
+
+    def assertInitialValue(self, forms_index, argument_name, initial):
+        self.assertEquals(
+            self.formset.forms[forms_index].fields[argument_name].initial,
+            initial
         )
 
     def test_adds_a_field_per_argument_of_operator(self):
@@ -102,4 +117,10 @@ class ConditionSetFormTest(Exam, unittest.TestCase):
         self.assertIsCharField(1, '2a')
         self.assertIsCharField(2, '3a')
         self.assertIsCharField(2, '3b')
-        self.assertIsCharField(2, '3c')
+
+    def test_sets_the_initial_value_for_each_field(self):
+        self.assertEquals(self.field_at(0, '1a').initial, '1aval')
+        self.assertEquals(self.field_at(0, '1b').initial, '1bval')
+        self.assertEquals(self.field_at(1, '2a').initial, '2aval')
+        self.assertEquals(self.field_at(2, '3a').initial, '3aval')
+        self.assertEquals(self.field_at(2, '3b').initial, '3bval')

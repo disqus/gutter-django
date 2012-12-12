@@ -8,6 +8,8 @@ from itertools import chain
 
 from gutter.web.registry import operators, arguments
 
+from functools import partial
+
 
 class OperatorSelectWidget(Select):
 
@@ -62,9 +64,9 @@ class SwitchForm(forms.Form):
             concent=switch.concent
         )
 
-        condition_dicts = map(ConditionForm.to_dict, switch.conditions)
-
         instance = cls(initial=data)
+
+        condition_dicts = map(ConditionForm.to_dict, switch.conditions)
         instance.conditions = ConditionFormSet(initial=condition_dicts)
 
         return instance
@@ -83,24 +85,30 @@ class ConditionForm(forms.Form):
 
     @staticmethod
     def to_dict(condition):
-        return dict(
+        fields = dict(
             argument='.'.join((condition.argument.__name__, condition.attribute)),
             negative=condition.negative,
             operator=condition.operator.name
         )
 
+        fields.update(condition.operator.variables)
+
+        return fields
+
 
 class BaseConditionFormSet(BaseFormSet):
 
-    def operator_at(self, index):
+    def value_at(self, index, field):
         if self.initial:
-            return self.initial[index]['operator']
+            return self.initial[index][field]
         else:
-            return self.data['form-%s-operator' % index]
+            return self.data['form-%s-%s' % (index, field)]
 
     def add_fields(self, form, index):
-        for argument in operators.arguments[self.operator_at(index)]:
-            form.fields[argument] = forms.CharField()  # TODO: initial value
+        value = partial(self.value_at, index)
+
+        for argument in operators.arguments[value('operator')]:
+            form.fields[argument] = forms.CharField(initial=value(argument))
 
         super(BaseConditionFormSet, self).add_fields(form, index)
 
