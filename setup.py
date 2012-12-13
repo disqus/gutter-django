@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 import sys
+import os
 from setuptools import find_packages
 
 
@@ -31,6 +32,7 @@ dependency_links = [
 setup_requires = []
 if 'nosetests' in sys.argv[1:]:
     setup_requires.append('nose')
+    os.environ.setdefault('DJANGO_SETTINGS_MODULE', __name__)
 
 
 setup(

@@ -7,6 +7,7 @@ from django.utils.encoding import force_unicode
 from itertools import chain
 
 from gutter.web.registry import operators, arguments
+from gutter.client.models import Switch
 
 from functools import partial
 
@@ -71,11 +72,26 @@ class SwitchForm(forms.Form):
 
         return instance
 
+    def field(self, key):
+        return self.data.get(key, None) or self.initial[key]
+
+    @property
+    def to_object(self):
+        switch = Switch(
+            name=self.cleaned_data['name'],
+            label=self.cleaned_data['label'],
+            description=self.cleaned_data['description'],
+            state=self.cleaned_data['state'],
+            compounded=self.cleaned_data['compounded'],
+            concent=self.cleaned_data['concent'],
+        )
+
+        return switch
+
 
 class ConditionForm(forms.Form):
 
     NEGATIVE_CHOICES = ((0, 'Is'), (1, 'Is Not'))
-
     argument = forms.ChoiceField(choices=arguments.as_choices)
     negative = forms.ChoiceField(choices=NEGATIVE_CHOICES)
     operator = forms.ChoiceField(
@@ -97,6 +113,18 @@ class ConditionForm(forms.Form):
 
 
 class BaseConditionFormSet(BaseFormSet):
+
+    @property
+    def to_objects(self):
+        return map(self.__make_condition, self.forms)
+
+    def __make_condition(self, form):
+        return Condition(
+
+        )
+
+        for name, value in form.cleaned_data.items():
+            print name, value
 
     def value_at(self, index, field):
         if self.initial:

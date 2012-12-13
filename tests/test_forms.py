@@ -4,33 +4,36 @@ from django.forms.fields import CharField
 
 from mock import Mock, MagicMock, patch
 
-from exam import Exam, fixture, patcher
+from exam import Exam, fixture, patcher, before
 
 from nose.tools import *
 
+from .fixtures import User  # Also causes the User arguments to be registered
 from gutter.web.forms import SwitchForm, ConditionForm, ConditionFormSet
+from gutter.client.models import Switch, Condition
+from gutter.client.operators.comparable import Equals, MoreThan
 
 
 class SwitchFormTest(Exam, unittest.TestCase):
 
-    switch = fixture(Mock, conditions=[1, 2, 3])
+    mock_switch = fixture(Mock, conditions=[1, 2, 3])
     condition_form = patcher('gutter.web.forms.ConditionForm')
 
     @fixture
     def switch_from_object(self):
-        return SwitchForm.from_object(self.switch)
+        return SwitchForm.from_object(self.mock_switch)
 
     @patch('gutter.web.forms.ConditionFormSet')
     def test_from_object_returns_dict_of_properties(self, _):
         eq_(
             self.switch_from_object.initial,
             dict(
-                label=self.switch.label,
-                name=self.switch.name,
-                description=self.switch.description,
-                state=self.switch.state,
-                compounded=self.switch.compounded,
-                concent=self.switch.concent,
+                label=self.mock_switch.label,
+                name=self.mock_switch.name,
+                description=self.mock_switch.description,
+                state=self.mock_switch.state,
+                compounded=self.mock_switch.compounded,
+                concent=self.mock_switch.concent,
             )
         )
 
@@ -49,6 +52,40 @@ class SwitchFormTest(Exam, unittest.TestCase):
         self.condition_form.to_dict.assert_any_call(1)
         self.condition_form.to_dict.assert_any_call(2)
         self.condition_form.to_dict.assert_any_call(3)
+
+
+class SwitchFormIntegrationTest(Exam, unittest.TestCase):
+
+    post_data = {
+        u'name': u'name',
+        u'description': u'description',
+        u'state': u'1',
+        u'label': u'label',
+        u'compounded': u'0',
+        u'concent': u'0',
+    }
+
+    @fixture
+    def switch_form(self):
+        return SwitchForm(self.post_data)
+
+    @fixture
+    def expected_switch(self):
+        return Switch(
+            name='name',
+            label='label',
+            description='description',
+            state=1,
+            compounded=False,
+            concent=False,
+        )
+
+    @before
+    def assert_is_valid(self):
+        self.assertTrue(self.switch_form.is_valid())
+
+    def test_to_object_returns_object_from_form(self):
+        self.assertEqual(self.switch_form.to_object, self.expected_switch)
 
 
 class ConditionFormTest(Exam, unittest.TestCase):
@@ -124,3 +161,34 @@ class ConditionSetFormTest(Exam, unittest.TestCase):
         self.assertEquals(self.field_at(1, '2a').initial, '2aval')
         self.assertEquals(self.field_at(2, '3a').initial, '3aval')
         self.assertEquals(self.field_at(2, '3b').initial, '3bval')
+
+
+class ConditionFormSetIntegrationTest(Exam, unittest.TestCase):
+
+    post_data = {
+        u'form-MAX_NUM_FORMS': u'',
+        u'form-TOTAL_FORMS': u'2',
+        u'form-INITIAL_FORMS': u'2',
+
+        u'form-0-argument': u'User.name',
+        u'form-0-operator': u'equals',
+        u'form-0-negative': u'0',
+        u'form-0-value': u'Jeff',
+
+        u'form-1-argument': u'User.age',
+        u'form-1-operator': u'more_than',
+        u'form-1-negative': u'0',
+        u'form-1-lower_limit': u'21',
+    }
+
+    @fixture
+    def expected_condtions(self):
+        return (
+            Condition(User, 'name', Equals(value='Jeff')),
+            Condition(User, 'age', MoreThan(lower_limit=21))
+        )
+
+    def test_to_objects_returns_list_on_condition_objects(self):
+        formset = ConditionFormSet(self.post_data)
+        self.assertTrue(formset.is_valid())
+        self.assertEquals(formset.to_objects, self.expected_condtions)
