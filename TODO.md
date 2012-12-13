@@ -9,3 +9,4 @@
 * Add code to update switches
 * Add code to expand/collapse switch rows for editing
 * Add CRUD code for conditions (as part of switch save maybe?)
+* Add registry reset() and register() methods
