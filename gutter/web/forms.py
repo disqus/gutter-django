@@ -48,10 +48,10 @@ class SwitchForm(forms.Form):
     name = forms.CharField(max_length=100)
     label = forms.CharField()
     description = forms.CharField()
-    state = forms.ChoiceField(choices=STATES.items())
+    state = forms.IntegerField()  # TODO: change to select box
 
     compounded = forms.BooleanField(required=False)
-    concenting = forms.BooleanField(required=False)
+    concent = forms.BooleanField(required=False)
 
     @classmethod
     def from_object(cls, switch):
