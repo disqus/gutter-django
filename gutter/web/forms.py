@@ -7,7 +7,7 @@ from django.utils.encoding import force_unicode
 from itertools import chain
 
 from gutter.web.registry import operators, arguments
-from gutter.client.models import Switch
+from gutter.client.models import Switch, Condition
 
 from functools import partial
 
@@ -119,12 +119,34 @@ class BaseConditionFormSet(BaseFormSet):
         return map(self.__make_condition, self.forms)
 
     def __make_condition(self, form):
+        data = form.cleaned_data.copy()
+
+        # Extract out the values from the POST data.  These are all strings at
+        # this point
+        operator_str = data.pop('operator')
+        negative_str = data.pop('negative')
+        argument_str = data.pop('argument')
+
+        # Operators in the registry are the types (classes), so extract that out
+        # and we will construct it from the remaining data, which are the
+        # arguments for the operator
+        operator_type = operators[operator_str]
+
+        # Arguments are a Class property, so just a simple fetch from the
+        # arguments dict will retreive it
+        argument = arguments[argument_str]
+
+        # The remaining variables in the data are the arguments to the operator,
+        # but they need to be cast by the argument to their right type
+        caster = argument.variable.to_python
+        data = dict((k, caster(v)) for k, v in data.items())
+
         return Condition(
-
+            argument=argument.owner,
+            attribute=argument.name,
+            operator=operator_type(**data),
+            negative=bool(int(negative_str))
         )
-
-        for name, value in form.cleaned_data.items():
-            print name, value
 
     def value_at(self, index, field):
         if self.initial:

@@ -172,7 +172,7 @@ class ConditionFormSetIntegrationTest(Exam, unittest.TestCase):
 
         u'form-0-argument': u'User.name',
         u'form-0-operator': u'equals',
-        u'form-0-negative': u'0',
+        u'form-0-negative': u'1',
         u'form-0-value': u'Jeff',
 
         u'form-1-argument': u'User.age',
@@ -183,12 +183,16 @@ class ConditionFormSetIntegrationTest(Exam, unittest.TestCase):
 
     @fixture
     def expected_condtions(self):
-        return (
-            Condition(User, 'name', Equals(value='Jeff')),
+        return [
+            Condition(User, 'name', Equals(value='Jeff'), negative=True),
             Condition(User, 'age', MoreThan(lower_limit=21))
-        )
+        ]
 
-    def test_to_objects_returns_list_on_condition_objects(self):
+    @fixture
+    def valid_formset(self):
         formset = ConditionFormSet(self.post_data)
         self.assertTrue(formset.is_valid())
-        self.assertEquals(formset.to_objects, self.expected_condtions)
+        return formset
+
+    def test_to_objects_returns_list_on_condition_objects(self):
+        self.assertEqual(self.valid_formset.to_objects, self.expected_condtions)
