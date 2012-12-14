@@ -15,7 +15,7 @@ class Request(arguments.Container):
     ip = arguments.String('192.168.0.1')
 
 
-registry.arguments.append(User.name)
-registry.arguments.append(User.age)
-registry.arguments.append(User.registered_on)
-registry.arguments.append(Request.ip)
+registry.arguments.register(User.name)
+registry.arguments.register(User.age)
+registry.arguments.register(User.registered_on)
+registry.arguments.register(Request.ip)

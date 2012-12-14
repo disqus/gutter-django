@@ -4,42 +4,56 @@ from gutter.client.operators.misc import *
 
 from itertools import groupby
 
+from operator import attrgetter, itemgetter
 
-class OperatorsList(list):
+
+class OperatorsDict(dict):
+
+    def __init__(self, *operators):
+        map(self.register, operators)
+
+    def register(self, operator):
+        self[operator.name] = operator
 
     @property
     def as_choices(self):
         groups = {}
 
-        for operator in operators:
+        for operator in sorted(self.values(), key=attrgetter('preposition')):
             key = operator.group.title()
             pair = (operator.name, operator.preposition.title())
 
             groups.setdefault(key, [])
             groups[key].append(pair)
 
-        return groups.items()
+        return sorted(groups.items(), key=itemgetter(0))
 
     @property
     def arguments(self):
-        return dict((o.name, o.arguments) for o in self)
+        return dict((name, op.arguments) for name, op in self.items())
 
 
-class ArgumentsList(list):
+class ArgumentsDict(dict):
 
     @property
     def as_choices(self):
-        groups = {}
-        grouped = groupby(map(str, self), lambda a: a.split('.')[0])
+        sorted_strings = sorted(map(str, self.values()))
+        extract_classname = lambda a: a.split('.')[0]
 
+        grouped = groupby(sorted_strings, extract_classname)
+
+        groups = {}
         for name, arguments in grouped:
             groups.setdefault(name, [])
             groups[name].extend((a, a) for a in arguments)
 
         return groups.items()
 
+    def register(self, argument):
+        self[str(argument)] = argument
 
-operators = OperatorsList((
+
+operators = OperatorsDict(
     Equals,
     Between,
     LessThan,
@@ -49,6 +63,6 @@ operators = OperatorsList((
     Truthy,
     Percent,
     PercentRange
-))
+)
 
-arguments = ArgumentsList()
+arguments = ArgumentsDict()

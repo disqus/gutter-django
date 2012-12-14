@@ -29,24 +29,28 @@ class BarArgs(arguments.Container):
 class TestRegistry(Exam, unittest.TestCase):
 
     @fixture
-    def default_operator_list(self):
-        return list((Equals, Between, LessThan, LessThanOrEqualTo, MoreThan,
-                MoreThanOrEqualTo, Truthy, Percent, PercentRange))
+    def default_operator_dict(self):
+        operators = [Equals, Between, LessThan, LessThanOrEqualTo, MoreThan,
+                MoreThanOrEqualTo, Truthy, Percent, PercentRange]
+
+        return dict((o.name, o) for o in operators)
 
     @before
     def reload_module(self):
         reload(registry)
 
     def test_operators_starts_out_with_default_list(self):
-        expect(registry.operators).to == self.default_operator_list
+        expect(registry.operators).to == self.default_operator_dict
 
-    def test_can_append_to_operators(self):
-        expect(registry.operators).to_not.contain(sentinel.operator)
-        registry.operators.append(sentinel.operator)
-        expect(registry.operators).to.contain(sentinel.operator)
+    def test_can_register_operators(self):
+        new_operators = dict(operator=sentinel.operator)
+
+        expect(registry.operators).to_not.have_subset(new_operators)
+        registry.operators.register(sentinel.operator)
+        expect(registry.operators).to.have_subset(new_operators)
 
     def test_arguments_starts_out_empty(self):
-        expect(registry.arguments).to == []
+        expect(registry.arguments).to == {}
 
     def test_operators_to_choices_returns_suitable_tuple(self):
         eq_(
@@ -54,8 +58,8 @@ class TestRegistry(Exam, unittest.TestCase):
             [
                 (
                     'Comparable', [
-                        ('equals', 'Equal To'),
                         ('between', 'Between'),
+                        ('equals', 'Equal To'),
                         ('before', 'Less Than'),
                         ('less_than_or_equal_to', 'Less Than Or Equal To'),
                         ('more_than', 'More Than'),
@@ -63,24 +67,24 @@ class TestRegistry(Exam, unittest.TestCase):
                     ]
                 ),
                 (
-                    'Misc', [
-                        ('percent', 'Within The Percentage Of'),
-                        ('percent_range', 'In The Percentage Range Of')
+                    'Identity', [
+                        ('true', 'True')
                     ]
                 ),
                 (
-                    'Identity', [
-                        ('true', 'True')
+                    'Misc', [
+                        ('percent_range', 'In The Percentage Range Of'),
+                        ('percent', 'Within The Percentage Of')
                     ]
                 )
             ]
         )
 
     def test_arguments_as_choices_returns_suiteable_tuple(self):
-        registry.arguments.append(FooArgs.a)
-        registry.arguments.append(FooArgs.b)
-        registry.arguments.append(BarArgs.a)
-        registry.arguments.append(BarArgs.b)
+        registry.arguments.register(FooArgs.a)
+        registry.arguments.register(FooArgs.b)
+        registry.arguments.register(BarArgs.a)
+        registry.arguments.register(BarArgs.b)
 
         eq_(
             registry.arguments.as_choices,
