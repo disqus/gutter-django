@@ -44,12 +44,12 @@ class OperatorSelectWidget(Select):
 
 class SwitchForm(forms.Form):
 
-    STATES = {1: 'Disabled', 2: 'Selective', 3: 'Global'}
+    STATES = {1: 'Disabled', 2: 'Selective', 3: 'Global'}.items()
 
     name = forms.CharField(max_length=100)
     label = forms.CharField()
     description = forms.CharField()
-    state = forms.IntegerField()  # TODO: change to select box
+    state = forms.IntegerField(widget=Select(choices=STATES))
 
     compounded = forms.BooleanField(required=False)
     concent = forms.BooleanField(required=False)
