@@ -2,14 +2,15 @@ import unittest
 
 from django.forms.fields import CharField
 
-from mock import Mock, MagicMock, patch
+from mock import Mock, MagicMock, patch, sentinel, call
 
 from exam import Exam, fixture, patcher, before
+from exam.helpers import track
 
 from nose.tools import *
 
 from .fixtures import User  # Also causes the User arguments to be registered
-from gutter.web.forms import SwitchForm, ConditionForm, ConditionFormSet
+from gutter.web.forms import SwitchForm, ConditionForm, ConditionFormSet, SwitchFormManager
 from gutter.client.models import Switch, Condition
 from gutter.client.operators.comparable import Equals, MoreThan
 
@@ -18,6 +19,7 @@ class SwitchFormTest(Exam, unittest.TestCase):
 
     mock_switch = fixture(Mock, conditions=[1, 2, 3])
     condition_form = patcher('gutter.web.forms.ConditionForm')
+    form = fixture(SwitchForm)
 
     @fixture
     def switch_from_object(self):
@@ -196,3 +198,60 @@ class ConditionFormSetIntegrationTest(Exam, unittest.TestCase):
 
     def test_to_objects_returns_list_on_condition_objects(self):
         self.assertEqual(self.valid_formset.to_objects, self.expected_condtions)
+
+
+class SwitchFormManagerTest(Exam, unittest.TestCase):
+
+    @fixture
+    def manager(self):
+        return SwitchFormManager(Mock(), MagicMock())
+
+    gutter_manager = fixture(Mock)
+
+    def test_init_constructs_with_switch_and_conditionset_forms(self):
+        manager = SwitchFormManager(sentinel.switch, sentinel.conditionset)
+        eq_(manager.switch, sentinel.switch)
+        eq_(manager.conditions, sentinel.conditionset)
+
+    @patch('gutter.web.forms.ConditionFormSet')
+    @patch('gutter.web.forms.SwitchForm')
+    def test_from_post_constructs_switch_and_conditions_then_self(self, s, cfs):
+        manager = SwitchFormManager.from_post(sentinel.POST)
+
+        s.assert_called_once_with(sentinel.POST)
+        cfs.assert_called_once_with(sentinel.POST)
+
+        eq_(manager.switch, s.return_value)
+        eq_(manager.conditions, cfs.return_value)
+
+    def test_is_valid_asks_switch_and_conditions(self):
+        self.manager.switch.is_valid.return_value = True
+        self.manager.conditions.is_valid.return_value = True
+        eq_(self.manager.is_valid(), True)
+
+        self.manager.switch.is_valid.return_value = False
+        self.manager.conditions.is_valid.return_value = True
+        eq_(self.manager.is_valid(), False)
+
+        self.manager.switch.is_valid.return_value = True
+        self.manager.conditions.is_valid.return_value = False
+        eq_(self.manager.is_valid(), False)
+
+        self.manager.switch.is_valid.return_value = False
+        self.manager.conditions.is_valid.return_value = False
+        eq_(self.manager.is_valid(), False)
+
+    def test_save_updates_manager_switch_with_switch_to_object(self):
+        self.manager.conditions.__iter__ = [Mock(), Mock()]
+        self.manager.save(self.gutter_manager)
+        self.gutter_manager.update.assert_called_once_with(
+            self.manager.switch.to_object
+        )
+
+    def test_save_sets_conditions_on_switch_before_updating(self):
+        self.manager.save(self.gutter_manager)
+
+        args, kwargs = self.gutter_manager.update.call_args
+        switch = args[0]
+
+        eq_(switch.conditions, self.manager.conditions.to_objects)

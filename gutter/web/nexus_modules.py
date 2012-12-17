@@ -12,7 +12,7 @@ import nexus
 import os
 
 from gutter.client.default import gutter as manager
-from gutter.web.forms import SwitchForm, ConditionFormSet
+from gutter.web.forms import SwitchForm, ConditionFormSet, SwitchFormManager
 from django.template import RequestContext
 # from django.http import HttpResponse, HttpResponseNotFound
 
@@ -62,7 +62,7 @@ class GutterModule(nexus.NexusModule):
         return {
             "manager": manager,
             "sorted_by": 'date_created',
-            "switches": map(SwitchForm.from_object, manager.switches)
+            "switches": dict((s.name, SwitchForm.from_object(s)) for s in manager.switches)
         }
 
     def index(self, request):
@@ -72,31 +72,24 @@ class GutterModule(nexus.NexusModule):
             request
         )
 
-    def add(self, request):
-        pass
-
     def update(self, request, switch_name):
-        switch = SwitchForm(request.POST)
-        switch.conditions = ConditionFormSet(request.POST)
+        form_manager = SwitchFormManager.from_post(request.POST)
+
+        if form_manager.is_valid():
+            form_manager.save(manager)
 
         context = RequestContext(request, self.__index_context)
-
         return self.render_to_response(
             "gutter/index.html",
             context,
             request
         )
 
-    def status(self, request):
-        pass
-
     def delete(self, request):
         pass
 
-    def add_condition(self, request):
+    def add(self, request):
         pass
 
-    def remove_condition(self, request):
-        pass
 
 nexus.site.register(GutterModule, 'gutter')

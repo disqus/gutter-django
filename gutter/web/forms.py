@@ -1,6 +1,6 @@
 from django import forms
 from django.forms.formsets import formset_factory, BaseFormSet
-from django.forms.widgets import Select
+from django.forms.widgets import Select, Textarea
 from django.utils.html import escape, conditional_escape
 from django.utils.encoding import force_unicode
 
@@ -48,7 +48,7 @@ class SwitchForm(forms.Form):
 
     name = forms.CharField(max_length=100)
     label = forms.CharField()
-    description = forms.CharField()
+    description = forms.CharField(widget=Textarea())
     state = forms.IntegerField(widget=Select(choices=STATES))
 
     compounded = forms.BooleanField(required=False)
@@ -168,3 +168,22 @@ ConditionFormSet = formset_factory(
     formset=BaseConditionFormSet,
     extra=0
 )
+
+
+class SwitchFormManager(object):
+
+    def __init__(self, switch, condition_set):
+        self.switch = switch
+        self.conditions = condition_set
+
+    @classmethod
+    def from_post(cls, post_data):
+        return cls(SwitchForm(post_data), ConditionFormSet(post_data))
+
+    def is_valid(self):
+        return self.switch.is_valid() and self.conditions.is_valid()
+
+    def save(self, gutter_manager):
+        switch = self.switch.to_object
+        switch.conditions = self.conditions.to_objects
+        gutter_manager.update(switch)

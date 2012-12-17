@@ -11,13 +11,6 @@
 {% block content %}
     <div class="toolbar" data-sort="{{ sorted_by }}">
         <button class="button addSwitch">Add a Switch</button>
-
-        <!--
-        <span class="switchTest">
-            <input type="text">
-            <button class="button">Test Switch</button>
-        </span>
-        -->
         <span class="search">
             <input type="text" placeholder="search">
         </span>
@@ -26,8 +19,8 @@
 
 
     <ul class="switches">
-    {% for switch in switches %}
-        <li>{% include "gutter/switch.html" %}</li>
+    {% for name, switch in switches.items %}
+        <li id="switch-{{ name }}">{% include "gutter/switch.html" %}</li>
     {% empty %}
         <li>No switches configured</li>
     {% endfor %}
