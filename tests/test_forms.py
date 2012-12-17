@@ -244,14 +244,13 @@ class SwitchFormManagerTest(Exam, unittest.TestCase):
     def test_save_updates_manager_switch_with_switch_to_object(self):
         self.manager.conditions.__iter__ = [Mock(), Mock()]
         self.manager.save(self.gutter_manager)
-        self.gutter_manager.update.assert_called_once_with(
+        self.gutter_manager.register.assert_called_once_with(
             self.manager.switch.to_object
         )
 
-    def test_save_sets_conditions_on_switch_before_updating(self):
+    def test_save_sets_conditions_on_switch_before_registering(self):
         self.manager.save(self.gutter_manager)
-
-        args, kwargs = self.gutter_manager.update.call_args
+        args, kwargs = self.gutter_manager.register.call_args
         switch = args[0]
 
         eq_(switch.conditions, self.manager.conditions.to_objects)

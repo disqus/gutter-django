@@ -186,4 +186,4 @@ class SwitchFormManager(object):
     def save(self, gutter_manager):
         switch = self.switch.to_object
         switch.conditions = self.conditions.to_objects
-        gutter_manager.update(switch)
+        gutter_manager.register(switch)
