@@ -47,7 +47,7 @@ class GutterModule(nexus.NexusModule):
 
         urlpatterns = patterns('',
             url(r'^add/$', self.as_view(self.add), name='add'),
-            url(r'^update/(\w+)$', self.as_view(self.update), name='update'),
+            url(r'^update/$', self.as_view(self.update), name='update'),
             url(r'^delete/$', self.as_view(self.delete), name='delete'),
             url(r'^$', self.as_view(self.index), name='index'),
         )
@@ -65,31 +65,32 @@ class GutterModule(nexus.NexusModule):
             "switches": dict((s.name, SwitchForm.from_object(s)) for s in manager.switches)
         }
 
-    def index(self, request):
-        return self.render_to_response(
-            "gutter/index.html",
-            RequestContext(request, self.__index_context),
-            request
-        )
+    def __render(self, request, invalid_manager=None, **extra):
+        context = self.__index_context
+        template = "gutter/index.html"
 
-    def update(self, request, switch_name):
+        if invalid_manager:
+            invalid_manager.replace_in_context(context['switches'])
+
+        return self.render_to_response(template, context, request)
+
+    def index(self, request):
+        return self.__render(request)
+
+    def update(self, request):
         form_manager = SwitchFormManager.from_post(request.POST)
 
         if form_manager.is_valid():
             form_manager.save(manager)
+            return self.__render(request, message='Switch saved successfully.')
+        else:
+            return self.__render(request, invalid_manager=form_manager)
 
-        context = RequestContext(request, self.__index_context)
-        return self.render_to_response(
-            "gutter/index.html",
-            context,
-            request
-        )
+    add = update  # gutter_manger.register(switch) will replace or add based on the name
 
     def delete(self, request):
+        # Have a delete checkbox that is there, but hidden with JS.  Clicking
+        # the delete button selects the checkbox with JS and submits the form.
         pass
-
-    def add(self, request):
-        pass
-
 
 nexus.site.register(GutterModule, 'gutter')

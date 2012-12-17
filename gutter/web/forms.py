@@ -187,3 +187,8 @@ class SwitchFormManager(object):
         switch = self.switch.to_object
         switch.conditions = self.conditions.to_objects
         gutter_manager.register(switch)
+
+    def replace_in_context(self, context):
+        name = self.switch.data['name']
+        context[name] = self.switch
+        context[name].conditions = self.conditions
