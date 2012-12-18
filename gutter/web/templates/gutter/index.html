@@ -16,7 +16,9 @@
         </span>
     </div>
 
-
+    {% for kind, notice in notices.items %}
+    <p class="{{ kind }}">{{ notice }}</p>
+    {% endfor %}
 
     <ul class="switches">
     {% for name, switch in switches.items %}
