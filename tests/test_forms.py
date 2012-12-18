@@ -204,7 +204,7 @@ class SwitchFormManagerTest(Exam, unittest.TestCase):
 
     @fixture
     def manager(self):
-        return SwitchFormManager(Mock(), MagicMock())
+        return SwitchFormManager(MagicMock(), MagicMock())
 
     gutter_manager = fixture(Mock)
 
@@ -254,3 +254,15 @@ class SwitchFormManagerTest(Exam, unittest.TestCase):
         switch = args[0]
 
         eq_(switch.conditions, self.manager.conditions.to_objects)
+
+    def test_replace_in_context_adds_switch_at_name_from_forms(self):
+        context = {}
+        self.manager.replace_in_context(context)
+        eq_(
+            context[self.manager.switch.data['name']],
+            self.manager.switch
+        )
+        eq_(
+            context[self.manager.switch.data['name']].conditions,
+            self.manager.conditions
+        )
