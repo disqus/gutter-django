@@ -5,7 +5,6 @@ swtch =
 
 update_conditions_visibility = (event) ->
   $conditions = $(this).parents('ul.switches li').find('section.conditions')
-  console.log($conditions.length)
 
   switch $(this).val()
     when swtch.disabled, swtch.global then $conditions.hide()
@@ -17,7 +16,7 @@ remove_operator_arguments = (event) ->
 add_operator_arguments = (event) ->
   $operator = $(event.target)
 
-  name_prefix = $operator.attr('name').split('-')[0..2].join('-')
+  name_prefix = $operator.attr('name').split('-')[0..1].join('-')
   new_arguments = $operator.find('option:selected').data('arguments').split(',')
 
   $.each new_arguments, (index, argument) ->
@@ -48,7 +47,7 @@ recalculate_condition_attrs = (event) ->
   attr_setter = (attr_name, number) ->
     (index, element) ->
       name_parts = $(element).attr(attr_name).split('-')
-      name_parts[1] = number + 1
+      name_parts[1] = number
       $(element).attr(attr_name, name_parts.join('-'))
 
 
@@ -58,13 +57,35 @@ recalculate_condition_attrs = (event) ->
     $(element).find('label').map(attr_setter('for', index))
 
 
+recalculate_total_forms = (event) ->
+  count = $(this).find('ul.conditions li').length
+  $(this).find('input[name$=TOTAL_FORMS]').val(count)
+  false
+
+
+adjust_submit_visibility = (event) ->
+  inputs_and_selects = $(this).find('ul.conditions').find('input,select')
+
+  if inputs_and_selects.not('[value]').length > 0
+    $(this).find('input[type=submit]').attr(disabled: true)
+  else
+    $(this).find('input[type=submit]').attr(disabled: false)
+
+  false
+
 $ ->
 
-  $('ul.switches li').delegate('select[name=state]', 'change', update_conditions_visibility)
-  $('ul.switches li').delegate('select[name$=operator]', 'change', remove_operator_arguments)
-  $('ul.switches li').delegate('select[name$=operator]', 'change', add_operator_arguments)
-  $('ul.switches li').delegate('button[data-action=add]', 'click', add_condition)
-  $('ul.switches li').delegate('button[data-action=remove]', 'click', remove_condition)
-  $('ul.switches li').live('gutter.switch.conditions.changed', recalculate_condition_attrs)
+  $('ul.switches > li').delegate('select[name=state]', 'change', update_conditions_visibility)
+  $('ul.switches > li').delegate('select[name$=operator]', 'change', remove_operator_arguments)
+  $('ul.switches > li').delegate('select[name$=operator]', 'change', add_operator_arguments)
+  $('ul.switches > li').delegate('button[data-action=add]', 'click', add_condition)
+  $('ul.switches > li').delegate('button[data-action=remove]', 'click', remove_condition)
 
-  $('ul.switches li select[name=state]').trigger('change')
+  $('ul.switches > li').live('gutter.switch.conditions.changed', recalculate_condition_attrs)
+  $('ul.switches > li').live('gutter.switch.conditions.changed', recalculate_total_forms)
+  $('ul.switches > li').live('gutter.switch.conditions.changed', adjust_submit_visibility)
+
+  $('ul.switches > li').delegate 'input,select', 'blur change keypress', ->
+    $(this).trigger('gutter.switch.conditions.changed')
+
+  $('ul.switches > li select[name=state]').trigger('change')
