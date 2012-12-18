@@ -91,9 +91,10 @@ class SwitchForm(forms.Form):
 
 class ConditionForm(forms.Form):
 
-    NEGATIVE_CHOICES = ((0, 'Is'), (1, 'Is Not'))
+    negative_widget = Select(choices=((False, 'Is'), (True, 'Is Not')))
+
     argument = forms.ChoiceField(choices=arguments.as_choices)
-    negative = forms.ChoiceField(choices=NEGATIVE_CHOICES)
+    negative = forms.BooleanField(widget=negative_widget, required=False)
     operator = forms.ChoiceField(
         choices=operators.as_choices,
         widget=OperatorSelectWidget(operators.arguments)
