@@ -195,3 +195,6 @@ class SwitchFormManager(object):
         name = self.switch.data['name']
         context[name] = self.switch
         context[name].conditions = self.conditions
+
+    def delete(self, gutter_manager):
+        gutter_manager.unregister(self.switch.data['name'])

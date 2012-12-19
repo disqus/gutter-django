@@ -266,3 +266,9 @@ class SwitchFormManagerTest(Exam, unittest.TestCase):
             context[self.manager.switch.data['name']].conditions,
             self.manager.conditions
         )
+
+    def test_delete_unregisters_switch_with_manager(self):
+        self.manager.delete(self.gutter_manager)
+        self.gutter_manager.unregister.assert_called_once_with(
+            self.manager.switch.data['name']
+        )
