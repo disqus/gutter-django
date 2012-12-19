@@ -20,8 +20,16 @@ add_operator_arguments = (event) ->
   new_arguments = $operator.find('option:selected').data('arguments').split(',')
 
   $.each new_arguments, (index, argument) ->
-    input = $('<input>').attr(name: name_prefix + '-' + argument, type: 'text')
-    $operator.parent('section.condition').append(input)
+    new_attrs =
+      name: name_prefix + '-' + argument
+      type: 'text'
+      id: 'id_' + name_prefix + '-' + argument
+      class: 'added'
+
+    input = $('<input>').attr(new_attrs)
+    label = $('<label>').attr(for: new_attrs.id).text(argument)
+
+    $operator.parent('section.condition').append(label).append(input)
 
 add_condition = (event) ->
   $conditions = $(this).parents('ul.switches > li').find('ul.conditions')
@@ -96,9 +104,8 @@ $ ->
 
   # Setup delete button
   $('ul.switches').find('input[name=delete],label[for=id_delete]').hide()
-  $('<button data-action="delete">Delete</button>').appendTo('ul.switches form')
+  $('<button data-action="delete">Delete</button>').appendTo('form section.actions')
   $('button[data-action=delete]').click ->
-    console.log($(this).parents('form'))
     $(this).parents('form').find('input[name=delete]').attr(checked: 'checked')
 
   $('ul.switches li#switch-__new__').hide()

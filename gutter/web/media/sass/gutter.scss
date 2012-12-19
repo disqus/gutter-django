@@ -78,21 +78,30 @@ $form-label-margin: 5px;
           width: $form-label-width;
         }
 
-        input[type=text] {
-          width: 200px
+        input[type=text] { width: 200px }
+        input[type=submit] { margin-left: $form-label-width; }
+        textarea { width: 350px; height: 50px; }
+
+        button {
+
+          padding: 3px 8px;
+
+          &[data-action=add] { margin-left: $form-label-width + $form-label-margin }
         }
 
-        input[type=submit] {
-          margin-left: $form-label-width;
-        }
-
-        textarea {
-          width: 350px;
+        section.conditions {
+          background: #F9F9F9;
+          padding: 10px 0;
         }
 
         ul.conditions {
           @include no-bullet;
+
           margin-left: $form-label-width + $form-label-margin;
+
+          li {
+            @include clearfix;
+          }
 
           li + li {
             margin-top: 5px;
@@ -102,6 +111,17 @@ $form-label-margin: 5px;
             display: none;
           }
 
+          section.condition, button {
+            @include float-left;
+          }
+
+          .added, button {
+            margin-left: 4px;
+          }
+        }
+
+        section.actions {
+          margin-top: 20px;
         }
       }
 

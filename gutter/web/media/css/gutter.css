@@ -89,6 +89,17 @@
 }
 #container ul.switches > li > form textarea {
   width: 350px;
+  height: 50px;
+}
+#container ul.switches > li > form button {
+  padding: 3px 8px;
+}
+#container ul.switches > li > form button[data-action=add] {
+  margin-left: 105px;
+}
+#container ul.switches > li > form section.conditions {
+  background: #F9F9F9;
+  padding: 10px 0;
 }
 #container ul.switches > li > form ul.conditions {
   list-style-image: none;
@@ -96,9 +107,23 @@
   margin-left: 0;
   margin-left: 105px;
 }
+#container ul.switches > li > form ul.conditions li {
+  overflow: hidden;
+  *zoom: 1;
+}
 #container ul.switches > li > form ul.conditions li + li {
   margin-top: 5px;
 }
 #container ul.switches > li > form ul.conditions label {
   display: none;
+}
+#container ul.switches > li > form ul.conditions section.condition, #container ul.switches > li > form ul.conditions button {
+  display: inline;
+  float: left;
+}
+#container ul.switches > li > form ul.conditions .added, #container ul.switches > li > form ul.conditions button {
+  margin-left: 4px;
+}
+#container ul.switches > li > form section.actions {
+  margin-top: 20px;
 }

@@ -29,12 +29,18 @@
     name_prefix = $operator.attr('name').split('-').slice(0, 2).join('-');
     new_arguments = $operator.find('option:selected').data('arguments').split(',');
     return $.each(new_arguments, function(index, argument) {
-      var input;
-      input = $('<input>').attr({
+      var input, label, new_attrs;
+      new_attrs = {
         name: name_prefix + '-' + argument,
-        type: 'text'
-      });
-      return $operator.parent('section.condition').append(input);
+        type: 'text',
+        id: 'id_' + name_prefix + '-' + argument,
+        "class": 'added'
+      };
+      input = $('<input>').attr(new_attrs);
+      label = $('<label>').attr({
+        "for": new_attrs.id
+      }).text(argument);
+      return $operator.parent('section.condition').append(label).append(input);
     });
   };
 
@@ -116,9 +122,8 @@
       return false;
     });
     $('ul.switches').find('input[name=delete],label[for=id_delete]').hide();
-    $('<button data-action="delete">Delete</button>').appendTo('ul.switches form');
+    $('<button data-action="delete">Delete</button>').appendTo('form section.actions');
     $('button[data-action=delete]').click(function() {
-      console.log($(this).parents('form'));
       return $(this).parents('form').find('input[name=delete]').attr({
         checked: 'checked'
       });

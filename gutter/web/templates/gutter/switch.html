@@ -4,6 +4,7 @@
 
     <section class="conditions">
         {{ switch.conditions.management_form }}
+
         <label for="conditions">Conditions:</label>
         <ul class="conditions">
         {% for condition in switch.conditions %}
@@ -13,8 +14,12 @@
         </li>
         {% endfor %}
         </ul>
-        <button data-action="add">Add a Condition</button>
+
+        <button data-action="add">Add</button>
     </section>
 
-    <input type="submit">
+    <section class="actions">
+        <input type="submit">
+    </section>
+
 </form>
