@@ -1,3 +1,5 @@
+ # coding: utf-8
+
 import unittest
 
 from django.forms.fields import CharField
@@ -55,17 +57,24 @@ class SwitchFormTest(Exam, unittest.TestCase):
         self.condition_form.to_dict.assert_any_call(2)
         self.condition_form.to_dict.assert_any_call(3)
 
+    def test_from_object_marks_the_name_field_as_readonly(self):
+        self.assertTrue(
+            self.switch_from_object.fields['name'].widget.attrs['disabled']
+        )
+
 
 class SwitchFormIntegrationTest(Exam, unittest.TestCase):
 
-    post_data = {
-        u'name': u'name',
-        u'description': u'description',
-        u'state': u'1',
-        u'label': u'label',
-        u'compounded': u'0',
-        u'concent': u'0',
-    }
+    @fixture
+    def post_data(self):
+        return {
+            u'name': u'name',
+            u'description': u'description',
+            u'state': u'1',
+            u'label': u'label',
+            u'compounded': u'0',
+            u'concent': u'0',
+        }
 
     @fixture
     def switch_form(self):
@@ -88,6 +97,12 @@ class SwitchFormIntegrationTest(Exam, unittest.TestCase):
 
     def test_to_object_returns_object_from_form(self):
         self.assertEqual(self.switch_form.to_object, self.expected_switch)
+
+    def test_only_allow_alphanumeric_and_underscore_switch_names(self):
+        self.post_data['name'] = 'ಠ_ಠ'
+        self.assertFalse(SwitchForm(self.post_data).is_valid())
+        self.post_data['name'] = 'i_am_dissapoint'
+        self.assertTrue(SwitchForm(self.post_data).is_valid())
 
 
 class ConditionFormTest(Exam, unittest.TestCase):

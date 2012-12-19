@@ -1,4 +1,5 @@
 from django import forms
+from django.core.validators import RegexValidator
 from django.forms.formsets import formset_factory, BaseFormSet
 from django.forms.widgets import Select, Textarea
 from django.utils.html import escape, conditional_escape
@@ -45,6 +46,10 @@ class OperatorSelectWidget(Select):
 class SwitchForm(forms.Form):
 
     STATES = {1: 'Disabled', 2: 'Selective', 3: 'Global'}.items()
+    SWITCH_NAME_REGEX_VALIDATOR = RegexValidator(
+        regex=r'^[\w_]+$',
+        message='Must only be alphanumeric and underscore characters.'
+    )
 
     name = forms.CharField(max_length=100)
     label = forms.CharField()
@@ -55,6 +60,8 @@ class SwitchForm(forms.Form):
     concent = forms.BooleanField(required=False)
 
     delete = forms.BooleanField(required=False)
+
+    name.validators.append(SWITCH_NAME_REGEX_VALIDATOR)
 
     @classmethod
     def from_object(cls, switch):
