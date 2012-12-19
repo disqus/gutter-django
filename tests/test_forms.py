@@ -270,17 +270,11 @@ class SwitchFormManagerTest(Exam, unittest.TestCase):
 
         eq_(switch.conditions, self.manager.conditions.to_objects)
 
-    def test_replace_in_context_adds_switch_at_name_from_forms(self):
-        context = {}
-        self.manager.replace_in_context(context)
-        eq_(
-            context[self.manager.switch.data['name']],
-            self.manager.switch
-        )
-        eq_(
-            context[self.manager.switch.data['name']].conditions,
-            self.manager.conditions
-        )
+    def test_add_to_switch_list_adds_switch_at_name_from_forms(self):
+        switches = []
+        self.manager.add_to_switch_list(switches)
+        eq_(switches[0], self.manager.switch)
+        eq_(switches[0].conditions, self.manager.conditions)
 
     def test_delete_unregisters_switch_with_manager(self):
         self.manager.delete(self.gutter_manager)

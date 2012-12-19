@@ -13,8 +13,6 @@ import os
 
 from gutter.client.default import gutter as manager
 from gutter.web.forms import SwitchForm, ConditionFormSet, SwitchFormManager
-from django.template import RequestContext
-# from django.http import HttpResponse, HttpResponseNotFound
 
 
 def operator_info(operator):
@@ -57,12 +55,11 @@ class GutterModule(nexus.NexusModule):
 
     @property
     def __index_context(self):
-        switches = dict((s.name, SwitchForm.from_object(s)) for s in manager.switches)
+        switches = map(SwitchForm.from_object, manager.switches)
         new_switch = SwitchForm()
         new_switch.conditions = ConditionFormSet()
 
         return {
-            "manager": manager,
             "sorted_by": 'date_created',
             "switches": switches,
             "new_switch": new_switch
@@ -75,7 +72,7 @@ class GutterModule(nexus.NexusModule):
         context.update(notices=notices)
 
         if invalid_manager:
-            invalid_manager.replace_in_context(context['switches'])
+            invalid_manager.add_to_switch_list(context['switches'])
             context['notices']['error'] = 'Unable to save switch.'
 
         return self.render_to_response(template, context, request)
