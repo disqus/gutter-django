@@ -39,12 +39,11 @@
   };
 
   add_condition = function(event) {
-    var $conditions, clone, prototype;
-    $conditions = $(this).parents('ul.switches').find('ul.conditions');
-    prototype = $conditions.find('li').first();
-    clone = prototype.clone(true, true);
-    clone.appendTo($conditions);
-    clone.find('input,select').removeAttr('selected').attr('value', '');
+    var $conditions, $prototype;
+    $conditions = $(this).parents('ul.switches > li').find('ul.conditions');
+    $prototype = $('ul#condition-form-prototype li').first();
+    $prototype.clone(true, true).appendTo($conditions);
+    $conditions.find('li').last().find('input,select').removeAttr('selected').attr('value', '');
     $(this).trigger('gutter.switch.conditions.changed');
     return false;
   };
@@ -109,7 +108,11 @@
       return $(this).trigger('gutter.switch.conditions.changed');
     });
     $('button.addSwitch').click(function() {
-      $('ul.switches > li#switch-__new__').remove().prependTo('ul.switches').show();
+      var inputs, new_switch;
+      new_switch = $('ul.switches > li#switch-__new__').show();
+      inputs = new_switch.find('section.conditions').find('input,select');
+      inputs.removeAttr('selected').attr('value', '');
+      new_switch.trigger('gutter.switch.conditions.changed');
       return false;
     });
     $('ul.switches li#switch-__new__').hide();

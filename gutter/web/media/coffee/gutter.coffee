@@ -24,13 +24,12 @@ add_operator_arguments = (event) ->
     $operator.parent('section.condition').append(input)
 
 add_condition = (event) ->
-  $conditions = $(this).parents('ul.switches').find('ul.conditions')
+  $conditions = $(this).parents('ul.switches > li').find('ul.conditions')
+  $prototype = $('ul#condition-form-prototype li').first()
+  $prototype.clone(true, true).appendTo($conditions)
 
-  prototype = $conditions.find('li').first()
-  clone = prototype.clone(true, true)
+  $conditions.find('li').last().find('input,select').removeAttr('selected').attr('value', '')
 
-  clone.appendTo($conditions)
-  clone.find('input,select').removeAttr('selected').attr('value', '')
   $(this).trigger('gutter.switch.conditions.changed')
 
   false
@@ -89,7 +88,10 @@ $ ->
     $(this).trigger('gutter.switch.conditions.changed')
 
   $('button.addSwitch').click ->
-    $('ul.switches > li#switch-__new__').remove().prependTo('ul.switches').show()
+    new_switch = $('ul.switches > li#switch-__new__').show()
+    inputs = new_switch.find('section.conditions').find('input,select')
+    inputs.removeAttr('selected').attr('value', '')
+    new_switch.trigger('gutter.switch.conditions.changed')
     false
 
   $('ul.switches li#switch-__new__').hide()

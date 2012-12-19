@@ -158,7 +158,7 @@ class BaseConditionFormSet(BaseFormSet):
     def add_fields(self, form, index):
         value = partial(self.value_at, index)
 
-        for argument in operators.arguments[value('operator')]:
+        for argument in operators.arguments.get(value('operator'), []):
             form.fields[argument] = forms.CharField(initial=value(argument))
 
         super(BaseConditionFormSet, self).add_fields(form, index)
