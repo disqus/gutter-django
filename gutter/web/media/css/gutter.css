@@ -55,6 +55,22 @@
   font-size: 13px;
 }
 
+#container #notifications p {
+  padding: 10px;
+  margin: 1em 0;
+  border-width: 1px;
+  border-style: solid;
+}
+#container #notifications p.error {
+  color: #8a1f11;
+  background-color: #fbe3e4;
+  border-color: #fbc2c4;
+}
+#container #notifications p.success {
+  color: #264409;
+  background-color: #e6efc2;
+  border-color: #c6d880;
+}
 #container ul.switches {
   list-style-image: none;
   list-style-type: none;
@@ -71,6 +87,11 @@
   *zoom: 1;
   clear: both;
   margin-top: 20px;
+}
+#container ul.switches > li > form ul.errorlist {
+  color: #8a1f11;
+  font-weight: bold;
+  margin-left: 105px;
 }
 #container ul.switches > li > form label {
   display: inline;

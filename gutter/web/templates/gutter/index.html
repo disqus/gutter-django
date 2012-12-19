@@ -17,7 +17,9 @@
     </div>
 
     {% for kind, notice in notices.items %}
-    <p class="{{ kind }}">{{ notice }}</p>
+    <section id="notifications">
+        <p class="{{ kind }}">{{ notice }}</p>
+    </section>
     {% endfor %}
 
     <ul class="switches">

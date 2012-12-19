@@ -97,7 +97,7 @@ $ ->
 
   $('button.addSwitch').click ->
     new_switch = $('ul.switches > li#switch-__new__').show()
-    inputs = new_switch.find('section.conditions').find('input,select')
+    inputs = new_switch.find('ul.conditions').find('input,select')
     inputs.removeAttr('selected').attr('value', '')
     new_switch.trigger('gutter.switch.conditions.changed')
     false

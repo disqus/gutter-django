@@ -72,10 +72,11 @@ class GutterModule(nexus.NexusModule):
         context = self.__index_context
         template = "gutter/index.html"
 
+        context.update(notices=notices)
+
         if invalid_manager:
             invalid_manager.replace_in_context(context['switches'])
-
-        context.update(notices=notices)
+            context['notices']['error'] = 'Unable to save switch.'
 
         return self.render_to_response(template, context, request)
 
@@ -87,10 +88,10 @@ class GutterModule(nexus.NexusModule):
 
         if form_manager.switch.data.get('delete'):
             manager.unregister(form_manager.switch.data['name'])
-            return self.__render(request, succcess='Switch deleted successfully.')
+            return self.__render(request, success='Switch deleted successfully.')
         elif form_manager.is_valid():
             form_manager.save(manager)
-            return self.__render(request, succcess='Switch saved successfully.')
+            return self.__render(request, success='Switch saved successfully.')
         else:
             return self.__render(request, invalid_manager=form_manager)
 
