@@ -108,6 +108,11 @@
     $('ul.switches > li').delegate('input,select', 'blur change keypress', function() {
       return $(this).trigger('gutter.switch.conditions.changed');
     });
+    $('button.addSwitch').click(function() {
+      $('ul.switches > li#switch-__new__').remove().prependTo('ul.switches').show();
+      return false;
+    });
+    $('ul.switches li#switch-__new__').hide();
     return $('ul.switches > li select[name=state]').trigger('change');
   });
 

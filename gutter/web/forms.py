@@ -152,7 +152,7 @@ class BaseConditionFormSet(BaseFormSet):
     def value_at(self, index, field):
         if self.initial:
             return self.initial[index][field]
-        else:
+        elif index is not None:
             return self.data['form-%s-%s' % (index, field)]
 
     def add_fields(self, form, index):

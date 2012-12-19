@@ -59,10 +59,15 @@ class GutterModule(nexus.NexusModule):
 
     @property
     def __index_context(self):
+        switches = dict((s.name, SwitchForm.from_object(s)) for s in manager.switches)
+        new_switch = SwitchForm()
+        new_switch.conditions = ConditionFormSet()
+
         return {
             "manager": manager,
             "sorted_by": 'date_created',
-            "switches": dict((s.name, SwitchForm.from_object(s)) for s in manager.switches)
+            "switches": switches,
+            "new_switch": new_switch
         }
 
     def __render(self, request, invalid_manager=None, **notices):

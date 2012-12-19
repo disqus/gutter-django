@@ -88,4 +88,9 @@ $ ->
   $('ul.switches > li').delegate 'input,select', 'blur change keypress', ->
     $(this).trigger('gutter.switch.conditions.changed')
 
+  $('button.addSwitch').click ->
+    $('ul.switches > li#switch-__new__').remove().prependTo('ul.switches').show()
+    false
+
+  $('ul.switches li#switch-__new__').hide()
   $('ul.switches > li select[name=state]').trigger('change')

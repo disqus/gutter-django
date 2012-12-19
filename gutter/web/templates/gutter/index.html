@@ -21,6 +21,7 @@
     {% endfor %}
 
     <ul class="switches">
+        <li id="switch-__new__">{% include "gutter/switch.html" with switch=new_switch %}</li>
     {% for name, switch in switches.items %}
         <li id="switch-{{ name }}">{% include "gutter/switch.html" %}</li>
     {% empty %}
