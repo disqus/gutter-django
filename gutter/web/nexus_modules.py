@@ -46,9 +46,7 @@ class GutterModule(nexus.NexusModule):
         from django.conf.urls.defaults import patterns, url
 
         urlpatterns = patterns('',
-            url(r'^add/$', self.as_view(self.add), name='add'),
             url(r'^update/$', self.as_view(self.update), name='update'),
-            url(r'^delete/$', self.as_view(self.delete), name='delete'),
             url(r'^$', self.as_view(self.index), name='index'),
         )
 
@@ -87,17 +85,14 @@ class GutterModule(nexus.NexusModule):
     def update(self, request):
         form_manager = SwitchFormManager.from_post(request.POST)
 
-        if form_manager.is_valid():
+        if form_manager.switch.data.get('delete'):
+            manager.unregister(form_manager.switch.data['name'])
+            return self.__render(request, succcess='Switch deleted successfully.')
+        elif form_manager.is_valid():
             form_manager.save(manager)
             return self.__render(request, succcess='Switch saved successfully.')
         else:
             return self.__render(request, invalid_manager=form_manager)
 
-    add = update  # gutter_manger.register(switch) will replace or add based on the name
-
-    def delete(self, request):
-        # Have a delete checkbox that is there, but hidden with JS.  Clicking
-        # the delete button selects the checkbox with JS and submits the form.
-        pass
 
 nexus.site.register(GutterModule, 'gutter')

@@ -115,6 +115,14 @@
       new_switch.trigger('gutter.switch.conditions.changed');
       return false;
     });
+    $('ul.switches').find('input[name=delete],label[for=id_delete]').hide();
+    $('<button data-action="delete">Delete</button>').appendTo('ul.switches form');
+    $('button[data-action=delete]').click(function() {
+      console.log($(this).parents('form'));
+      return $(this).parents('form').find('input[name=delete]').attr({
+        checked: 'checked'
+      });
+    });
     $('ul.switches li#switch-__new__').hide();
     return $('ul.switches > li select[name=state]').trigger('change');
   });

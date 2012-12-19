@@ -54,6 +54,8 @@ class SwitchForm(forms.Form):
     compounded = forms.BooleanField(required=False)
     concent = forms.BooleanField(required=False)
 
+    delete = forms.BooleanField(required=False)
+
     @classmethod
     def from_object(cls, switch):
         data = dict(

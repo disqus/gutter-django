@@ -94,5 +94,12 @@ $ ->
     new_switch.trigger('gutter.switch.conditions.changed')
     false
 
+  # Setup delete button
+  $('ul.switches').find('input[name=delete],label[for=id_delete]').hide()
+  $('<button data-action="delete">Delete</button>').appendTo('ul.switches form')
+  $('button[data-action=delete]').click ->
+    console.log($(this).parents('form'))
+    $(this).parents('form').find('input[name=delete]').attr(checked: 'checked')
+
   $('ul.switches li#switch-__new__').hide()
   $('ul.switches > li select[name=state]').trigger('change')
