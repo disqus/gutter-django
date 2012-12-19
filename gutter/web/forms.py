@@ -71,6 +71,7 @@ class SwitchForm(forms.Form):
 
         condition_dicts = map(ConditionForm.to_dict, switch.conditions)
         instance.conditions = ConditionFormSet(initial=condition_dicts)
+        instance.fields['name'].widget.attrs['disabled'] = True
 
         return instance
 
