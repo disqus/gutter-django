@@ -104,7 +104,7 @@ $ ->
 
   # Setup delete button
   $('ul.switches').find('input[name=delete],label[for=id_delete]').hide()
-  $('<button data-action="delete">Delete</button>').appendTo('form section.actions')
+  $('<button data-action="delete">Delete Switch</button>').appendTo('form section.actions')
   $('button[data-action=delete]').click ->
     $(this).parents('form').find('input[name=delete]').attr(checked: 'checked')
 
