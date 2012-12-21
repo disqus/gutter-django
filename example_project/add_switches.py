@@ -6,7 +6,7 @@ import gutter.client.settings
 from redis import Redis
 from modeldict.redis import RedisDict
 
-import gutter.web
+import gutter.django
 
 
 from example_project.arguments import User, Request

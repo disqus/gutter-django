@@ -99,7 +99,7 @@ INSTALLED_APPS = (
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'nexus',
-    'gutter.web',
+    'gutter.django',
     'south',
     'app'
     # Uncomment the next line to enable the admin:

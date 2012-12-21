@@ -1,6 +1,6 @@
 from __future__ import absolute_import
 
-from gutter.web import registry
+from gutter.django import registry
 
 from gutter.client import arguments
 

@@ -4,11 +4,11 @@ guard :shell do
     end
 end
 
-guard 'compass', project_path: 'gutter/web/media', configuration_file: 'gutter/web/media/config.rb' do
+guard 'compass', project_path: 'gutter/django/media', configuration_file: 'gutter/django/media/config.rb' do
     watch(%r{.*scss})
 end
 
-guard 'coffeescript', input: 'gutter/web/media/coffee', output: 'gutter/web/media/js'
+guard 'coffeescript', input: 'gutter/django/media/coffee', output: 'gutter/django/media/js'
 
 guard 'livereload' do
   watch(%r{media/.+\.(css|js)})

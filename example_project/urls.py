@@ -8,12 +8,12 @@ from modeldict.redis import RedisDict
 
 import gutter.client.settings
 
-import gutter.web
+import gutter.django
 
 
 # Configure Gutter
 gutter.client.settings.manager.storage_engine = RedisDict('gutter', Redis())
-gutter.web.autodiscover()
+gutter.django.autodiscover()
 
 # Configure Nexus
 nexus.autodiscover()

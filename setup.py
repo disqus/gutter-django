@@ -36,11 +36,11 @@ if 'nosetests' in sys.argv[1:]:
 
 
 setup(
-    name='gutter-web',
+    name='gutter-django',
     version='0.1',
     author='DISQUS',
     author_email='opensource@disqus.com',
-    url='http://github.com/disqus/gutter-web',
+    url='http://github.com/disqus/gutter-django',
     description = 'Web UI to administer Gutter switches.',
     packages=find_packages(exclude=["example_project", "tests"]),
     zip_safe=False,

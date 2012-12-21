@@ -12,7 +12,7 @@ from exam.helpers import track
 from nose.tools import *
 
 from .fixtures import User  # Also causes the User arguments to be registered
-from gutter.web.forms import SwitchForm, ConditionForm, ConditionFormSet, SwitchFormManager
+from gutter.django.forms import SwitchForm, ConditionForm, ConditionFormSet, SwitchFormManager
 from gutter.client.models import Switch, Condition
 from gutter.client.operators.comparable import Equals, MoreThan
 
@@ -20,14 +20,14 @@ from gutter.client.operators.comparable import Equals, MoreThan
 class SwitchFormTest(Exam, unittest.TestCase):
 
     mock_switch = fixture(Mock, conditions=[1, 2, 3])
-    condition_form = patcher('gutter.web.forms.ConditionForm')
+    condition_form = patcher('gutter.django.forms.ConditionForm')
     form = fixture(SwitchForm)
 
     @fixture
     def switch_from_object(self):
         return SwitchForm.from_object(self.mock_switch)
 
-    @patch('gutter.web.forms.ConditionFormSet')
+    @patch('gutter.django.forms.ConditionFormSet')
     def test_from_object_returns_dict_of_properties(self, _):
         eq_(
             self.switch_from_object.initial,
@@ -41,7 +41,7 @@ class SwitchFormTest(Exam, unittest.TestCase):
             )
         )
 
-    @patch('gutter.web.forms.ConditionFormSet')
+    @patch('gutter.django.forms.ConditionFormSet')
     def test_from_object_sets_conditions_as_form_set(self, ConditionFormSet):
         eq_(
             self.switch_from_object.conditions,
@@ -136,7 +136,7 @@ class ConditionSetFormTest(Exam, unittest.TestCase):
         build_initial_row('arg3', 'oper3', **{'3a': '3aval', '3b': '3bval'})
     ]
 
-    @patcher('gutter.web.forms.operators')
+    @patcher('gutter.django.forms.operators')
     def known_operator_arguments(self):
         operators = Mock()
         operators.arguments = dict(
@@ -228,8 +228,8 @@ class SwitchFormManagerTest(Exam, unittest.TestCase):
         eq_(manager.switch, sentinel.switch)
         eq_(manager.conditions, sentinel.conditionset)
 
-    @patch('gutter.web.forms.ConditionFormSet')
-    @patch('gutter.web.forms.SwitchForm')
+    @patch('gutter.django.forms.ConditionFormSet')
+    @patch('gutter.django.forms.SwitchForm')
     def test_from_post_constructs_switch_and_conditions_then_self(self, s, cfs):
         manager = SwitchFormManager.from_post(sentinel.POST)
 

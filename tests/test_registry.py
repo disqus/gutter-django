@@ -2,7 +2,7 @@ import unittest
 
 from nose.tools import *
 
-from gutter.web import registry
+from gutter.django import registry
 
 from gutter.client.operators.comparable import *
 from gutter.client.operators.identity import *

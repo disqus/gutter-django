@@ -3,7 +3,7 @@ import unittest
 from exam.cases import Exam
 from exam.helpers import mock_import
 
-from gutter.web.autodiscovery import discover
+from gutter.django.autodiscovery import discover
 
 from nose.tools import *
 

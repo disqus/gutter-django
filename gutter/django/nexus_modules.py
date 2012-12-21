@@ -12,7 +12,7 @@ import nexus
 import os
 
 from gutter.client.default import gutter as manager
-from gutter.web.forms import SwitchForm, ConditionFormSet, SwitchFormManager
+from gutter.django.forms import SwitchForm, ConditionFormSet, SwitchFormManager
 
 
 def operator_info(operator):

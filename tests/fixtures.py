@@ -1,4 +1,4 @@
-from gutter.web import registry
+from gutter.django import registry
 from gutter.client import arguments
 
 

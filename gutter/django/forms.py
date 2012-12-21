@@ -7,7 +7,7 @@ from django.utils.encoding import force_unicode
 
 from itertools import chain
 
-from gutter.web.registry import operators, arguments
+from gutter.django.registry import operators, arguments
 from gutter.client.models import Switch, Condition
 
 from functools import partial
