@@ -1,4 +1,4 @@
-include setup.py README MANIFEST.in LICENSE
-recursive-include gutter/templates *
-recursive-include gutter/media *
-global-exclude *~
+include setup.py README.rst MANIFEST.in LICENSE
+recursive-include gutter/django/templates/gutter *
+recursive-include gutter/django/media *.css *.js
+recursive-include gutter/django/media/img *
