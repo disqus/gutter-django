@@ -22,7 +22,7 @@ dependency_links = [
 ]
 
 install_requires = [
-    'nexus>=0.2.3', 'gutter', 'django'
+    'nexus>=0.2.3', 'gutter>=0.1.1', 'django'
 ]
 
 dependency_links = [
@@ -37,7 +37,7 @@ if 'nosetests' in sys.argv[1:]:
 
 setup(
     name='gutter-django',
-    version='0.1',
+    version='0.1.1',
     author='DISQUS',
     author_email='opensource@disqus.com',
     url='http://github.com/disqus/gutter-django',
