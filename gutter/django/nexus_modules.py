@@ -60,7 +60,6 @@ class GutterModule(nexus.NexusModule):
         new_switch.conditions = ConditionFormSet()
 
         return {
-            "sorted_by": 'date_created',
             "switches": switches,
             "new_switch": new_switch
         }
