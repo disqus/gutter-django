@@ -12,4 +12,7 @@ release:
 watch:
 	bundle exec guard
 
+run:
+	cd example_project && python manage.py runserver
+
 .PHONY: test release watch
