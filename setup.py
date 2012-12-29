@@ -15,18 +15,14 @@ try:
 except ImportError:
     pass
 
-tests_require = ['nose', 'unittest2', 'describe==1.0.0beta1', 'exam']
+tests_require = ['nose', 'unittest2', 'describe', 'exam']
 
 dependency_links = [
-    'https://github.com/jeffh/describe/tarball/dev#egg=describe'
+    'https://github.com/jeffh/describe/archive/907b42e4947f88111667a39e23bc5d5e0bf167fd.tar.gz#egg=describe',
 ]
 
 install_requires = [
     'nexus>=0.2.3', 'gutter>=0.1.1', 'django'
-]
-
-dependency_links = [
-    'https://github.com/jeffh/describe/tarball/dev#egg=describe'
 ]
 
 setup_requires = []
