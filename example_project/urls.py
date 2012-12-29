@@ -4,7 +4,7 @@ import nexus
 
 from redis import Redis
 
-from modeldict.redis import RedisDict
+from durabledict.redis import RedisDict
 
 import gutter.client.settings
 

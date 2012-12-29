@@ -14,7 +14,7 @@ try:
 except ImportError:
     pass
 
-tests_require = ['nose', 'unittest2', 'describe', 'exam', 'redis']
+tests_require = ['nose', 'unittest2', 'describe', 'exam', 'redis', 'durabledict']
 
 dependency_links = [
     'https://github.com/jeffh/describe/archive/907b42e4947f88111667a39e23bc5d5e0bf167fd.tar.gz#egg=describe',

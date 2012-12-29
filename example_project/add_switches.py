@@ -4,7 +4,7 @@ from gutter.client.operators.comparable import Equals, MoreThan
 import gutter.client.settings
 
 from redis import Redis
-from modeldict.redis import RedisDict
+from durabledict.redis import RedisDict
 
 import gutter.django
 
