@@ -1,6 +1,6 @@
  # coding: utf-8
 
-import unittest
+import unittest2
 
 from django.forms.fields import CharField
 
@@ -17,7 +17,7 @@ from gutter.client.models import Switch, Condition
 from gutter.client.operators.comparable import Equals, MoreThan
 
 
-class SwitchFormTest(Exam, unittest.TestCase):
+class SwitchFormTest(Exam, unittest2.TestCase):
 
     mock_switch = fixture(Mock, conditions=[1, 2, 3])
     condition_form = patcher('gutter.django.forms.ConditionForm')
@@ -63,7 +63,7 @@ class SwitchFormTest(Exam, unittest.TestCase):
         )
 
 
-class SwitchFormIntegrationTest(Exam, unittest.TestCase):
+class SwitchFormIntegrationTest(Exam, unittest2.TestCase):
 
     @fixture
     def post_data(self):
@@ -105,7 +105,7 @@ class SwitchFormIntegrationTest(Exam, unittest.TestCase):
         self.assertTrue(SwitchForm(self.post_data).is_valid())
 
 
-class ConditionFormTest(Exam, unittest.TestCase):
+class ConditionFormTest(Exam, unittest2.TestCase):
 
     @fixture
     def condition(self):
@@ -128,7 +128,7 @@ def build_initial_row(argument, operator, **kwargs):
     return results
 
 
-class ConditionSetFormTest(Exam, unittest.TestCase):
+class ConditionSetFormTest(Exam, unittest2.TestCase):
 
     initial = [
         build_initial_row('arg1', 'oper1', **{'1a': '1aval', '1b': '1bval'}),
@@ -180,7 +180,7 @@ class ConditionSetFormTest(Exam, unittest.TestCase):
         self.assertEquals(self.field_at(2, '3b').initial, '3bval')
 
 
-class ConditionFormSetIntegrationTest(Exam, unittest.TestCase):
+class ConditionFormSetIntegrationTest(Exam, unittest2.TestCase):
 
     post_data = {
         u'form-MAX_NUM_FORMS': u'',
@@ -215,7 +215,7 @@ class ConditionFormSetIntegrationTest(Exam, unittest.TestCase):
         self.assertEqual(self.valid_formset.to_objects, self.expected_condtions)
 
 
-class SwitchFormManagerTest(Exam, unittest.TestCase):
+class SwitchFormManagerTest(Exam, unittest2.TestCase):
 
     @fixture
     def manager(self):

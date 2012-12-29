@@ -1,4 +1,4 @@
-import unittest
+import unittest2
 
 from nose.tools import *
 
@@ -26,7 +26,7 @@ class BarArgs(arguments.Container):
     b = arguments.String('a')
 
 
-class TestRegistry(Exam, unittest.TestCase):
+class TestRegistry(Exam, unittest2.TestCase):
 
     @fixture
     def default_operator_dict(self):

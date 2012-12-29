@@ -1,4 +1,4 @@
-import unittest
+import unittest2
 
 from exam.cases import Exam
 from exam.helpers import mock_import
@@ -8,7 +8,7 @@ from gutter.django.autodiscovery import discover
 from nose.tools import *
 
 
-class AutodiscoverTest(Exam, unittest.TestCase):
+class AutodiscoverTest(Exam, unittest2.TestCase):
 
     def run(self, *args, **kwargs):
         # Have to do this mock_import gymnastics because the imports inside the
