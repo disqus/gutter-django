@@ -59,7 +59,7 @@ class SwitchFormTest(Exam, unittest2.TestCase):
 
     def test_from_object_marks_the_name_field_as_readonly(self):
         self.assertTrue(
-            self.switch_from_object.fields['name'].widget.attrs['disabled']
+            self.switch_from_object.fields['name'].widget.attrs['readonly']
         )
 
 
