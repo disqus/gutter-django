@@ -20,7 +20,9 @@
     {% endfor %}
 
     <ul class="switches">
-        <li id="switch-__new__">{% include "gutter/switch.html" with switch=new_switch %}</li>
+    {% with new_switch as switch %}
+        <li id="switch-__new__">{% include "gutter/switch.html" %}</li>
+    {% endwith %}
     {% for switch in switches %}
         <li>{% include "gutter/switch.html" %}</li>
     {% empty %}
