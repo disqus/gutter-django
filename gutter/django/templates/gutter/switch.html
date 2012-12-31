@@ -7,9 +7,9 @@
 
         <label for="conditions">Conditions:</label>
         <ul class="conditions">
-        {% for condition in switch.conditions %}
+        {% for condition_form in switch.conditions.forms %}
         <li>
-            <section class="condition">{{ condition }}</section>
+            <section class="condition">{{ condition_form }}</section>
             <button data-action="remove">Remove</button>
         </li>
         {% endfor %}
