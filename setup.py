@@ -31,7 +31,7 @@ if 'nosetests' in sys.argv[1:]:
 
 setup(
     name='gutter-django',
-    version='0.1.3',
+    version='0.1.4',
     author='DISQUS',
     author_email='opensource@disqus.com',
     url='http://github.com/disqus/gutter-django',
@@ -43,6 +43,7 @@ setup(
     license='Apache License 2.0',
     tests_require=tests_require,
     extras_require={'test': tests_require},
+    namespace_packages=['gutter'],
     test_suite='nose.collector',
     include_package_data=True,
     classifiers=[
