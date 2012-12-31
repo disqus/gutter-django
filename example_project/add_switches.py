@@ -9,7 +9,7 @@ from durabledict.redis import RedisDict
 import gutter.django
 
 
-from example_project.arguments import User, Request
+from arguments import User, Request
 
 
 # Configure Gutter
