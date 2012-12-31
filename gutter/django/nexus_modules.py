@@ -83,6 +83,7 @@ class GutterModule(nexus.NexusModule):
         form_manager = SwitchFormManager.from_post(request.POST)
 
         if form_manager.switch.data.get('delete'):
+            print request.POST
             manager.unregister(form_manager.switch.data['name'])
             return self.__render(request, success='Switch deleted successfully.')
         elif form_manager.is_valid():
