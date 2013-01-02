@@ -19,4 +19,4 @@ def discover():
             import_module(module)
             logger.info('Successfully autodiscovered %s' % module)
         except:
-            logger.info('Error autodisvoering %s' % module)
+            pass
