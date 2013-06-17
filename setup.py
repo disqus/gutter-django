@@ -14,7 +14,7 @@ try:
 except ImportError:
     pass
 
-tests_require = ['nose', 'unittest2', 'describe', 'exam', 'redis', 'durabledict']
+tests_require = ['nose', 'unittest2', 'exam', 'redis', 'durabledict']
 
 dependency_links = [
     'https://github.com/jeffh/describe/archive/907b42e4947f88111667a39e23bc5d5e0bf167fd.tar.gz#egg=describe',
@@ -31,7 +31,7 @@ if 'nosetests' in sys.argv[1:]:
 
 setup(
     name='gutter-django',
-    version='0.1.5',
+    version='0.1.6',
     author='DISQUS',
     author_email='opensource@disqus.com',
     url='http://github.com/disqus/gutter-django',

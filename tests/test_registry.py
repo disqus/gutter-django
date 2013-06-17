@@ -9,8 +9,6 @@ from gutter.client.operators.identity import *
 from gutter.client.operators.misc import *
 from gutter.client import arguments
 
-from describe import expect
-
 from exam import Exam, before, fixture
 
 from mock import sentinel
@@ -40,17 +38,17 @@ class TestRegistry(Exam, unittest2.TestCase):
         reload(registry)
 
     def test_operators_starts_out_with_default_list(self):
-        expect(registry.operators).to == self.default_operator_dict
+        self.assertDictEqual(registry.operators, self.default_operator_dict)
 
     def test_can_register_operators(self):
         new_operators = dict(operator=sentinel.operator)
 
-        expect(registry.operators).to_not.have_subset(new_operators)
+        [self.assertNotIn(operator, registry.operators) for operator in new_operators.keys()]
         registry.operators.register(sentinel.operator)
-        expect(registry.operators).to.have_subset(new_operators)
+        self.assertDictContainsSubset(new_operators, registry.operators)
 
     def test_arguments_starts_out_empty(self):
-        expect(registry.arguments).to == {}
+        self.assertDictEqual(registry.arguments, {})
 
     def test_operators_to_choices_returns_suitable_tuple(self):
         eq_(

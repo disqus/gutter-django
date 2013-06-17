@@ -72,8 +72,8 @@ class SwitchFormIntegrationTest(Exam, unittest2.TestCase):
             u'description': u'description',
             u'state': u'1',
             u'label': u'label',
-            u'compounded': u'0',
-            u'concent': u'0',
+            u'compounded': False,
+            u'concent': False,
         }
 
     @fixture
@@ -96,7 +96,15 @@ class SwitchFormIntegrationTest(Exam, unittest2.TestCase):
         self.assertTrue(self.switch_form.is_valid())
 
     def test_to_object_returns_object_from_form(self):
-        self.assertEqual(self.switch_form.to_object, self.expected_switch)
+        obj = self.switch_form.to_object
+        exp = self.expected_switch
+
+        self.assertEqual(obj.name, exp.name)
+        self.assertEqual(obj.label, exp.label)
+        self.assertEqual(obj.description, exp.description)
+        self.assertEqual(obj.state, exp.state)
+        self.assertEqual(obj.compounded, exp.compounded)
+        self.assertEqual(obj.concent, exp.concent)
 
     def test_only_allow_alphanumeric_and_underscore_switch_names(self):
         self.post_data['name'] = 'ಠ_ಠ'
