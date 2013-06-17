@@ -72,8 +72,6 @@ class SwitchFormIntegrationTest(Exam, unittest2.TestCase):
             u'description': u'description',
             u'state': u'1',
             u'label': u'label',
-            u'compounded': False,
-            u'concent': False,
         }
 
     @fixture
