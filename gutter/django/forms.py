@@ -47,13 +47,13 @@ class SwitchForm(forms.Form):
 
     STATES = {1: 'Disabled', 2: 'Selective', 3: 'Global'}.items()
     SWITCH_NAME_REGEX_VALIDATOR = RegexValidator(
-        regex=r'^[\w_]+$',
-        message='Must only be alphanumeric and underscore characters.'
+        regex=r'^[\w_:]+$',
+        message='Must only be alphanumeric, underscore, and colon characters.'
     )
 
     name = forms.CharField(max_length=100)
-    label = forms.CharField()
-    description = forms.CharField(widget=Textarea())
+    label = forms.CharField(required=False)
+    description = forms.CharField(widget=Textarea(), required=False)
     state = forms.IntegerField(widget=Select(choices=STATES))
 
     compounded = forms.BooleanField(required=False)

@@ -31,11 +31,11 @@ if 'nosetests' in sys.argv[1:]:
 
 setup(
     name='gutter-django',
-    version='0.1.6',
+    version='0.1.7',
     author='DISQUS',
     author_email='opensource@disqus.com',
     url='http://github.com/disqus/gutter-django',
-    description = 'Web UI to administer Gutter switches.',
+    description='Web UI to administer Gutter switches.',
     packages=find_packages(exclude=["example_project", "tests"]),
     zip_safe=False,
     install_requires=install_requires,
