@@ -17,29 +17,59 @@
   background-color: #e6efc2;
   border-color: #c6d880;
 }
-#container ul.switches {
+
+.switches {
+  border-left: 1px solid rgba(204, 204, 204, 0.5);
   list-style-image: none;
   list-style-type: none;
   margin-left: 0;
 }
-#container ul.switches > li {
-  padding: 15px 10px;
+.switches h3 {
+  margin-bottom: 0px;
 }
-#container ul.switches > li + li {
-  border-top: 1px solid #DFDFDF;
+.switches h3 a {
+  background: url("sprite.png") 15px 13px no-repeat;
+  display: block;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: 32px;
+  margin: 0;
+  text-decoration: none;
+  font-weight: normal;
+  border-top: 1px solid rgba(204, 204, 204, 0.5);
+  border-left: 1px solid rgba(204, 204, 204, 0.5);
 }
-#container ul.switches > li > form {
+.switches h3 :hover {
+  background: #b3b3b3;
+}
+.switches h3 .open {
+  background: #84c272;
+}
+.switches h3 .open a {
+  background-position: 13px -25px;
+}
+.switches h3 + div {
+  padding: 10px;
+}
+.switches h3 .stats {
+  float: right;
+}
+
+.switch_form + li {
+  border-bottom: 1px solid #DFDFDF;
+}
+.switch_form form {
   overflow: hidden;
   *zoom: 1;
   clear: both;
   margin-top: 20px;
 }
-#container ul.switches > li > form ul.errorlist {
+.switch_form form ul.errorlist {
   color: #8a1f11;
   font-weight: bold;
   margin-left: 105px;
 }
-#container ul.switches > li > form label {
+.switch_form form label {
   display: inline;
   float: left;
   display: block;
@@ -48,52 +78,81 @@
   text-align: right;
   width: 100px;
 }
-#container ul.switches > li > form input[type=text] {
+.switch_form form label[for=id_description],
+.switch_form form label[for=id_label],
+.switch_form form #id_description,
+.switch_form form #id_label {
+  display: none;
+}
+.switch_form form input[type=text] {
   width: 200px;
 }
-#container ul.switches > li > form input[type=submit] {
+.switch_form form input[type=submit] {
   margin-left: 100px;
 }
-#container ul.switches > li > form textarea {
+.switch_form form textarea {
   width: 350px;
   height: 50px;
 }
-#container ul.switches > li > form button {
+.switch_form form button {
   padding: 3px 8px;
 }
-#container ul.switches > li > form button[data-action=add] {
+.switch_form form button[data-action=add] {
   margin-left: 105px;
 }
-#container ul.switches > li > form section.conditions {
+.switch_form form section.conditions {
   background: #F9F9F9;
   padding: 10px 0;
 }
-#container ul.switches > li > form ul.conditions {
+.switch_form form ul.conditions {
   list-style-image: none;
   list-style-type: none;
   margin-left: 0;
   margin-left: 105px;
 }
-#container ul.switches > li > form ul.conditions input {
+.switch_form form ul.conditions input {
   width: 100px;
 }
-#container ul.switches > li > form ul.conditions li {
+.switch_form form ul.conditions li {
   overflow: hidden;
   *zoom: 1;
 }
-#container ul.switches > li > form ul.conditions li + li {
+.switch_form form ul.conditions li + li {
   margin-top: 5px;
 }
-#container ul.switches > li > form ul.conditions label {
+.switch_form form ul.conditions label {
   display: none;
 }
-#container ul.switches > li > form ul.conditions section.condition, #container ul.switches > li > form ul.conditions button {
+.switch_form form ul.conditions section.condition, .switch_form form ul.conditions button {
   display: inline;
   float: left;
 }
-#container ul.switches > li > form ul.conditions .added, #container ul.switches > li > form ul.conditions button {
+.switch_form form ul.conditions .added, .switch_form form ul.conditions button {
   margin-left: 4px;
 }
-#container ul.switches > li > form section.actions {
+.switch_form form section.actions {
   margin-top: 20px;
+}
+
+.state-1 {
+  /* disabled */
+  background-color: #ffffff;
+}
+
+.state-2 {
+  /* selective */
+  background-color: #dce6e6;
+}
+
+.state-3 {
+  /* global */
+  background-color: #c8e6c8;
+}
+
+.prefix_name {
+  color: #999999;
+}
+
+.unique_name {
+  color: #191919;
 }
