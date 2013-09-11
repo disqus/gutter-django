@@ -8,11 +8,11 @@ gutter.nexus_modules
 
 from __future__ import absolute_import
 
-import nexus
 import os
 
 from gutter.client.default import gutter as manager
 from gutter.django.forms import SwitchForm, ConditionFormSet, SwitchFormManager
+import nexus
 
 
 def operator_info(operator):
@@ -56,6 +56,8 @@ class GutterModule(nexus.NexusModule):
     @property
     def __index_context(self):
         switches = map(SwitchForm.from_object, manager.switches)
+        switches = sorted(switches, key=lambda x: x.field('name'))
+
         new_switch = SwitchForm()
         new_switch.conditions = ConditionFormSet()
 
