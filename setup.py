@@ -18,11 +18,12 @@ tests_require = ['nose', 'unittest2', 'exam', 'redis', 'durabledict']
 
 dependency_links = [
     'https://github.com/jeffh/describe/archive/907b42e4947f88111667a39e23bc5d5e0bf167fd.tar.gz#egg=describe',
-    'https://github.com/disqus/nexus/archive/7040278ecf8cbedf7714c32e7f6c8fa945c1ebfb.tar.gz#egg=disqus-nexus'
 ]
 
 install_requires = [
-    'disqus-nexus>=3.0.0', 'gutter>=0.1.1', 'django'
+    'https://github.com/disqus/nexus/archive/7040278ecf8cbedf7714c32e7f6c8fa945c1ebfb.tar.gz#egg=nexus-3.0.0',
+    'gutter>=0.1.1',
+    'django'
 ]
 
 
