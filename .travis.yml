@@ -14,7 +14,7 @@ env:
   - DJANGO="django==1.4"
   - DJANGO="django==1.5"
   - DJANGO="django==1.6"
-  - DJANGO="git+https://github.com/django/django.git#egg=django"
+  - DJANGO="https://github.com/django/django/archive/master.tar.gz#egg=django"
   
 matrix:
   include:
@@ -31,11 +31,11 @@ matrix:
     - python: 3.4
       env: DJANGO="django==1.6"
     - python: 3.2
-      env: DJANGO="git+https://github.com/django/django.git#egg=django"
+      env: DJANGO="https://github.com/django/django/archive/master.tar.gz#egg=django"
     - python: 3.3
-      env: DJANGO="git+https://github.com/django/django.git#egg=django"
+      env: DJANGO="https://github.com/django/django/archive/master.tar.gz#egg=django"
     - python: 3.4
-      env: DJANGO="git+https://github.com/django/django.git#egg=django"
+      env: DJANGO="https://github.com/django/django/archive/master.tar.gz#egg=django"
 
 install:
     - pip install -q $DJANGO --use-mirrors
