@@ -21,7 +21,7 @@ dependency_links = [
 ]
 
 install_requires = [
-    'https://github.com/disqus/nexus/archive/7040278ecf8cbedf7714c32e7f6c8fa945c1ebfb.tar.gz#egg=nexus-3.0.0',
+    'new-nexus>=0.3.1',
     'gutter>=0.1.1',
     'django'
 ]
