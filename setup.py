@@ -27,11 +27,9 @@ install_requires = [
 
 try:
     from collections import OrderedDict
+    del OrderedDict
 except ImportError:
     install_requires.append('ordereddict==1.1')
-finally:
-    if OrderedDict:
-        del OrderedDict
 
 
 setup_requires = []
