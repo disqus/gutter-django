@@ -22,21 +22,18 @@ matrix:
       env: DJANGO=="django==1.5"
     - python: 3.4
       env: DJANGO=="django==1.5"
-  include:
     - python: 3.2
       env: DJANGO=="django==1.6"
     - python: 3.3
       env: DJANGO=="django==1.6"
     - python: 3.4
       env: DJANGO=="django==1.6"
-  include:
     - python: 3.2
       env: DJANGO=="django==1.7"
     - python: 3.3
       env: DJANGO=="django==1.7"
     - python: 3.4
       env: DJANGO=="django==1.7"
-  include:
     - python: 3.2
       env: DJANGO=="git+https://github.com/django/django.git#egg=django"
     - python: 3.3
