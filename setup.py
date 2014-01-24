@@ -21,8 +21,18 @@ dependency_links = [
 ]
 
 install_requires = [
-    'nexus>=0.3.0', 'gutter>=0.1.1', 'django'
+    'new-nexus>=0.3.1',
+    'gutter>=0.1.1',
+    'django'
 ]
+
+
+try:
+    from collections import OrderedDict
+    del OrderedDict
+except ImportError:
+    install_requires.append('ordereddict==1.1')
+
 
 setup_requires = []
 if 'nosetests' in sys.argv[1:]:

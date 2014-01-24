@@ -14,7 +14,11 @@ import os
 from gutter.client.default import gutter as manager
 from gutter.django.forms import SwitchForm, ConditionFormSet, SwitchFormManager
 import nexus
-from collections import OrderedDict
+
+try:
+    from collections import OrderedDict
+except ImportError:
+    from ordereddict import OrderedDict
 
 
 class SwitchDict(OrderedDict):
