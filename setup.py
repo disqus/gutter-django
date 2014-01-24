@@ -21,7 +21,7 @@ dependency_links = [
 ]
 
 install_requires = [
-    'nexus>=0.3.0', 'gutter>=0.1.1', 'django'
+    'nexus', 'gutter>=0.1.1', 'django'
 ]
 
 setup_requires = []
