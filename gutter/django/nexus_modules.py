@@ -8,22 +8,11 @@ gutter.nexus_modules
 
 from __future__ import absolute_import
 
-from itertools import takewhile
+import nexus
 import os
 
 from gutter.client.default import gutter as manager
 from gutter.django.forms import SwitchForm, ConditionFormSet, SwitchFormManager
-import nexus
-from collections import OrderedDict
-
-
-class SwitchDict(OrderedDict):
-
-    def set_switch(self, switch):
-        self._switch = switch
-
-    def get_switch(self, default=None):
-        return getattr(self, '_switch', default)
 
 
 def operator_info(operator):
@@ -54,8 +43,7 @@ class GutterModule(nexus.NexusModule):
     def get_urls(self):
         from django.conf.urls.defaults import patterns, url
 
-        urlpatterns = patterns(
-            '',
+        urlpatterns = patterns('',
             url(r'^update/$', self.as_view(self.update), name='update'),
             url(r'^$', self.as_view(self.index), name='index'),
         )
@@ -71,44 +59,8 @@ class GutterModule(nexus.NexusModule):
         new_switch = SwitchForm()
         new_switch.conditions = ConditionFormSet()
 
-        switches = sorted(switches, key=lambda x: x.field('name'))
-
-        seperator = manager.key_separator
-
-        for i, switch in enumerate(switches):
-            current = switch.field('name').split(manager.key_separator)
-
-            if i == 0:
-                depth = 0
-            else:
-                previous_switch = switches[i - 1]
-                previous = previous_switch.field('name').split(manager.key_separator)
-                depth = len(list(takewhile(lambda x: x[0] == x[1], zip(previous, current))))
-
-            switch.depth = depth
-            switch.prefix_depth = depth - 1
-
-            switch.path = current
-            switch.path_prefix = seperator.join(current[:depth])
-            switch.path_leaf = seperator.join(current[depth:])
-
-        def nest_switch(d, depth, switch):
-            name = seperator.join(switch.path[:depth])
-            d = d.setdefault(name, SwitchDict())
-
-            if depth < len(switch.path):
-                nest_switch(d, depth + 1, switch)
-            else:
-                d.set_switch(switch)
-
-        d = SwitchDict()
-
-        for switch in switches:
-            nest_switch(d, 1, switch)
-
         return {
             "switches": switches,
-            "switchdict": d,
             "new_switch": new_switch
         }
 

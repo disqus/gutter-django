@@ -32,7 +32,7 @@ add_operator_arguments = (event) ->
     $operator.parent('section.condition').append(label).append(input)
 
 add_condition = (event) ->
-  $conditions = $(this).parents('.switch_form').find('ul.conditions')
+  $conditions = $(this).parents('ul.switches > li').find('ul.conditions')
   $prototype = $('ul#condition-form-prototype li').first()
   $prototype.clone(true, true).appendTo($conditions)
 
@@ -82,33 +82,31 @@ adjust_submit_visibility = (event) ->
 
 $ ->
 
-  $('.switch_form').delegate('select[name=state]', 'change', update_conditions_visibility)
-  $('.switch_form').delegate('select[name$=operator]', 'change', remove_operator_arguments)
-  $('.switch_form').delegate('select[name$=operator]', 'change', add_operator_arguments)
-  $('.switch_form').delegate('button[data-action=add]', 'click', add_condition)
-  $('.switch_form').delegate('button[data-action=remove]', 'click', remove_condition)
+  $('ul.switches > li').delegate('select[name=state]', 'change', update_conditions_visibility)
+  $('ul.switches > li').delegate('select[name$=operator]', 'change', remove_operator_arguments)
+  $('ul.switches > li').delegate('select[name$=operator]', 'change', add_operator_arguments)
+  $('ul.switches > li').delegate('button[data-action=add]', 'click', add_condition)
+  $('ul.switches > li').delegate('button[data-action=remove]', 'click', remove_condition)
 
-  $('.switch_form').on('gutter.switch.conditions.changed', recalculate_condition_attrs)
-  $('.switch_form').on('gutter.switch.conditions.changed', recalculate_total_forms)
-  $('.switch_form').on('gutter.switch.conditions.changed', adjust_submit_visibility)
+  $('ul.switches > li').live('gutter.switch.conditions.changed', recalculate_condition_attrs)
+  $('ul.switches > li').live('gutter.switch.conditions.changed', recalculate_total_forms)
+  $('ul.switches > li').live('gutter.switch.conditions.changed', adjust_submit_visibility)
 
-  $('.switch_form').delegate 'input,select', 'blur change keypress', ->
+  $('ul.switches > li').delegate 'input,select', 'blur change keypress', ->
     $(this).trigger('gutter.switch.conditions.changed')
 
   $('button.addSwitch').click ->
-    new_switch = $('#switch-__new__').show()
+    new_switch = $('ul.switches > li#switch-__new__').show()
     inputs = new_switch.find('ul.conditions').find('input,select')
     inputs.removeAttr('selected').attr('value', '')
     new_switch.trigger('gutter.switch.conditions.changed')
     false
 
   # Setup delete button
-  $('ul.switches').find('input[name=delete]').hide()
-  $('ul.switches').find('label[for=id_delete]').hide()
-
+  $('ul.switches').find('input[name=delete],label[for=id_delete]').hide()
   $('<button data-action="delete">Delete Switch</button>').appendTo('form section.actions')
   $('button[data-action=delete]').click ->
     $(this).parents('form').find('input[name=delete]').attr(checked: 'checked')
 
-  $('#switch-__new__').hide()
-  $('.switch_form select[name=state]').trigger('change')
+  $('ul.switches li#switch-__new__').hide()
+  $('ul.switches > li select[name=state]').trigger('change')

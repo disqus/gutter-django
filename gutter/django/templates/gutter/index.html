@@ -4,21 +4,11 @@
 
 {% block head %}
     {{ block.super }}
-    {# <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" /> #}
     <link rel="stylesheet" href="{% url 'nexus:media' 'gutter' 'css/gutter.css' %}">
-
-    <script type="text/javascript" src="{% url 'nexus:media' 'gutter' 'js/jquery-1.9.1.min.js' %}"></script>
     <script type="text/javascript" src="{% url 'nexus:media' 'gutter' 'js/gutter.js' %}"></script>
-    <script type="text/javascript" src="{% url 'nexus:media' 'gutter' 'js/jquery.collapse.js' %}"></script>
-    <script type="text/javascript" src="{% url 'nexus:media' 'gutter' 'js/jquery.collapse_storage.js' %}"></script>
-    <script type="text/javascript" src="{% url 'nexus:media' 'gutter' 'js/jquery.collapse_cookie_storage.js' %}"></script>
-
-
 {% endblock %}
 
-
 {% block content %}
-
     <div class="toolbar">
         <button class="button addSwitch">Add a Switch</button>
     </div>
@@ -29,13 +19,17 @@
     </section>
     {% endfor %}
 
+    <ul class="switches">
     {% with new_switch as switch %}
-        <div id="switch-__new__" class="switch_form">{% include "gutter/switch.html" %}</div>
+        <li id="switch-__new__">{% include "gutter/switch.html" %}</li>
     {% endwith %}
+    {% for switch in switches %}
+        <li>{% include "gutter/switch.html" %}</li>
+    {% empty %}
+        <li>No switches configured</li>
+    {% endfor %}
+    </ul>
 
-    <div class="switches" data-collapse="persist">
-        {% include "gutter/switch_nest.html" %}
-    </div>
 
     <ul id="condition-form-prototype" style="display: none">
         <li>

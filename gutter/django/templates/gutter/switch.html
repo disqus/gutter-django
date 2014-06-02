@@ -1,27 +1,25 @@
-<div class="switch_form">
-    <form action="{% url 'gutter:update' %}" method="post">
-        {% csrf_token %}
-        {{ switch.as_p }}
+<form action="{% url 'gutter:update' %}" method="post">
+    {% csrf_token %}
+    {{ switch.as_p }}
 
-        <section class="conditions">
-            {{ switch.conditions.management_form }}
+    <section class="conditions">
+        {{ switch.conditions.management_form }}
 
-            <label for="conditions">Conditions:</label>
-            <ul class="conditions">
-                {% for condition_form in switch.conditions.forms %}
-                <li>
-                    <section class="condition">{{ condition_form }}</section>
-                    <button data-action="remove">Remove</button>
-                </li>
-                {% endfor %}
-            </ul>
+        <label for="conditions">Conditions:</label>
+        <ul class="conditions">
+        {% for condition_form in switch.conditions.forms %}
+        <li>
+            <section class="condition">{{ condition_form }}</section>
+            <button data-action="remove">Remove</button>
+        </li>
+        {% endfor %}
+        </ul>
 
-            <button data-action="add">Add</button>
-        </section>
+        <button data-action="add">Add</button>
+    </section>
 
-        <section class="actions">
-            <input type="submit" value="Save Switch">
-        </section>
+    <section class="actions">
+        <input type="submit" value="Save Switch">
+    </section>
 
-    </form>
-</div>
+</form>
