@@ -1,4 +1,12 @@
-<form action="{% url 'gutter:update' %}" method="post">
+{% load replace from gutter_helpers %}
+{% load greyout from gutter_helpers %}
+
+<table>
+<button class='button' data-action='reveal' id='{{switch.name.value|replace:":,-"}}'>></button>
+&nbsp;<span class='switch-name'>{% autoescape off %}{{switch.name.value|greyout}}{% endautoescape %}</span>
+&nbsp;<span class='switch-conditions'>{{switch.conditions|length}} conditions</span>
+</table>
+<form action="{% url 'gutter:update' %}" method="post" id='{{switch.name.value|replace:":,-"}}-form'>
     {% csrf_token %}
     {{ switch.as_p }}
 

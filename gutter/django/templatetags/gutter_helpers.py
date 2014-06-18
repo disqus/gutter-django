@@ -5,8 +5,10 @@ gutter.templatetags.gutter_helpers
 :copyright: (c) 2010 DISQUS.
 :license: Apache License 2.0, see LICENSE for more details.
 """
+import re
 
 from django import template
+from django.template.defaultfilters import stringfilter
 
 register = template.Library()
 
@@ -55,7 +57,34 @@ def sort_by_key(field, currently):
 
 sort_by_key = register.filter(sort_by_key)
 
+
 def sort_field(sort_string):
     return sort_string.lstrip('-')
 
 sort_field = register.filter(sort_field)
+
+
+@register.filter
+@stringfilter
+def rereplace(string, args):
+    search = args.split(args[0])[1]
+    replace = args.split(args[0])[2]
+
+    return re.sub(search, replace, string)
+
+
+@register.filter
+@stringfilter
+def replace(string, args):
+    return string.replace(args[0], args[-1])
+
+
+@register.filter
+@stringfilter
+def greyout(string):
+    split = string.rsplit(":", 1)
+    if len(split) > 1:
+        s = '<span class="grey">{}:</span>{}'.format(*split)
+    else:
+        s = string
+    return s

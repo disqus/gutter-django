@@ -104,20 +104,24 @@ $ ->
 
   $('button.export').click ->
     cb = (response) ->
-      export_block.find('#id_switch_block').val(response)
+      export_block.find('#id_switch_block_text').val(response)
 
     switch_block = $.get('/gutter/export', cb)
 
-    export_block = $('ul.switches > li#switch-block').show()
-    $('ul.switches > li#switch-block > form > section.import-actions').hide()
+    export_block = $('#id_switch_block').show()
+    $('#id_switch_block_submit').hide()
 
     false
 
   $('button.import').click ->
-    $('ul.switches > li#switch-block').show()
-    $('ul.switches > li#switch-block > form > section.import-actions').show()
+    $('#id_switch_block').show()
+    $('#id_switch_block_submit').show()
     false
 
+  # allow for form expansion
+  $('button[data-action=reveal]').click ->
+    id = $(this).attr('id')
+    $('#' + id + '-form').toggle()
 
   # Setup delete button
   $('ul.switches').find('input[name=delete],label[for=id_delete]').hide()
@@ -128,4 +132,7 @@ $ ->
   $('ul.switches li#switch-__new__').hide()
   $('ul.switches > li select[name=state]').trigger('change')
 
-  $('ul.switches li#switch-block').hide()
+  $('#id_switch_block').hide()
+
+  # collapse all forms
+  $('form').hide()

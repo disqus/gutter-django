@@ -14,7 +14,9 @@ $error-bg-color: #fbe3e4;
 $error-border-color: #fbc2c4;
 
 #container {
-
+  .grey {
+    color: lightgrey;
+  }
   .toolbar {
     padding-bottom: 15px;
   }
@@ -46,12 +48,11 @@ $error-border-color: #fbc2c4;
     @include no-bullet;
 
     > li {
-      padding: 15px 10px;
 
-      & + li {
-        border-top: 1px solid #DFDFDF;
+      > span.switch-name {
+        font-family: menlo,monospace;
+        font-size: 18px
       }
-
       > form {
         @include clearfix;
 
@@ -73,7 +74,7 @@ $error-border-color: #fbc2c4;
           width: $form-label-width;
         }
 
-        textarea#id_switch_block {font-family: monospace; width: 450px; height: 450px;}
+        #id_switch_block_text {font-family: monospace; width: 450px; height: 450px;}
         input[type=text] { width: 200px }
         input[name=name] {
           font-size: 1.5em;

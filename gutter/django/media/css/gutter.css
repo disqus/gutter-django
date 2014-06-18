@@ -1,3 +1,6 @@
+#container .grey {
+  color: lightgrey;
+}
 #container .toolbar {
   padding-bottom: 15px;
 }
@@ -22,11 +25,9 @@
   list-style-type: none;
   margin-left: 0;
 }
-#container ul.switches > li {
-  padding: 15px 10px;
-}
-#container ul.switches > li + li {
-  border-top: 1px solid #DFDFDF;
+#container ul.switches > li > span.switch-name {
+  font-family: menlo,monospace;
+  font-size: 18px;
 }
 #container ul.switches > li > form {
   overflow: hidden;
@@ -48,7 +49,7 @@
   text-align: right;
   width: 100px;
 }
-#container ul.switches > li > form textarea#id_switch_block {
+#container ul.switches > li > form #id_switch_block_text {
   font-family: monospace;
   width: 450px;
   height: 450px;
