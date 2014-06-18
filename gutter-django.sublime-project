@@ -1,26 +1,33 @@
 {
- "folders": [
-  {
-   "folder_exclude_patterns": [
-    "*.egg",
-    "build",
-    "dist",
-    "*.egg-info",
-    "doc/_*",
-    ".ropeproject",
-    "*.sass-cache"
-   ],
-   "file_exclude_patterns": [
-    "*.egg",
-    "*.sublime-workspace",
-    "*_pb2.py"
-   ],
-   "path": "."
-  }
- ],
- "settings": {
-  "tab_size": 4,
-  "translate_tabs_to_spaces": true,
-  "trim_trailing_white_space_on_save": true
+  "folders": [
+    {
+      "folder_exclude_patterns": [
+        "*.egg",
+        "build",
+        "dist",
+        "*.egg-info",
+        "doc/_*",
+        ".ropeproject",
+        "*.sass-cache"
+      ],
+      "file_exclude_patterns": [
+        "*.egg",
+        "*.sublime-workspace",
+        "*_pb2.py"
+      ],
+      "path": "."
+    }
+  ],
+  "settings": {
+    "tab_size": 4,
+    "translate_tabs_to_spaces": true,
+    "trim_trailing_white_space_on_save": true,
+    "python_interpreter": "~/.virtualenvs/tempest/bin/python",
+    "pyflakes_linting": true,
+    "python_test_runner": {
+      "before_test": "source ~/.virtualenvs/tempest/bin/activate",
+      "after_test": "deactivate",
+      "test_command": "./manage.py test --settings=tests.settings --noinput "
+    }
   }
 }

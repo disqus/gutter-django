@@ -73,6 +73,7 @@ $error-border-color: #fbc2c4;
           width: $form-label-width;
         }
 
+        textarea#id_switch_block {font-family: monospace; width: 450px; height: 450px;}
         input[type=text] { width: 200px }
         input[name=name] {
           font-size: 1.5em;

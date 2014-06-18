@@ -11,6 +11,8 @@
 {% block content %}
     <div class="toolbar">
         <button class="button addSwitch">Add a Switch</button>
+        <button class="button export">Export Switches</button>
+        <button class="button import">Import Switches</button>
     </div>
 
     {% for kind, notice in notices.items %}
@@ -20,6 +22,7 @@
     {% endfor %}
 
     <ul class="switches">
+        <li id="switch-block">{% include "gutter/switch_block.html" %}</li>
     {% with new_switch as switch %}
         <li id="switch-__new__">{% include "gutter/switch.html" %}</li>
     {% endwith %}

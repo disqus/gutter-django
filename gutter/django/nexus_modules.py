@@ -8,11 +8,16 @@ gutter.nexus_modules
 
 from __future__ import absolute_import
 
+import base64
 import os
+import pickle
+
+from django.http import HttpResponse
+from django.shortcuts import redirect
+import nexus
 
 from gutter.client.default import gutter as manager
 from gutter.django.forms import SwitchForm, ConditionFormSet, SwitchFormManager
-import nexus
 
 
 def operator_info(operator):
@@ -43,8 +48,11 @@ class GutterModule(nexus.NexusModule):
     def get_urls(self):
         from django.conf.urls.defaults import patterns, url
 
-        urlpatterns = patterns('',
+        urlpatterns = patterns(
+            '',
             url(r'^update/$', self.as_view(self.update), name='update'),
+            url(r'^export/$', self.as_view(self.export_switches), name='export'),
+            url(r'^import/$', self.as_view(self.import_switches), name='import'),
             url(r'^$', self.as_view(self.index), name='index'),
         )
 
@@ -87,12 +95,56 @@ class GutterModule(nexus.NexusModule):
         if form_manager.switch.data.get('delete'):
             print request.POST
             manager.unregister(form_manager.switch.data['name'])
-            return self.__render(request, success='Switch deleted successfully.')
+            return redirect('/gutter/')
+
         elif form_manager.is_valid():
             form_manager.save(manager)
-            return self.__render(request, success='Switch saved successfully.')
+            return redirect('/gutter/')
+
         else:
             return self.__render(request, invalid_manager=form_manager)
 
+    def export_switches(self, request):
+        switch_names = request.GET.getlist('switch')
+
+        if switch_names:
+            switches = [manager[name] for name in switch_names]
+        else:
+            switches = manager.switches
+
+        pickled_switches = pickle.dumps(switches)
+        encoded_switches = base64.b64encode(pickled_switches)
+
+        switch_block = [encoded_switches[i:i + 64] for i in range(0, len(encoded_switches), 64)]
+        switch_block.insert(0, '-----BEGIN SWITCHES-----')
+        switch_block.append('-----END SWITCHES-----')
+
+        switch_block = '\n'.join(switch_block)
+
+        response = HttpResponse(switch_block)
+        response['Content-Type'] = 'text/plain'
+        response['Content-Length'] = len(switch_block)
+
+        return response
+
+    def import_switches(self, request):
+        encoded_switches = request.POST.get('switch_block', '')
+        switch_block = encoded_switches.split('\r\n')
+
+        if switch_block[0] != '-----BEGIN SWITCHES-----' or switch_block[-1] != '-----END SWITCHES-----':
+            raise ValueError('bad input')
+
+        switch_block = ''.join(switch_block[1:-1])
+
+        pickled_switches = base64.b64decode(switch_block)
+        switches = pickle.loads(pickled_switches)
+
+        for switch in switches:
+            try:
+                manager.register(switch)
+            except Exception as e:
+                print e
+
+        return redirect('/gutter')
 
 nexus.site.register(GutterModule, 'gutter')

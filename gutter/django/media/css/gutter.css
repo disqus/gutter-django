@@ -48,6 +48,11 @@
   text-align: right;
   width: 100px;
 }
+#container ul.switches > li > form textarea#id_switch_block {
+  font-family: monospace;
+  width: 450px;
+  height: 450px;
+}
 #container ul.switches > li > form input[type=text] {
   width: 200px;
 }

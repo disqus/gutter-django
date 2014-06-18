@@ -121,6 +121,21 @@
       new_switch.trigger('gutter.switch.conditions.changed');
       return false;
     });
+    $('button.export').click(function() {
+      var cb, export_block, switch_block;
+      cb = function(response) {
+        return export_block.find('#id_switch_block').val(response);
+      };
+      switch_block = $.get('/gutter/export', cb);
+      export_block = $('ul.switches > li#switch-block').show();
+      $('ul.switches > li#switch-block > form > section.import-actions').hide();
+      return false;
+    });
+    $('button.import').click(function() {
+      $('ul.switches > li#switch-block').show();
+      $('ul.switches > li#switch-block > form > section.import-actions').show();
+      return false;
+    });
     $('ul.switches').find('input[name=delete],label[for=id_delete]').hide();
     $('<button data-action="delete">Delete Switch</button>').appendTo('form section.actions');
     $('button[data-action=delete]').click(function() {
@@ -129,7 +144,8 @@
       });
     });
     $('ul.switches li#switch-__new__').hide();
-    return $('ul.switches > li select[name=state]').trigger('change');
+    $('ul.switches > li select[name=state]').trigger('change');
+    return $('ul.switches li#switch-block').hide();
   });
 
 }).call(this);
