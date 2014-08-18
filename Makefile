@@ -7,7 +7,7 @@ release:
 	git tag $(VERSION)
 	git push origin $(VERSION)
 	git push origin master
-	python setup.py sdist upload
+	python setup.py sdist bdist_wheel upload
 
 watch:
 	bundle exec guard
@@ -15,4 +15,4 @@ watch:
 run:
 	cd example_project && python manage.py runserver
 
-.PHONY: test release watch
+.PHONY: test release watch run

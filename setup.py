@@ -14,7 +14,7 @@ try:
 except ImportError:
     pass
 
-tests_require = ['nose', 'unittest2', 'exam', 'redis', 'durabledict']
+tests_require = ['nose', 'unittest2', 'exam', 'redis', 'durabledict', 'wheel']
 
 dependency_links = [
     'https://github.com/jeffh/describe/archive/907b42e4947f88111667a39e23bc5d5e0bf167fd.tar.gz#egg=describe',
@@ -37,7 +37,7 @@ setup(
     version='0.1.13',
     author='DISQUS',
     author_email='opensource@disqus.com',
-    url='http://github.com/disqus/gutter-django',
+    url='https://github.com/disqus/gutter-django',
     description='Web UI to administer Gutter switches.',
     packages=find_packages(exclude=["example_project", "tests"]),
     zip_safe=False,
