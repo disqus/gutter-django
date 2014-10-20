@@ -1,6 +1,7 @@
 from gutter.client.operators.comparable import *  # noqa
 from gutter.client.operators.identity import *  # noqa
 from gutter.client.operators.misc import *  # noqa
+from gutter.client.operators.string import *  # noqa
 
 from itertools import groupby
 
@@ -60,6 +61,7 @@ operators = OperatorsDict(
     LessThanOrEqualTo,
     MoreThan,
     MoreThanOrEqualTo,
+    EqualsCaseInsensitive,
     Truthy,
     Percent,
     PercentRange
