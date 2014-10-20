@@ -10,7 +10,7 @@ except ImportError:
     from setuptools import setup
 
 try:
-    import multiprocessing
+    import multiprocessing  # noqa
 except ImportError:
     pass
 

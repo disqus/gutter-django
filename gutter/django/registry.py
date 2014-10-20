@@ -1,6 +1,6 @@
-from gutter.client.operators.comparable import *
-from gutter.client.operators.identity import *
-from gutter.client.operators.misc import *
+from gutter.client.operators.comparable import *  # noqa
+from gutter.client.operators.identity import *  # noqa
+from gutter.client.operators.misc import *  # noqa
 
 from itertools import groupby
 
