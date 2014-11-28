@@ -96,7 +96,6 @@ class GutterModule(nexus.NexusModule):
         form_manager = SwitchFormManager.from_post(request.POST)
 
         if form_manager.switch.data.get('delete'):
-            print request.POST
             manager.unregister(form_manager.switch.data['name'])
             return redirect('gutter:index')
 
@@ -146,7 +145,8 @@ class GutterModule(nexus.NexusModule):
             try:
                 manager.register(switch)
             except Exception as e:
-                print e
+                import logging
+                logging.exception(e)
 
         return redirect('gutter:index')
 
