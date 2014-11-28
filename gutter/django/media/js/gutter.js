@@ -126,7 +126,7 @@
       cb = function(response) {
         return export_block.find('#id_switch_block_text').val(response);
       };
-      switch_block = $.get('/gutter/export', cb);
+      switch_block = $.get('./export/', cb);
       export_block = $('#id_switch_block').show();
       $('#id_switch_block_submit').hide();
       return false;
