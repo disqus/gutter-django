@@ -61,7 +61,7 @@ operators = OperatorsDict(
     LessThanOrEqualTo,
     MoreThan,
     MoreThanOrEqualTo,
-    EqualsCaseInsensitive,
+    EqualsStripIgnoreCase,
     Truthy,
     Percent,
     PercentRange
