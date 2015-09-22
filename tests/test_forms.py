@@ -1,23 +1,20 @@
- # coding: utf-8
+# coding: utf-8
 
 import unittest2
 
 from django.forms.fields import CharField
-
-from mock import Mock, MagicMock, patch, sentinel, call
-
 from exam import Exam, fixture, patcher, before
-from exam.helpers import track
-
-from nose.tools import *
+from mock import Mock, MagicMock, patch, sentinel
+from nose.tools import *  # NOQA
 
 from .fixtures import User  # Also causes the User arguments to be registered
+from .mixins import SetupDjangoTest
 from gutter.django.forms import SwitchForm, ConditionForm, ConditionFormSet, SwitchFormManager
 from gutter.client.models import Switch, Condition
 from gutter.client.operators.comparable import Equals, MoreThan
 
 
-class SwitchFormTest(Exam, unittest2.TestCase):
+class SwitchFormTest(SetupDjangoTest, Exam, unittest2.TestCase):
 
     mock_switch = fixture(Mock, conditions=[1, 2, 3])
     condition_form = patcher('gutter.django.forms.ConditionForm')
@@ -63,7 +60,7 @@ class SwitchFormTest(Exam, unittest2.TestCase):
         )
 
 
-class SwitchFormIntegrationTest(Exam, unittest2.TestCase):
+class SwitchFormIntegrationTest(SetupDjangoTest, Exam, unittest2.TestCase):
 
     @fixture
     def post_data(self):
@@ -111,7 +108,7 @@ class SwitchFormIntegrationTest(Exam, unittest2.TestCase):
         self.assertTrue(SwitchForm(self.post_data).is_valid())
 
 
-class ConditionFormTest(Exam, unittest2.TestCase):
+class ConditionFormTest(SetupDjangoTest, Exam, unittest2.TestCase):
 
     @fixture
     def condition(self):
@@ -186,7 +183,7 @@ class ConditionSetFormTest(Exam, unittest2.TestCase):
         self.assertEquals(self.field_at(2, '3b').initial, '3bval')
 
 
-class ConditionFormSetIntegrationTest(Exam, unittest2.TestCase):
+class ConditionFormSetIntegrationTest(SetupDjangoTest, Exam, unittest2.TestCase):
 
     post_data = {
         u'form-MAX_NUM_FORMS': u'',

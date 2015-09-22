@@ -1,14 +1,14 @@
 import unittest2
 
-from exam import Exam, fixture, before
-from exam.mock import Mock
-
 from django.http import HttpRequest
+from exam import Exam, fixture, before
+
+from .mixins import SetupDjangoTest
 
 ROOT_URLCONF = 'example_project.urls'
 
 
-class TestGutterModule(Exam, unittest2.TestCase):
+class TestGutterModule(SetupDjangoTest, Exam, unittest2.TestCase):
 
     @fixture
     def request(self):
