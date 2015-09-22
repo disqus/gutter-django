@@ -1,17 +1,15 @@
 import unittest2
 
-from nose.tools import *
-
-from gutter.django import registry
-
-from gutter.client.operators.comparable import *
-from gutter.client.operators.identity import *
-from gutter.client.operators.misc import *
-from gutter.client import arguments
-
 from exam import Exam, before, fixture
-
 from mock import sentinel
+from nose.tools import *  # NOQA
+
+from gutter.client.operators.comparable import *  # NOQA
+from gutter.client.operators.identity import *  # NOQA
+from gutter.client.operators.misc import *  # NOQA
+from gutter.client.operators.string import *  # NOQA
+from gutter.client import arguments
+from gutter.django import registry
 
 
 class FooArgs(arguments.Container):
@@ -29,7 +27,7 @@ class TestRegistry(Exam, unittest2.TestCase):
     @fixture
     def default_operator_dict(self):
         operators = [Equals, Between, LessThan, LessThanOrEqualTo, MoreThan,
-                MoreThanOrEqualTo, Truthy, Percent, PercentRange]
+                MoreThanOrEqualTo, EqualsStripIgnoreCase, Truthy, Percent, PercentRange]
 
         return dict((o.name, o) for o in operators)
 
@@ -74,7 +72,12 @@ class TestRegistry(Exam, unittest2.TestCase):
                         ('percent_range', 'In The Percentage Range Of'),
                         ('percent', 'Within The Percentage Of')
                     ]
-                )
+                ),
+                (
+                    'String', [
+                        ('strip_ignorecase_equals', 'Strip Ignore Case Equal To'),
+                    ]
+                ),
             ]
         )
 
@@ -85,8 +88,8 @@ class TestRegistry(Exam, unittest2.TestCase):
         registry.arguments.register(BarArgs.b)
 
         eq_(
-            registry.arguments.as_choices,
-            [
+            sorted(registry.arguments.as_choices),
+            sorted([
                 (
                     'FooArgs', [
                         ('FooArgs.a', 'FooArgs.a'),
@@ -99,7 +102,7 @@ class TestRegistry(Exam, unittest2.TestCase):
                         ('BarArgs.b', 'BarArgs.b')
                     ]
                 )
-            ]
+            ]),
         )
 
     def test_operators_with_arguments_returns_dict_of_name_to_args(self):
@@ -114,6 +117,7 @@ class TestRegistry(Exam, unittest2.TestCase):
                 'percent_range': ('lower_limit', 'upper_limit'),
                 'between': ('lower_limit', 'upper_limit'),
                 'true': (),
-                'before': ('upper_limit',)
+                'before': ('upper_limit',),
+                'strip_ignorecase_equals': ('value',),
             }
         )
