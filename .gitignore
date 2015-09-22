@@ -8,3 +8,7 @@ build/
 .sass-cache
 *.sublime-workspace
 *.egg
+.*.sw*
+tags
+.eggs/
+.tox/

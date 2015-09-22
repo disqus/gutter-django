@@ -1,4 +1,4 @@
-from django.conf.urls.defaults import *
+from django.conf.urls import include, patterns, url
 
 import nexus
 
@@ -12,7 +12,7 @@ import gutter.django
 
 
 # Configure Gutter
-gutter.client.settings.manager.storage_engine = RedisDict('gutter', Redis())
+gutter.client.settings.manager.storage_engine = RedisDict(keyspace='gutter', connection=Redis())
 gutter.django.autodiscover()
 
 # Configure Nexus
