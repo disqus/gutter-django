@@ -196,7 +196,11 @@ class SwitchFormManager(object):
 
     def save(self, gutter_manager):
         switch = self.switch.to_object
-        switch.conditions = self.conditions.to_objects
+        try:
+            switch.conditions = self.conditions.to_objects
+        except AttributeError:
+            switch.conditions = self.conditions
+
         gutter_manager.register(switch)
 
     def add_to_switch_list(self, switches):

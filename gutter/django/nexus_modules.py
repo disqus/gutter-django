@@ -100,6 +100,10 @@ class GutterModule(nexus.NexusModule):
             return redirect('gutter:index')
 
         elif form_manager.is_valid():
+            if 'copy_conditions' in form_manager.switch.data and form_manager.switch.data.get('copy_from', ''):
+                switch = manager.switch(form_manager.switch.data.get('copy_from'))
+                form_manager.conditions = switch.conditions
+
             form_manager.save(manager)
             return redirect('gutter:index')
 

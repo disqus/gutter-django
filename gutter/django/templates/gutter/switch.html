@@ -24,6 +24,18 @@
         </ul>
 
         <button data-action="add">Add</button>
+        {% if not switch.conditions.forms|length %}
+            <span>or Copy from conditions from
+            <select name="copy_from">
+                <option></option>
+                {% for s in switches %}
+                    <option value="{{ s.name.value }}">{{ s.name.value }}</option>
+                {% endfor %}
+            </select>
+            <button name="copy_conditions">Go</button>
+        </span>
+        {% endif %}
+
     </section>
 
     <section class="actions">
