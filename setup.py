@@ -34,7 +34,7 @@ if 'nosetests' in sys.argv[1:]:
 
 setup(
     name='gutter-django',
-    version='0.1.13',
+    version='0.2.0',
     author='DISQUS',
     author_email='opensource@disqus.com',
     url='https://github.com/disqus/gutter-django',
