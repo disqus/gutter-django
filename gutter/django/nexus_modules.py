@@ -16,9 +16,10 @@ from django.http import HttpResponse
 from django.shortcuts import redirect
 import nexus
 
-from gutter.client.default import gutter as manager
+from gutter.client import get_gutter_client
 from gutter.django.forms import SwitchForm, ConditionFormSet, SwitchFormManager
 
+manager = get_gutter_client()
 
 def operator_info(operator):
     return dict(
