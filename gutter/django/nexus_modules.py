@@ -50,18 +50,14 @@ class GutterModule(nexus.NexusModule):
         return 'Gutter'
 
     def get_urls(self):
-        try:
-            from django.conf.urls import patterns, url
-        except ImportError:
-            from django.conf.urls.defaults import patterns, url
+        from django.urls import re_path
 
-        urlpatterns = patterns(
-            '',
-            url(r'^update/$', self.as_view(self.update), name='update'),
-            url(r'^export/$', self.as_view(self.export_switches), name='export'),
-            url(r'^import/$', self.as_view(self.import_switches), name='import'),
-            url(r'^$', self.as_view(self.index), name='index'),
-        )
+        urlpatterns = [
+            re_path(r'^update/$', self.as_view(self.update), name='update'),
+            re_path(r'^export/$', self.as_view(self.export_switches), name='export'),
+            re_path(r'^import/$', self.as_view(self.import_switches), name='import'),
+            re_path(r'^$', self.as_view(self.index), name='index'),
+        ]
 
         return urlpatterns
 
