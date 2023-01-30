@@ -19,8 +19,6 @@ import nexus
 from gutter.client import get_gutter_client
 from gutter.django.forms import SwitchForm, ConditionFormSet, SwitchFormManager
 
-manager = get_gutter_client()
-
 def operator_info(operator):
     return dict(
         path=operator,
@@ -42,6 +40,11 @@ class GutterModule(nexus.NexusModule):
     home_url = 'index'
     name = 'gutter'
     media_root = os.path.normpath(os.path.join(os.path.dirname(__file__), 'media'))
+
+
+    @property
+    def manager(self):
+        return get_gutter_client()
 
     def get_title(self):
         return 'Gutter'
@@ -67,7 +70,7 @@ class GutterModule(nexus.NexusModule):
 
     @property
     def __index_context(self):
-        switches = map(SwitchForm.from_object, manager.switches)
+        switches = map(SwitchForm.from_object, self.manager.switches)
         switches = sorted(switches, key=lambda x: x.field('name'))
 
         new_switch = SwitchForm()
@@ -97,15 +100,15 @@ class GutterModule(nexus.NexusModule):
         form_manager = SwitchFormManager.from_post(request.POST)
 
         if form_manager.switch.data.get('delete'):
-            manager.unregister(form_manager.switch.data['name'])
+            self.manager.unregister(form_manager.switch.data['name'])
             return redirect('gutter:index')
 
         elif form_manager.is_valid():
             if 'copy_conditions' in form_manager.switch.data and form_manager.switch.data.get('copy_from', ''):
-                switch = manager.switch(form_manager.switch.data.get('copy_from'))
+                switch = self.manager.switch(form_manager.switch.data.get('copy_from'))
                 form_manager.conditions = switch.conditions
 
-            form_manager.save(manager)
+            form_manager.save(self.manager)
             return redirect('gutter:index')
 
         else:
@@ -115,9 +118,9 @@ class GutterModule(nexus.NexusModule):
         switch_names = request.GET.getlist('switch')
 
         if switch_names:
-            switches = [manager[name] for name in switch_names]
+            switches = [self.manager[name] for name in switch_names]
         else:
-            switches = manager.switches
+            switches = self.manager.switches
 
         pickled_switches = pickle.dumps(switches)
         encoded_switches = base64.b64encode(pickled_switches)
@@ -148,7 +151,7 @@ class GutterModule(nexus.NexusModule):
 
         for switch in switches:
             try:
-                manager.register(switch)
+                self.manager.register(switch)
             except Exception as e:
                 import logging
                 logging.exception(e)
