@@ -18,11 +18,11 @@ tests_require = ['nose', 'unittest2', 'exam', 'redis', 'durabledict', 'wheel', '
 
 dependency_links = [
     'https://github.com/jeffh/describe/archive/907b42e4947f88111667a39e23bc5d5e0bf167fd.tar.gz#egg=describe',
+    'https://github.com/disqus/gutter@moving-to-python3#egg=gutter',
 ]
 
 install_requires = [
-    'nexus>=0.3.0',
-    'gutter>=0.1.1',
+    'nexus-yplan==2.1.2',
     'django',
     'ordereddict',
 ]
@@ -34,7 +34,7 @@ if 'nosetests' in sys.argv[1:]:
 
 setup(
     name='gutter-django',
-    version='0.2.0',
+    version='1.0.0',
     author='DISQUS',
     author_email='opensource@disqus.com',
     url='https://github.com/disqus/gutter-django',
@@ -42,6 +42,7 @@ setup(
     packages=find_packages(exclude=["example_project", "tests"]),
     zip_safe=False,
     install_requires=install_requires,
+    dependency_links=dependency_links,
     setup_requires=setup_requires,
     license='Apache License 2.0',
     tests_require=tests_require,

@@ -1,1 +1,1 @@
-from autodiscovery import discover as autodiscover
+from .autodiscovery import discover as autodiscover
