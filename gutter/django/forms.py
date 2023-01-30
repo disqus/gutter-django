@@ -3,7 +3,7 @@ from django.core.validators import RegexValidator
 from django.forms.formsets import formset_factory, BaseFormSet
 from django.forms.widgets import Select, Textarea
 from django.utils.html import escape, conditional_escape
-from django.utils.encoding import force_unicode
+from django.utils.encoding import force_text
 
 from itertools import chain
 
@@ -21,20 +21,20 @@ class OperatorSelectWidget(Select):
 
     def render_options(self, choices, selected_choices):
         def render_option(option_value, option_label):
-            option_value = force_unicode(option_value)
+            option_value = force_text(option_value)
             selected_html = (option_value in selected_choices) and u' selected="selected"' or ''
             return u'<option data-arguments="%s" value="%s"%s>%s</option>' % (
                 ','.join(self.arguments[option_value]),
                 escape(option_value), selected_html,
-                conditional_escape(force_unicode(option_label)))
+                conditional_escape(force_text(option_label)))
 
         # Normalize to strings.
-        selected_choices = set([force_unicode(v) for v in selected_choices])
+        selected_choices = set([force_text(v) for v in selected_choices])
         output = []
 
         for option_value, option_label in chain(self.choices, choices):
             if isinstance(option_label, (list, tuple)):
-                output.append(u'<optgroup label="%s">' % escape(force_unicode(option_value)))
+                output.append(u'<optgroup label="%s">' % escape(force_text(option_value)))
                 for option in option_label:
                     output.append(render_option(*option))
                 output.append(u'</optgroup>')
