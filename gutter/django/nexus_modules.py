@@ -66,7 +66,7 @@ class GutterModule(nexus.NexusModule):
 
     @property
     def __index_context(self):
-        switches = map(SwitchForm.from_object, self.manager.switches)
+        switches = [SwitchForm.from_object(s) for s in self.manager.switches]
         switches = sorted(switches, key=lambda x: x.field('name'))
 
         new_switch = SwitchForm()

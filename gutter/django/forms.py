@@ -76,7 +76,7 @@ class SwitchForm(forms.Form):
 
         instance = cls(initial=data)
 
-        condition_dicts = map(ConditionForm.to_dict, switch.conditions)
+        condition_dicts = {ConditionForm.to_dict(c) for c in switch.conditions}
         instance.conditions = ConditionFormSet(initial=condition_dicts)
         instance.fields['name'].widget.attrs['readonly'] = True
 
@@ -127,7 +127,7 @@ class BaseConditionFormSet(BaseFormSet):
 
     @property
     def to_objects(self):
-        return map(self.__make_condition, self.forms)
+        return {self.__make_condition(f) for f in self.forms}
 
     def __make_condition(self, form):
         data = form.cleaned_data.copy()
