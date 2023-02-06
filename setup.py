@@ -23,7 +23,7 @@ dependency_links = [
 
 install_requires = [
     'nexus-yplan==2.1.2',
-    'django',
+    'django<3',
     'ordereddict',
 ]
 
