@@ -10,8 +10,9 @@ from operator import attrgetter, itemgetter
 
 class OperatorsDict(dict):
 
-    def __init__(self, *operators):
-        map(self.register, operators)
+    def __init__(self, *ops):
+        for o in ops:
+            self.register(o)
 
     def register(self, operator):
         self[operator.name] = operator
@@ -44,9 +45,9 @@ class ArgumentsDict(dict):
         grouped = groupby(sorted_strings, extract_classname)
 
         groups = {}
-        for name, arguments in grouped:
+        for name, args in grouped:
             groups.setdefault(name, [])
-            groups[name].extend((a, a) for a in arguments)
+            groups[name].extend((a, a) for a in args)
 
         return groups.items()
 

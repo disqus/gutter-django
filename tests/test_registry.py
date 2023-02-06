@@ -1,5 +1,7 @@
 import unittest2
 
+from importlib import reload
+
 from exam import Exam, before, fixture
 from mock import sentinel
 from nose.tools import *  # NOQA

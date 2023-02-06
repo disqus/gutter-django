@@ -14,6 +14,7 @@ import pickle
 
 from django.http import HttpResponse
 from django.shortcuts import redirect
+from django.conf import settings
 import nexus
 
 from gutter.client import get_gutter_client
@@ -41,10 +42,17 @@ class GutterModule(nexus.NexusModule):
     name = 'gutter'
     media_root = os.path.normpath(os.path.join(os.path.dirname(__file__), 'media'))
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        try:
+            settings.GUTTER_STORAGE
+        except AttributeError:
+            raise Exception('GUTTER_STORAGE is not set properly')
 
     @property
     def manager(self):
-        return get_gutter_client()
+        # FIXME: should be customizable
+        return get_gutter_client(storage=settings.GUTTER_STORAGE, autocreate=True)
 
     def get_title(self):
         return 'Gutter'

@@ -100,15 +100,38 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'nexus',
     'gutter.django',
-    'south',
     'app'
     # Uncomment the next line to enable the admin:
     # 'django.contrib.admin',
 )
 
+from durabledict import MemoryDict
+from gutter.client.encoding import JsonPickleEncoding
+GUTTER_STORAGE = MemoryDict(encoding=JsonPickleEncoding)
+
 try:
     from local_settings import *
-except ImportError, e:
-    print e
+except ImportError as e:
+    print(e)
 
 TEMPLATE_STRING_IF_INVALID = "He's dead Jim! [%s]"
+
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': TEMPLATE_DIRS,
+        'APP_DIRS': True,
+        'OPTIONS': {
+            'context_processors': [
+                'django.contrib.auth.context_processors.auth',
+                'django.template.context_processors.debug',
+                'django.template.context_processors.i18n',
+                'django.template.context_processors.media',
+                'django.template.context_processors.static',
+                'django.template.context_processors.tz',
+                'django.contrib.messages.context_processors.messages',
+                'django.template.context_processors.request',
+            ],
+        },
+    },
+]

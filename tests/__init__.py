@@ -1,5 +1,6 @@
 from django.conf import settings
+from example_project.settings import GUTTER_STORAGE
 settings.configure(
     ROOT_URLCONF='example_project.urls',
-    INSTALLED_APPS=('gutter.django', 'nexus')
+    GUTTER_STORAGE=GUTTER_STORAGE
 )
