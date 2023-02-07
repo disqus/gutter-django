@@ -3,7 +3,7 @@ from gutter.client.operators.identity import *  # noqa
 from gutter.client.operators.misc import *  # noqa
 from gutter.client.operators.string import *  # noqa
 
-from itertools import groupby
+import bisect
 
 from operator import attrgetter, itemgetter
 
@@ -36,23 +36,27 @@ class OperatorsDict(dict):
 
 
 class ArgumentsDict(dict):
+    """
+    Moved all sorts from as_choices to register method to avoid recalculation on every condition form render
+    It's a possibility to have hundreds of them on the page
+    """
+
+    __choices = []
+    __args = {}
 
     @property
     def as_choices(self):
-        sorted_strings = sorted(map(str, self.values()))
-        extract_classname = lambda a: a.split('.')[0]
-
-        grouped = groupby(sorted_strings, extract_classname)
-
-        groups = {}
-        for name, args in grouped:
-            groups.setdefault(name, [])
-            groups[name].extend((a, a) for a in args)
-
-        return groups.items()
+        return self.__choices
 
     def register(self, argument):
-        self[str(argument)] = argument
+        str_argument = str(argument)
+        self[str_argument] = argument
+
+        classname, arg = str_argument.split('.')
+        self.__args.setdefault(classname, (classname, []))
+        bisect.insort_left(self.__args[classname][1], (str_argument, str_argument))
+
+        self.__choices = sorted(self.__args.values(), key=lambda x: x[0])
 
 
 operators = OperatorsDict(
