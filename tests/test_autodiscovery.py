@@ -16,7 +16,7 @@ class AutodiscoverTest(Exam, unittest2.TestCase):
         with mock_import('django.conf.settings') as mock_settings:
             mock_settings.INSTALLED_APPS = ['foo.bar']
 
-            with mock_import('django.utils.importlib.import_module') as im:
+            with mock_import('importlib.import_module') as im:
                 self.import_module = im
                 super(AutodiscoverTest, self).run(*args, **kwargs)
 

@@ -12,3 +12,4 @@ build/
 tags
 .eggs/
 .tox/
+example_project/gutter.db

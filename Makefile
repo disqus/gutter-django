@@ -13,6 +13,6 @@ watch:
 	bundle exec guard
 
 run:
-	cd example_project && python manage.py runserver
+	cd example_project && python manage.py runserver 0.0.0.0:8000
 
 .PHONY: test release watch run

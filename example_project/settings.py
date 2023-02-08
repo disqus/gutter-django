@@ -83,6 +83,8 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
 )
 
+MIDDLEWARE = MIDDLEWARE_CLASSES
+
 ROOT_URLCONF = 'example_project.urls'
 
 TEMPLATE_DIRS = (
@@ -96,13 +98,14 @@ NEXUS_MEDIA_PREFIX = '/media/'
 
 INSTALLED_APPS = (
     'django.contrib.auth',
+    'django.contrib.messages',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
+    'app',
     'nexus',
     'gutter.django',
-    'app'
     # Uncomment the next line to enable the admin:
-    # 'django.contrib.admin',
+    'django.contrib.admin',
 )
 
 from durabledict import MemoryDict

@@ -5,34 +5,42 @@ from gutter.client.operators.string import *  # noqa
 
 import bisect
 
-from operator import attrgetter, itemgetter
-
 
 class OperatorsDict(dict):
+    """
+    Moved all sorts from as_choices to register method to avoid recalculation on every condition form render
+    It's a possibility to have hundreds of them on the page
+    """
 
     def __init__(self, *ops):
+        self.__choices = []
+        self.__groups = {}
+        self.__args = {}
+
         for o in ops:
             self.register(o)
 
     def register(self, operator):
         self[operator.name] = operator
 
+        self.__args[operator.name] = getattr(operator, 'arguments', None)
+
+        if hasattr(operator, 'group'):
+            key = operator.group.title()
+            self.__groups.setdefault(key, (key, []))
+            pair = (operator.name, operator.preposition.title())
+            self.__groups[key][1].append(pair)
+            self.__groups[key] = (key, sorted(self.__groups[key][1], key=lambda x: x[1]))
+
+            self.__choices = sorted(self.__groups.values(), key=lambda x: x[0])
+
     @property
     def as_choices(self):
-        groups = {}
-
-        for operator in sorted(self.values(), key=attrgetter('preposition')):
-            key = operator.group.title()
-            pair = (operator.name, operator.preposition.title())
-
-            groups.setdefault(key, [])
-            groups[key].append(pair)
-
-        return sorted(groups.items(), key=itemgetter(0))
+        return self.__choices
 
     @property
     def arguments(self):
-        return dict((name, op.arguments) for name, op in self.items())
+        return self.__args
 
 
 class ArgumentsDict(dict):
@@ -41,8 +49,11 @@ class ArgumentsDict(dict):
     It's a possibility to have hundreds of them on the page
     """
 
-    __choices = []
-    __args = {}
+    def __init__(self, *args, **kwargs):
+        self.__choices = []
+        self.__args = {}
+
+        super().__init__(*args, **kwargs)
 
     @property
     def as_choices(self):

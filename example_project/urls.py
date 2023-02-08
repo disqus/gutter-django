@@ -1,4 +1,5 @@
 from django.urls import include, path
+from django.contrib import admin
 
 import nexus
 
@@ -13,4 +14,5 @@ nexus.autodiscover()
 
 urlpatterns = [
     path('', include(nexus.site.urls)),
+    path('admin/', admin.site.urls),
 ]

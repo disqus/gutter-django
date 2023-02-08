@@ -2,10 +2,6 @@ from django import forms
 from django.core.validators import RegexValidator
 from django.forms.formsets import formset_factory, BaseFormSet
 from django.forms.widgets import Select, Textarea
-from django.utils.html import escape, conditional_escape
-from django.utils.encoding import force_text
-
-from itertools import chain
 
 from gutter.django.registry import operators, arguments
 from gutter.client.models import Switch, Condition
@@ -19,28 +15,11 @@ class OperatorSelectWidget(Select):
         self.arguments = arguments
         super(OperatorSelectWidget, self).__init__(*args, **kwargs)
 
-    def render_options(self, choices, selected_choices):
-        def render_option(option_value, option_label):
-            option_value = force_text(option_value)
-            selected_html = (option_value in selected_choices) and u' selected="selected"' or ''
-            return u'<option data-arguments="%s" value="%s"%s>%s</option>' % (
-                ','.join(self.arguments[option_value]),
-                escape(option_value), selected_html,
-                conditional_escape(force_text(option_label)))
-
-        # Normalize to strings.
-        selected_choices = set([force_text(v) for v in selected_choices])
-        output = []
-
-        for option_value, option_label in chain(self.choices, choices):
-            if isinstance(option_label, (list, tuple)):
-                output.append(u'<optgroup label="%s">' % escape(force_text(option_value)))
-                for option in option_label:
-                    output.append(render_option(*option))
-                output.append(u'</optgroup>')
-            else:
-                output.append(render_option(option_value, option_label))
-        return u'\n'.join(output)
+    def create_option(self, name, value, label, selected, index, subindex=None, attrs=None):
+        option = super().create_option(name, value, label, selected, index, subindex=subindex, attrs=attrs)
+        if value in self.arguments:
+            option['attrs']['data-arguments'] = ','.join(self.arguments[value])
+        return option
 
 
 class SwitchForm(forms.Form):
