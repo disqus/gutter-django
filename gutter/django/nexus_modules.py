@@ -127,7 +127,7 @@ class GutterModule(nexus.NexusModule):
             switches = self.manager.switches
 
         pickled_switches = pickle.dumps(switches)
-        encoded_switches = base64.b64encode(pickled_switches)
+        encoded_switches = base64.b64encode(pickled_switches).decode(encoding='utf-8')
 
         switch_block = [encoded_switches[i:i + 64] for i in range(0, len(encoded_switches), 64)]
         switch_block.insert(0, '-----BEGIN SWITCHES-----')
