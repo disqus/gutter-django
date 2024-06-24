@@ -1,4 +1,5 @@
 import logging
+from importlib import import_module
 
 
 logger = logging.getLogger(__name__)
@@ -10,7 +11,6 @@ def discover():
     INSTALLED_APPS.
     """
     from django.conf import settings
-    from django.utils.importlib import import_module
 
     for app in settings.INSTALLED_APPS:
         module = '%s.gutter' % app
